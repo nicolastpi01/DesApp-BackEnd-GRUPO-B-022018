@@ -1,10 +1,16 @@
-
 language: java
 sudo: false
 install: true
 script: mvn clean install
+deploy:
+  provider: heroku
+  api_key:
+    secure: mjhOWUWLNx6O3RvDAnozQvpPb2ebAqjd7/VkcwIjMdmLOAVOG8/n5icQPhW2sqQx07W64P69cH5wPbh8ZwNgdkkl4SmVd7Bqjqw5MFlAy3aS3i9QaMlfyb+6eUPvSWy0ZwM+0VkAJvmbIGyzESr2dlIsIkpSqz0kkWp4JlbjNdSC57VLUDsT1hyj/wlN0Z/Sj77N6LdaReScgRg++xKPO+fgj5dpxvrutxRmGuhjb2zg25N+G1tv0jkMdaxIuZ53YKDE/ZXXqex/iRGWoYxdlFnmUoc6T8FJHXBG/1uASAmH7nw+YL+m+M++GnCgz1fSXO788g0vMCd2LIfKsMpB3zrkJww+qFbllzGojK5KsvuwP9se3cXFgsRsteeynW6fFiQXVobCqfZy/fo2BawvCsbhHFRSY3wlzt7EzNQqB6yD5r8O3rhUBy8kkO5Vkpt+rB3A1gEzuQWbp0oUqa6/Z/DVCVW4tXCZCqoRsMPtfrg/k88dUFuCiRLWUdwCMZBKSDbZm/2NUQh2yI//3kjUkxQScogFN6w39NZglexQznz8vFMiI3nDNs+4T3wts56UlayXmvSaf2nHhIumZK+/cOH/5LprkjZiprtSQBTFOq2sFxYj4tc8//DnChTOY+vQwk6usuwccniO+AtZ5VDRGI13rBTFWjEyqlFP0Mj6lHw=
+  app: desapp-backend-grupo-b-s22018
+  on:
+    repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
 cache:
   directories:
-    - $HOME/.m2
+  - "$HOME/.m2"
