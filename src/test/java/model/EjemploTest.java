@@ -33,8 +33,8 @@ public class EjemploTest {
 		u1 = new Usuario("pepito", "Gomez", "pepito@gomez.com", "123", new LocalDate(1985,01,01));
 		u2 = new Usuario("sultano", "Gomez", "sultano@gomez.com", "123", new LocalDate(1985,06,01));
 		
-		s1 = new Subasta("reloj", "suizo", "av de Mayo 111, CABA", "URL", 1000, new LocalDate(2018,9,9),
-						new LocalDate(1985,01,01),new LocalTime(18, 30, 0));
+		//s1 = new Subasta("reloj", "suizo", "av de Mayo 111, CABA", "URL", 1000, new LocalDate(2018,9,9),
+		//				new LocalDate(1985,01,01),new LocalTime(18, 30, 0));
 	}
 	
 	/*

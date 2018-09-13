@@ -22,7 +22,9 @@ public class Usuario {
 		
 	}
 	
+	/*
 	public void publicarSubasta(Subasta subasta) {
 		subasta.setEstado_subasta(EstadoSubasta.EN_PROGRESO);
 	}
+	*/
 }

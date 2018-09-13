@@ -7,38 +7,29 @@ public class Subasta {
 	String titulo;
 	String descripcion;
 	String direccion;
-	String urlFotoElemento;
+	String urlFoto;
 	int precioInicial;
-	int precioActual;
-	LocalDate fecha_publicacion;
-	LocalDate fecha_finalizacion;
-	LocalTime hora_finalizacion;
-	EstadoSubasta estado_subasta;
+	//int precioActual; ?
+	LocalDate fechaPublicacion;
+	LocalDate fechaFinalizacion;
+	LocalTime horaFinalizacion;
+	EstadoSubasta estadoSubasta;
 	
-	public Subasta(	String titulo, String descr, String dir, String url, int precioInicial,
-					LocalDate fecha_pub,LocalDate fecha_fin, LocalTime hora_fin) {
+	public void setTitulo(String titulo) {
 		this.titulo = titulo;
-		this.descripcion = descr;
-		this.direccion = dir;
-		this.urlFotoElemento = url;
-		this.precioInicial = precioInicial;
-		this.precioActual = precioInicial;
-		this.fecha_publicacion = fecha_pub;
-		this.fecha_finalizacion = fecha_fin;
-		this.hora_finalizacion = hora_fin;
-		this.estado_subasta = EstadoSubasta.NUEVA;
+	}
+	
+	public String getTitulo() {
+		return this.titulo;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getDescripcion() {
+		return this.descripcion;
 	}
 	
 	
-	
-	//////////G AND S//////////////////
-
-	public EstadoSubasta getEstado_subasta() {
-		return estado_subasta;
-	}
-
-	public void setEstado_subasta(EstadoSubasta estado_subasta) {
-		this.estado_subasta = estado_subasta;
-	}
-
 }
