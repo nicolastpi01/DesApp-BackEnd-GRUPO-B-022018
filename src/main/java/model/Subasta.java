@@ -13,7 +13,16 @@ public class Subasta {
 	LocalDate fechaPublicacion;
 	LocalDate fechaFinalizacion;
 	LocalTime horaFinalizacion;
-	EstadoSubasta estadoSubasta;
+	EstadoSubasta estado;
+	Usuario propietario; // Por ahora acá
+	
+	public void setEstado(EstadoSubasta estado) {
+		this.estado = estado;
+	}
+	
+	public void setPropietario(Usuario propietario) {
+		this.propietario = propietario;
+	}
 	
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -30,6 +39,28 @@ public class Subasta {
 	public String getDescripcion() {
 		return this.descripcion;
 	}
+
+	public boolean esNueva() {
+		return estado.esNueva();
+	}
+
+	public Usuario getPropietario() {
+		return this.propietario;
+	}
+
+	public boolean estaEnProgreso() {
+		return estado.esEnProgreso();
+	}
+
+	public boolean estaEnProgresoPara(Usuario propietario) {
+		return estado.esEnProgreso() && perteneceA(propietario);
+	}
+
+	private boolean perteneceA(Usuario usuario) {
+		return propietario.equals(usuario);
+	}
+
+	
 	
 	
 }

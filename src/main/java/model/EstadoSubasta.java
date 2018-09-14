@@ -1,8 +1,17 @@
 package model;
 
-public enum EstadoSubasta {
-	//por ahora como enums
-	NUEVA,
-	EN_PROGRESO,
-	TERMINADA
+abstract class EstadoSubasta {
+	
+	public Boolean esNueva() {
+		return false;
+	}
+	
+	public Boolean esEnProgreso() {
+		return false;
+	}
+	
+	public Boolean estaTerminada() {
+		return false;
+	}
+	
 }

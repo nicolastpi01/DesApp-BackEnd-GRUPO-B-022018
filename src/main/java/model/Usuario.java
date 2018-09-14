@@ -9,14 +9,6 @@ public class Usuario {
 	String email;
 	String contrasena;
 	LocalDate fechaDeNac;
-
-	public Usuario(String nombre, String apellido, String email, String contrasena, LocalDate fechaDeNac) { 
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.email = email;
-		this.contrasena = contrasena;
-		this.fechaDeNac = fechaDeNac;
-	}
 	
 	public void ofertarEnSubasta(Integer monto, Subasta subasta) {
 		
