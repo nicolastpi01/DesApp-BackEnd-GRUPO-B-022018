@@ -19,8 +19,8 @@ public class SistemaTest {
 	
 	@Before
 	public void setUp() {
-		usuarioNicolas = new Usuario("Nicolás", "García", new Correo("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new FechaNac(12,03,1991));
-		usuarioVigo = new Usuario("Guido", "Pujadas", new Correo("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new FechaNac(20,06,1992));
+		usuarioNicolas = new Usuario("Nicolás", "García", new Correo("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Fecha(12,03,1991));
+		usuarioVigo = new Usuario("Guido", "Pujadas", new Correo("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Fecha(20,06,1992));
 		sistema = new Sistema();
 		subasta0 = new Subasta();
 		subasta1 = new Subasta();
@@ -111,11 +111,7 @@ public class SistemaTest {
 	*/
 	/* 
 	
-	@Test
-	// Ultimas 15 subastas
-	public void buscarUltimasSubastasIniciadasTest() {
-		
-	}
+	
 	
 	@Test
 	// Ultimas 15 subastas
@@ -126,6 +122,12 @@ public class SistemaTest {
 	@Test
 	// Ultimas 15 subastas
 	public void buscarUltimasSubastasConMasPostoresTest() {
+		
+	}
+	
+	@Test
+	// Ultimas 15 subastas
+	public void buscarUltimasSubastasIniciadasTest() {
 		
 	}
 	

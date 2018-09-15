@@ -38,7 +38,6 @@ public class Sistema {
 		return cantidadEnProgreso;
 	}
 	
-	// Por ahora siempre esta autenticado (podria haber una clase Registro que se encargue de esto)
 	private Boolean estaAutenticado(Usuario usuario) {
 		return registro.estaRegistrado(usuario);
 	}

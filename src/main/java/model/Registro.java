@@ -11,7 +11,7 @@ public class Registro {
 	}
 
 	public boolean sePuedeRegistrar(Usuario usuario) {
-		return !existeCorreoAsociado(usuario) && true;//tieneFormatoValido(usuario); // Falla formato valido (una boludes)
+		return !existeCorreoAsociado(usuario) && tieneFormatoValido(usuario); 
 	}
 
 	private boolean existeCorreoAsociado(Usuario usuario) {
@@ -22,7 +22,6 @@ public class Registro {
 		return existeCorreo;
 	}
 
-	// Falla
 	private boolean tieneFormatoValido(Usuario usuario) {
 		return usuario.estaBienFormado();
 	}

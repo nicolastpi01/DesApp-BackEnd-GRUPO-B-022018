@@ -8,7 +8,7 @@ public class Correo {
 	}
 
 	public boolean esValido() {
-		return nombre.contains("@") && nombre.endsWith(".com"); // Una forma de validarlo (se puede validar de otra forma) --> Contains(@) o contains(@Gmail)
+		return nombre.contains("@") && nombre.endsWith(".com"); // Una forma de validarlo (se puede validar de otra forma) --> contains(@Gmail)
 	}
 
 	public boolean esIgual(Correo correo) {

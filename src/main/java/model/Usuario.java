@@ -6,11 +6,11 @@ public class Usuario {
 	String apellido;
 	Correo correo;
 	Pass password;
-	FechaNac fechaNacimiento;
+	Fecha fechaNacimiento;
 	//Perfil perfil;
 	
 	
-	public Usuario(String nombre, String apellido, Correo correo, Pass password, FechaNac fechaNacimiento) {
+	public Usuario(String nombre, String apellido, Correo correo, Pass password, Fecha fechaNacimiento) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.correo = correo;
