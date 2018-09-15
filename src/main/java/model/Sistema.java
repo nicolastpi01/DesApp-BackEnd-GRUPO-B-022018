@@ -6,7 +6,7 @@ import model.exceptions.UsuarioInvalidoException;
 
 public class Sistema {
 	ArrayList<Subasta> subastas = new ArrayList<Subasta>();
-	ArrayList<Usuario> usuarios = new ArrayList<Usuario>(); // anonimos y registrados
+	ArrayList<Usuario> usuarios = new ArrayList<Usuario>(); // registrados (Los anonimos solo operan ciertas funciones que no requieren saber quienes son)
 	Registro registro = new Registro(); // Se encarga de registro, verificar ingresos, etc
 
 	public void crear(Subasta subasta, Usuario usuario) {
@@ -47,6 +47,24 @@ public class Sistema {
 		subasta.setEstado(new NuevaSubasta());
 		subasta.setPropietario(usuario);
 		subastas.add(subasta);
+	}
+
+	public ArrayList<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+
+	public void registrarse(Usuario usuario) {
+		if (registro.sePuedeRegistrar(usuario)) {
+			registro.registrar(usuario);
+			this.agregar(usuario);
+		}
+	}
+
+	private void agregar(Usuario usuario) {
+		usuarios.add(usuario);
+		//usuario.setPerfil(new Registrado()); // Si se setea el valor del perfil de usuario acá
+		// y luego se chequea el perfil de un usuario para, por ej: que pueda editar una subasta
+		// se estaria exponiendo un msj publico demasiado peligroso para la app
 	}
 
 	

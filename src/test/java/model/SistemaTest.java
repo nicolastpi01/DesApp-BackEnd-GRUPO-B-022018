@@ -7,7 +7,8 @@ import model.exceptions.MasDeCincoSubastasEnProgresoException;
 
 
 public class SistemaTest {
-	Usuario usuario;
+	Usuario usuarioNicolas;
+	Usuario usuarioVigo;
 	Sistema sistema;
 	Subasta subasta0;
 	Subasta subasta1;
@@ -18,6 +19,8 @@ public class SistemaTest {
 	
 	@Before
 	public void setUp() {
+		usuarioNicolas = new Usuario("Nicolás", "García", new Correo("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new FechaNac(12,03,1991));
+		usuarioVigo = new Usuario("Guido", "Pujadas", new Correo("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new FechaNac(20,06,1992));
 		sistema = new Sistema();
 		subasta0 = new Subasta();
 		subasta1 = new Subasta();
@@ -25,68 +28,88 @@ public class SistemaTest {
 		subasta3 = new Subasta();
 		subasta4 = new Subasta();
 		subasta5 = new Subasta();
-		usuario = new Usuario();
-	}
-
-	/* 
-	@Test
-	public void verificandoCantidadDeSubastasEsCeroTest() {
-		assertEquals(0, sistema.getSubastas().size());
+		
 	}
 	
 	@Test
-	public void verificandoAgregarSubastasTest() {
-		sistema.agregar(subasta0);
-		assertEquals(1, sistema.getSubastas().size());
-		sistema.agregar(subasta1);
-		assertEquals(2, sistema.getSubastas().size());
-		sistema.agregar(subasta2);
-		assertEquals(3, sistema.getSubastas().size());
+	// Todas las variaciones para registrarse, con los errores (nombre demasiado largo, formato Fecha incorrecto, etc)
+	public void usuarioRegistrarseTest() {
+		sistema.registrarse(usuarioNicolas);
+		assertEquals(sistema.getUsuarios().size(), 1);
+		sistema.registrarse(usuarioVigo);
+		assertEquals(sistema.getUsuarios().size(), 2);
 	}
-	*/
+	
+	
+	
+	@Test
+	// Todas las variaciones con las que se puede inciar sesion (incluso las que dan error)
+	public void iniciarSesionTest() {
+		
+	}
+	
+	@Test
+	public void usuarioRealizaUnaOfertaParaUnaSubastaTest() {}
 	
 	@Test
 	public void crearUnaSubastaTest() {
-		sistema.crear(subasta0, usuario); 
+		sistema.crear(subasta0, usuarioNicolas); 
 		assertEquals(sistema.getSubastas().size(), 1);
 		assertTrue(subasta0.esNueva());
-		assertEquals(subasta0.getPropietario(), usuario);
+		assertEquals(subasta0.getPropietario(), usuarioNicolas);
 	}
 	
 
 	@Test(expected=MasDeCincoSubastasEnProgresoException.class)
 	public void crearUnaSubastaCuandoTengoMasDeCincoEnProgresoTest() {
-		sistema.crear(subasta0, usuario);
-		sistema.crear(subasta1, usuario);
-		sistema.crear(subasta2, usuario);
-		sistema.crear(subasta3, usuario);
-		sistema.crear(subasta4, usuario);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		sistema.crear(subasta2, usuarioNicolas);
+		sistema.crear(subasta3, usuarioNicolas);
+		sistema.crear(subasta4, usuarioNicolas);
 		subasta0.setEstado(new EnProgreso());
 		subasta1.setEstado(new EnProgreso());
 		subasta2.setEstado(new EnProgreso());
 		subasta3.setEstado(new EnProgreso());
 		subasta4.setEstado(new EnProgreso());
 		// Las cinco subastas en progreso
-		sistema.crear(subasta5, usuario);
+		sistema.crear(subasta5, usuarioNicolas);
 	}
 	
+	/*
+	@Test
+	 
+	public void modificarUnaSubastaTest() {
+		// Inicializar la subasta con ciertas caracteristicas
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.modificar(subasta0, usuarioNicolas); // El sist. verifica si efectivamente es posible modificarla 
+		// Criterio de modificacion
+		// Verificar la modificacion
+	}
+	
+	@Test // Retorna una excepcion, ya que la subasta no puede ser modificada en ese momento [Probablemente si alguien ya pujo por ella]
+	public void modificarUnaSubastaCuandoNoEsPosiblePorAlgunCriterioTest() {
+		// Inicializar la subasta con cierto contexto que permita saltar la excepcion cuando se la quiera modificar
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.modificar(subasta0, usuarioNicolas); // La Excepcion
+	}
+	
+	@Test
+	public void eliminarUnaSubastaTest() {
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.eliminar(subasta0, usuarioNicolas); // El sist. verifica si efectivamente es posible eliminarla 
+		// Verificar la modificacion (verificar en el Sist. que no esta mas esa subasta)
+	}
+	
+	@Test // La Excepcion se dispara cuando quiero eliminar una subasta en un contexto donde es imposible hacerlo
+	public void eliminarUnaSubastaCuandoNoEsPosiblePorAlgunCriterioTest() {
+		// Inicializar la subasta con cierto contexto que permita saltar la excepcion cuando se la quiera eliminar
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.eliminar(subasta0, usuarioNicolas); // El sist. lanza la Excep. 
+	}
+
+	*/
 	/* 
-	@Test
-	public void usuarioRealizaUnaOfertaParaUnaSubastaTest() {
-		
-	}
-	
-	@Test
-	// Todas las variaciones con las que se puede inciar sesion (incluso las que dan error)
-	public void usuarioIniciarSesionTest() {
-		
-	}
-	
-	@Test
-	// Todas las variaciones para registrarse, incluso las que dan error
-	public void usuarioRegistrarseTest() {
-		
-	}
 	
 	@Test
 	// Ultimas 15 subastas
