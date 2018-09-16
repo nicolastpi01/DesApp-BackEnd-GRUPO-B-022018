@@ -18,6 +18,7 @@ public class EjemploTest {
 	Usuario u2;
 	Subasta s1;
 	
+	/*
 	private Date generarFecha(Integer dia, Integer mes, Integer anio) {
 		Calendar cal = Calendar.getInstance();
 	    cal.set(anio, mes, dia);
