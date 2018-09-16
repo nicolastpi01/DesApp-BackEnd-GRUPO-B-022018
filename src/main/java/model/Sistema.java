@@ -14,7 +14,8 @@ public class Sistema {
 		if (puedeCrearSubasta(usuario))
 			agregar(subasta, usuario);  
 	}
-		
+	
+	// Acá se muestran todas las subastas (en progreso y no) sin embargo en el sist. solo hay que mostrar subastas en progreso... 
 	public ArrayList<Subasta> getSubastas() {
 		return this.subastas;
 	}
@@ -67,34 +68,40 @@ public class Sistema {
 		// se estaria exponiendo un msj publico demasiado peligroso para la app
 	}
 	
-	///////////////////////////// BUSQUEDAS SUBASTAS  ////////////////////////////////////////////	
+	///////////////////////////// BUSQUEDAS SUBASTAS  /////////////////////////////////////////////////////
+	
+	public ArrayList<Subasta> subastasEnProgreso() {
+		ArrayList<Subasta> enProgreso = new ArrayList<Subasta>();
+		for(int i=0; i < subastas.size(); i++) {
+			if(subastas.get(i).estaEnProgreso()) enProgreso.add(subastas.get(i));
+		}
+		return enProgreso;
+	}
+	
 	public ArrayList<Subasta> buscarPorTitulo(String titulo) {
-		return home.buscarPorTitulo(titulo, subastas);
+		return home.buscarPorTitulo(titulo, subastasEnProgreso());
 	}
 	
 	public ArrayList<Subasta> buscarPorDescripcion(String descripcion) {
-		return home.buscarPorDescripcion(descripcion, subastas);
+		return home.buscarPorDescripcion(descripcion, subastasEnProgreso());
 	}
 
-	// FALTA CODEAR --> (Para simplif. se podria fijar un nro [mayores a 10 postores ya la hace popular])
+	// (Las pop. son aquellas subasta en progreso cuya cant. de postores es mayor a la media)
+	// Tambien hay un valor fijo. Ej 5. De modo que si la cant. de subastas en progreso es igual o menor a ese
+	// nro entonces se muestran todas, ya que un filtro de pop. sobre un nro de subastas disp. tan chico
+	// es innecesario (Las subastas se muestran en ord. desde mas pop a menos) --> Esto ultimo no esta codeado aún
 	public ArrayList<Subasta> buscarPopulares() {
-		// TODO Auto-generated method stub
-		return home.subastasPopulares(subastas); // Se hace una media entre la cantidad de pujas por subasta y se utiliza ese nro para comparar
-		// o se fija un nro (Por ej: el que tenga mas de 15 usuarios pujando ya la hace popular)
+		return home.subastasPopulares(subastasEnProgreso());
 	}
 
-	// ACÁ SI SE FIJA LO QUE ES PROXIMA A FINALIZAR (2 DIAS, 10 HRS, ETC)
 	public ArrayList<Subasta> buscarProximasAFinalizar() {
-		// TODO Auto-generated method stub
 		return home.subastasPorTerminar(subastas);
 	}
 	
-	// ACÁ SI SE FIJA UN VALOR DE SUBASTA RECIENTE
 	public ArrayList<Subasta> buscarRecientes() {
-		// TODO Auto-generated method stub
 		return home.subastasRecientes(subastas);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

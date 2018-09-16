@@ -10,6 +10,10 @@ import model.exceptions.MasDeCincoSubastasEnProgresoException;
 public class SistemaTest {
 	Usuario usuarioNicolas;
 	Usuario usuarioVigo;
+	Usuario usuarioPostor0;
+	Usuario usuarioPostor1;
+	Usuario usuarioPostor2;
+	Usuario usuarioPostor3;
 	Sistema sistema;
 	Subasta subasta0;
 	Subasta subasta1;
@@ -29,7 +33,10 @@ public class SistemaTest {
 		subasta3 = new Subasta();
 		subasta4 = new Subasta();
 		subasta5 = new Subasta();
-		
+		usuarioPostor0 = new Usuario();
+		usuarioPostor1 = new Usuario();
+		usuarioPostor2 = new Usuario();
+		usuarioPostor3 = new Usuario();
 	}
 	
 	@Test
@@ -87,6 +94,7 @@ public class SistemaTest {
 		sistema.registrarse(usuarioNicolas);
 		sistema.crear(subasta0, usuarioNicolas);
 		subasta0.setTitulo("Guantelete del Infinito");
+		subasta0.setEstado(new EnProgreso());
 		ArrayList<Subasta> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
 		assertEquals(subastasConTitulo.size(), 1);
 		Subasta subastaGuantelete = subastasConTitulo.get(0);
@@ -97,6 +105,7 @@ public class SistemaTest {
 	public void buscarSubastasPorDescripcionTest() {
 		sistema.registrarse(usuarioNicolas);
 		sistema.crear(subasta0, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
 		subasta0.setDescripcion("La subasta estaba un poco seca");
 		ArrayList<Subasta> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
 		assertEquals(subastasPorDescripcion.size(), 1);
@@ -105,7 +114,7 @@ public class SistemaTest {
 	}
 	
 	@Test
-	// Ultimas 15 subastas
+	// Ultimas 15 subastas (Como max)
 	public void buscarSubastasRecientesTest() {
 		sistema.registrarse(usuarioNicolas);
 		sistema.crear(subasta0, usuarioNicolas);
@@ -119,7 +128,7 @@ public class SistemaTest {
 	}
 	
 	@Test
-	// Ultimas 15 subastas
+	// Ultimas 15 subastas (Como max)
 	public void buscarSubastasProximasAFinalizarTest() {
 		sistema.registrarse(usuarioNicolas);
 		sistema.crear(subasta0, usuarioNicolas);
@@ -132,15 +141,37 @@ public class SistemaTest {
 		assertEquals(proximasAFinalizar.size(), 2);
 	}
 	
-	//@Test
-	// Ultimas 15 subastas
+	@Test
+	// Ultimas 15 subastas // Esto quiere decir que retorna hasta 15 subastas en caso de que haya tantas, caso contrario devuelve lo que hay de populares. Ej: 5 populares
 	// NO FUNCIONA --> (es medio complejo)
-	//public void buscarSubastasPopularesTest() {
+	// Las populares son aquellas subastas cuya cant. de postores estan por encima de la media de postores
+	// de subastas en progreso [Recordar: Owner no puede ser postor de su propia subasta]
+	public void buscarSubastasPopularesTest() {
 		// crear las subastas
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		sistema.crear(subasta2, usuarioNicolas);
+		sistema.crear(subasta3, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
+		subasta1.setEstado(new EnProgreso());
+		subasta2.setEstado(new EnProgreso());
+		subasta3.setEstado(new EnProgreso());
+		subasta0.agregarPostor(usuarioPostor0);
+		subasta0.agregarPostor(usuarioPostor1);
+		subasta0.agregarPostor(usuarioPostor2);
+		subasta0.agregarPostor(usuarioPostor3);
+		subasta1.agregarPostor(usuarioPostor0);
+		subasta1.agregarPostor(usuarioPostor1);
+		subasta1.agregarPostor(usuarioPostor2);
+		subasta1.agregarPostor(usuarioPostor3);
+		subasta2.agregarPostor(usuarioPostor0);
+		subasta2.agregarPostor(usuarioPostor1);
+		subasta3.agregarPostor(usuarioPostor0);
 		// Agregar tantos postores a estas subastas de modo que solo dos sean populares...
-	//	ArrayList<Subasta> populares = sistema.buscarPopulares();
-	//	assertEquals(populares.size(), 2);
-	//}
+		ArrayList<Subasta> populares = sistema.buscarPopulares();
+		assertEquals(populares.size(), 2);
+	}
 	
 	///////////////////////////// BUSQUEDAS  ///////////////////////////////////////////////
 	
@@ -180,15 +211,6 @@ public class SistemaTest {
 	
 
 	*/
-	 
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

@@ -1,8 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate; // Se va a usar en la comprobación de validez de una subasta
+import model.exceptions.PropietarioParticipaComoPujanteEnSuPropiaSubastaException;
 
 
 public class Subasta {
@@ -15,9 +14,11 @@ public class Subasta {
 	Fecha fechaFinalizacion;
 	int horaFinalizacion;
 	EstadoSubasta estado = new NuevaSubasta();
-	Usuario propietario; // Por ahora acá
+	Usuario propietario;
+	ArrayList<Usuario> postores = new ArrayList<Usuario>();
 	
-	public Subasta() {} // Por cuestiones de simplicidad en test
+	// Por cuestiones de simplicidad en test
+	public Subasta() {} 
 	
 	public Subasta(String titulo, String descripcion, String direccion, int precioInicial,
 			Fecha fechaPublicacion, Fecha fechaFinalizacion, int horaFinalizacion) {
@@ -31,6 +32,7 @@ public class Subasta {
 		this.horaFinalizacion = horaFinalizacion;
 	}
 	
+	// HACEEEEEEEEERRRRRRRRR
 	public Boolean esValida() {
 		return true; // retorna un bool indicando si la subasta esta bien formada (fechaPublicacion correcta, hora correcta, etc)
 	}
@@ -102,7 +104,6 @@ public class Subasta {
 	}
 
 	private Fecha getFechaPublicacion() {
-		// TODO Auto-generated method stub
 		return this.fechaPublicacion;
 	}
 
@@ -120,6 +121,27 @@ public class Subasta {
 
 	private Fecha getFechaFinalizacion() {
 		return this.fechaFinalizacion;
+	}
+
+	public void agregarPostor(Usuario usuarioPostor) {
+		if (perteneceA(usuarioPostor)) {
+			throw new PropietarioParticipaComoPujanteEnSuPropiaSubastaException();
+		}
+		else {
+			this.postores.add(usuarioPostor);
+		}
+	}
+
+	public boolean esPopular(int mediaPostoresPorSubasta) {
+		return getPostores().size() >= mediaPostoresPorSubasta;
+	}
+	
+	public ArrayList<Usuario> getPostores() {
+		return this.postores;
+	}
+
+	public int cantidadPostores() {
+		return getPostores().size();
 	}
 
 }

@@ -7,7 +7,8 @@ public class Usuario {
 	Correo correo;
 	Pass password;
 	Fecha fechaNacimiento;
-	//Perfil perfil;
+	//Perfil perfil; // No es necesario el perfil Anonimo ya por ahora no tiene comportamiento, de modo que Usuario base seria anonimo
+	// El que si tiene comportamiento es UsuarioRegistrado
 	
 	
 	public Usuario(String nombre, String apellido, Correo correo, Pass password, Fecha fechaNacimiento) {
@@ -19,6 +20,9 @@ public class Usuario {
 		//this.perfil = new Anonimo();
 	}
 	
+
+	public Usuario() {}
+
 
 	public Boolean estaBienFormado() {
 		return tieneLongValida(nombre) && tieneLongValida(apellido) && correo.esValido() && 
