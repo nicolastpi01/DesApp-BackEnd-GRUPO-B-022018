@@ -8,6 +8,7 @@ public class Sistema {
 	ArrayList<Subasta> subastas = new ArrayList<Subasta>();
 	ArrayList<Usuario> usuarios = new ArrayList<Usuario>(); // registrados (Los anonimos solo operan ciertas funciones que no requieren saber quienes son)
 	Registro registro = new Registro(); // Se encarga de registro, verificar ingresos, etc
+	Home home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 
 	public void crear(Subasta subasta, Usuario usuario) {
 		if (puedeCrearSubasta(usuario))
@@ -65,7 +66,35 @@ public class Sistema {
 		// y luego se chequea el perfil de un usuario para, por ej: que pueda editar una subasta
 		// se estaria exponiendo un msj publico demasiado peligroso para la app
 	}
-
 	
+	///////////////////////////// BUSQUEDAS SUBASTAS  ////////////////////////////////////////////	
+	public ArrayList<Subasta> buscarPorTitulo(String titulo) {
+		return home.buscarPorTitulo(titulo, subastas);
+	}
+	
+	public ArrayList<Subasta> buscarPorDescripcion(String descripcion) {
+		return home.buscarPorDescripcion(descripcion, subastas);
+	}
+
+	// FALTA CODEAR --> (Para simplif. se podria fijar un nro [mayores a 10 postores ya la hace popular])
+	public ArrayList<Subasta> buscarPopulares() {
+		// TODO Auto-generated method stub
+		return home.subastasPopulares(subastas); // Se hace una media entre la cantidad de pujas por subasta y se utiliza ese nro para comparar
+		// o se fija un nro (Por ej: el que tenga mas de 15 usuarios pujando ya la hace popular)
+	}
+
+	// ACÁ SI SE FIJA LO QUE ES PROXIMA A FINALIZAR (2 DIAS, 10 HRS, ETC)
+	public ArrayList<Subasta> buscarProximasAFinalizar() {
+		// TODO Auto-generated method stub
+		return home.subastasPorTerminar(subastas);
+	}
+	
+	// ACÁ SI SE FIJA UN VALOR DE SUBASTA RECIENTE
+	public ArrayList<Subasta> buscarRecientes() {
+		// TODO Auto-generated method stub
+		return home.subastasRecientes(subastas);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////
 
 }

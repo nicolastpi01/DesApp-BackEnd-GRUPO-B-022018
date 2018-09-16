@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate; // Se va a usar en la comprobación de validez de una subasta
 
 
@@ -67,6 +68,58 @@ public class Subasta {
 	public Usuario getPropietario() {
 		return this.propietario;
 	}
+	
+	public String getTitulo() {
+		return this.titulo;
+	}
 
-		
+	public boolean tieneMismoTitulo(String titulo) {
+		return getTitulo().equals(titulo);
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public boolean tieneDescripcion(String descripcion) {
+		return getDescripcion().equals(descripcion);
+	}
+
+	public boolean tieneTitulo(String titulo) {
+		return getTitulo().equals(titulo);
+	}
+
+	public boolean fuePublicadaHace(int cantDias) {
+		return getFechaPublicacion().sucedisteHace(cantDias);
+	}
+
+	private Fecha getFechaPublicacion() {
+		// TODO Auto-generated method stub
+		return this.fechaPublicacion;
+	}
+
+	public void setFechaPublicacion(Fecha fechaPublicacion) {
+		this.fechaPublicacion = fechaPublicacion;
+	}
+
+	public void setFechaFinalizacion(Fecha fechaFinalizacion) {
+		this.fechaFinalizacion = fechaFinalizacion;	
+	}
+
+	public boolean finalizaDentroDe(int cantDias) {
+		return getFechaFinalizacion().sucedesDentroDe(cantDias);
+	}
+
+	private Fecha getFechaFinalizacion() {
+		return this.fechaFinalizacion;
+	}
+
 }

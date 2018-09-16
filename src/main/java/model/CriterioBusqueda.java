@@ -6,4 +6,5 @@ public interface CriterioBusqueda {
 
 	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas);
 	
+	
 }

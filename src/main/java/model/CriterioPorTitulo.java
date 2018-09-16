@@ -4,13 +4,17 @@ import java.util.ArrayList;
 
 public class CriterioPorTitulo implements CriterioBusqueda {
 	private static final CriterioPorTitulo instance = new CriterioPorTitulo();
-	private String titulo;
+	String titulo;
 
 	@Override
 	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas) {
-		// TODO Auto-generated method stub
-		getTitulo(); // se usa acá
-		return null;
+		ArrayList<Subasta> subastasResultado = new ArrayList<Subasta>();
+		for(int i=0; i < subastas.size(); i++) {
+			if(subastas.get(i).tieneTitulo(getTitulo())) { 
+				subastasResultado.add(subastas.get(i));	
+			}
+		}
+		return subastasResultado;
 	}
 	
     //private constructor to avoid client applications to use constructor
@@ -25,7 +29,7 @@ public class CriterioPorTitulo implements CriterioBusqueda {
 		this.titulo = titulo;
 	}
 	
-	private String getTitulo() {
+	public String getTitulo() {
 		return this.titulo;
 	}
 

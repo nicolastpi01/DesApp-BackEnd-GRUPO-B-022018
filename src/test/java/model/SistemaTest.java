@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.Assert.*;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import model.exceptions.MasDeCincoSubastasEnProgresoException;
@@ -76,6 +77,73 @@ public class SistemaTest {
 		sistema.crear(subasta5, usuarioNicolas);
 	}
 	
+	
+	
+	/////////////////////////// BUSQUEDAS  //////////////////////////////////////////////////
+	
+	
+	@Test
+	public void buscarSubastaPorTituloTest() {
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		subasta0.setTitulo("Guantelete del Infinito");
+		ArrayList<Subasta> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
+		assertEquals(subastasConTitulo.size(), 1);
+		Subasta subastaGuantelete = subastasConTitulo.get(0);
+		assertEquals(subastaGuantelete.getTitulo(), "Guantelete del Infinito");
+	}
+	
+	@Test
+	public void buscarSubastasPorDescripcionTest() {
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		subasta0.setDescripcion("La subasta estaba un poco seca");
+		ArrayList<Subasta> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
+		assertEquals(subastasPorDescripcion.size(), 1);
+		Subasta subastaConDescripcion = subastasPorDescripcion.get(0);
+		assertEquals(subastaConDescripcion.getDescripcion(), "La subasta estaba un poco seca");
+	}
+	
+	@Test
+	// Ultimas 15 subastas
+	public void buscarSubastasRecientesTest() {
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
+		subasta1.setEstado(new EnProgreso());
+		subasta0.setFechaPublicacion(new Fecha(14,9,2018));
+		subasta1.setFechaPublicacion(new Fecha(15,9,2018));
+		ArrayList<Subasta> subastasRecientes = sistema.buscarRecientes();
+		assertEquals(subastasRecientes.size(), 2);
+	}
+	
+	@Test
+	// Ultimas 15 subastas
+	public void buscarSubastasProximasAFinalizarTest() {
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
+		subasta1.setEstado(new EnProgreso());
+		subasta0.setFechaFinalizacion(new Fecha(17,9,2018));
+		subasta1.setFechaFinalizacion(new Fecha(18,9,2018));
+		ArrayList<Subasta> proximasAFinalizar = sistema.buscarProximasAFinalizar();
+		assertEquals(proximasAFinalizar.size(), 2);
+	}
+	
+	@Test
+	// Ultimas 15 subastas
+	// NO FUNCIONA --> (es medio complejo)
+	public void buscarSubastasPopularesTest() {
+		// crear las subastas
+		// Agregar tantos postores a estas subastas de modo que solo dos sean populares...
+		ArrayList<Subasta> populares = sistema.buscarPopulares();
+		assertEquals(populares.size(), 2);
+	}
+	
+	///////////////////////////// BUSQUEDAS  ///////////////////////////////////////////////
+	
 	/*
 	@Test
 	 
@@ -107,29 +175,20 @@ public class SistemaTest {
 		sistema.crear(subasta0, usuarioNicolas);
 		sistema.eliminar(subasta0, usuarioNicolas); // El sist. lanza la Excep. 
 	}
+	
+	@Test
+	
 
 	*/
-	/* 
+	 
 	
 	
 	
-	@Test
-	// Ultimas 15 subastas
-	public void buscarUltimasSubastasProximasAFinalizarTest() {
-		
-	}
 	
-	@Test
-	// Ultimas 15 subastas
-	public void buscarUltimasSubastasConMasPostoresTest() {
-		
-	}
 	
-	@Test
-	// Ultimas 15 subastas
-	public void buscarUltimasSubastasIniciadasTest() {
-		
-	}
 	
-	*/
+	
+	
+	
+	
 }

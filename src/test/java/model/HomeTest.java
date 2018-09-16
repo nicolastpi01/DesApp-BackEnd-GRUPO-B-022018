@@ -11,7 +11,7 @@ public class HomeTest {
 	Subasta subastaPorTerminar;
 	Subasta subastaConTitulo;
 	Subasta subastaConDescripcion;
-
+	/* 
 	@Before
 	public void setUp() {
 		home = new Home();
@@ -55,9 +55,9 @@ public class HomeTest {
 	
 	@Test
 	public void busquedaPorDescripcionTest() {
-		subastaConDescripcion.setDescripcion("No lo sé Rick, parece falso");
-		home.agregar(subastaConDescripcion);
-		assertEquals(home.buscarPorDescripcion("No lo sé Rick, parece falso").size(), 1);
+		//subastaConDescripcion.setDescripcion("No lo sé Rick, parece falso");
+		//home.agregar(subastaConDescripcion);
+		//assertEquals(home.buscarPorDescripcion("No lo sé Rick, parece falso").size(), 1);
 	}
-
+	*/
 }

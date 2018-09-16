@@ -8,9 +8,11 @@ public class CriterioPorDescripcion implements CriterioBusqueda {
 	
 	@Override
 	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas) {
-		// TODO Auto-generated method stub
-		getDescripcion();
-		return null;
+		ArrayList<Subasta> subastasConDesc = new ArrayList<Subasta>();
+		for (int i=0; i < subastas.size(); i++) {
+			if (subastas.get(i).tieneDescripcion(getDescripcion())) subastasConDesc.add(subastas.get(i));
+		}
+		return subastasConDesc;
 	}
 	
     //private constructor to avoid client applications to use constructor
