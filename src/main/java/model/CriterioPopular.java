@@ -26,7 +26,7 @@ public class CriterioPopular implements CriterioBusqueda {
 		return subastasPop;
 		*/
 		Collections.sort(subastas,(sub1, sub2) ->  sub2.cantidadPostores() - sub1.cantidadPostores());
-		 return subastas.stream().limit(MINIMO_DE_SUBASTAS_PERMITIDO).collect(Collectors.toList());
+		return subastas.stream().limit(MINIMO_DE_SUBASTAS_PERMITIDO).collect(Collectors.toList());
 	}
 	
 	private int mediaPostoresPorSubasta(ArrayList<Subasta> subastas) {
