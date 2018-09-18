@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
-import model.exceptions.MasDeCincoSubastasEnProgresoException;
+import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
 
 
 public class SistemaTest {
@@ -68,7 +68,7 @@ public class SistemaTest {
 	}
 	
 
-	@Test(expected=MasDeCincoSubastasEnProgresoException.class)
+	@Test(expected=NoPuedesTenerMasDeCincoSubastasEnProgresoException.class)
 	public void crearUnaSubastaCuandoTengoMasDeCincoEnProgresoTest() {
 		sistema.crear(subasta0, usuarioNicolas);
 		sistema.crear(subasta1, usuarioNicolas);

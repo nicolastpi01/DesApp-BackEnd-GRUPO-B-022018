@@ -13,7 +13,7 @@ public class Usuario {
 	Pass password;
 	Fecha fechaNacimiento;
 	Perfil perfil; // No es necesario el perfil Anonimo ya por ahora no tiene comportamiento, de modo que Usuario base seria anonimo
-	// El que si tiene comportamiento es UsuarioRegistrado
+	// El que si tiene comportamiento es UsuarioRegistrado // mmmm, no
 	
 	
 	public Usuario(String nombre, String apellido, Correo correo, Pass password, Fecha fechaNacimiento) {
@@ -67,11 +67,18 @@ public class Usuario {
 		this.perfil = perfil;
 	}
 	
+	public Perfil getPerfil() {
+		return this.perfil;
+	}
+
+	
 	//////////////////////////////////// CRUD GENERACION DE SUBASTAS  ///////////////////////////////////////////
 	
-	/*
+	 //CREAR
 	
-	 CREAR
+	// NO VA ACÁ, MUY DIFICIL
+	 
+	 /*
 	 PUJAR
 	 MODIFICAR
 	 ELIMINAR

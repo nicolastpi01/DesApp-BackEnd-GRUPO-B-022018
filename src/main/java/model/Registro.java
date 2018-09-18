@@ -10,7 +10,6 @@ public class Registro {
 	ArrayList<Correo> correos = new ArrayList<Correo>(); // Correos de usuarios registrados
 
 	public Boolean inicioSesion(Usuario usuario) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

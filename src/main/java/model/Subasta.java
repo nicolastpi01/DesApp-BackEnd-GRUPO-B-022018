@@ -5,6 +5,7 @@ import model.exceptions.DescripcionLongitudMin10Max100Exception;
 import model.exceptions.FechaFinalizacionNoEsComoMinimoDosDiasMayorALaFechaPublicacion;
 import model.exceptions.HoraInvalidaException;
 import model.exceptions.LaFechaDePublicacionDebeSerMayorAFechaActual;
+import model.exceptions.NoSePuedeEliminarUnaSubastaConPostoresException;
 import model.exceptions.PropietarioParticipaComoPujanteEnSuPropiaSubastaException;
 import model.exceptions.TituloLongitudMin10Max50Exception;
 
@@ -173,6 +174,19 @@ public class Subasta {
 	private void setHoraFinalizacion(int horaFinalizacion) {
 		if (horaFinalizacion >= 0 && horaFinalizacion <= 23) this.horaFinalizacion = horaFinalizacion;
 		else throw new HoraInvalidaException();
+	}
+
+	public boolean sePuedeEliminar() {
+		if (getPostores().size() == 0) return true;
+		else throw new NoSePuedeEliminarUnaSubastaConPostoresException();
+	}
+
+	public boolean tieneComoPostor(Usuario usuario) {
+		Boolean esPostor = false;
+		for(int i=0; i < postores.size(); i++) {
+			esPostor = esPostor || postores.get(i).equals(usuario);
+		}
+		return esPostor;
 	}
 
 }
