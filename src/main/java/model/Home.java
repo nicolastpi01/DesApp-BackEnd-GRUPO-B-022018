@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Home {
 	
@@ -20,7 +21,7 @@ public class Home {
 		return CriterioPorTitulo.getInstance(titulo).buscar(subastas);
 	}
 
-	public ArrayList<Subasta> subastasPopulares(ArrayList<Subasta> subastas) {
+	public List<Subasta> subastasPopulares(List<Subasta> subastas) {
 		return CriterioPopular.getInstance().buscar(subastas);
 	}
 	

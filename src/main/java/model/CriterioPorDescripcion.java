@@ -2,13 +2,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CriterioPorDescripcion implements CriterioBusqueda {
 	private static final CriterioPorDescripcion instance = new CriterioPorDescripcion();
 	private String descripcion;
 	
 	@Override
-	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas) {
+	public ArrayList<Subasta> buscar(List<Subasta> subastas) {
 		ArrayList<Subasta> subastasConDesc = new ArrayList<Subasta>();
 		for (int i=0; i < subastas.size(); i++) {
 			if (subastas.get(i).tieneDescripcion(getDescripcion())) subastasConDesc.add(subastas.get(i));

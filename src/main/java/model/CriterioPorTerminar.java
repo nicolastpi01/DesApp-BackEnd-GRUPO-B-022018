@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //LA SUBASTA NO PUEDE SER NUEVA (YA QUE NO ESTA PUBLICADA TODAVIA)
 //LA SUBASTA NO PUEDE SER FINALIZADA (NI HABLAR)
@@ -11,7 +12,7 @@ public class CriterioPorTerminar implements CriterioBusqueda {
 
 	
 	@Override
-	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas) {
+	public ArrayList<Subasta> buscar(List<Subasta> subastas) {
 		ArrayList<Subasta> porTerminar = new ArrayList<Subasta>();
 		for(int i=0; i < subastas.size(); i++) {
 			if (estaPorTerminar(subastas.get(i))) porTerminar.add(subastas.get(i));

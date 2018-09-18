@@ -1,10 +1,10 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CriterioBusqueda {
 
-	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas);
+	public List<Subasta> buscar(List<Subasta> subastas);
 	
 	
 }

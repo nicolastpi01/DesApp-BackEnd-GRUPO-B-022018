@@ -1,16 +1,19 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CriterioPopular implements CriterioBusqueda {
 	private static final CriterioPopular instance = new CriterioPopular();
-	private int minimoDeSubastasPermitido = 5;
+	private final int MINIMO_DE_SUBASTAS_PERMITIDO = 5;
 // LA FUNCION DE NRO ES QUE SI LA CANT. DE SUBASTAS ES DEMASIADO PEQUEÑA MUESTRE TODAS, Y NO APLIQUE EL FILTRO
 	
 	@Override
 	// BORRAR EL COMENTARIO UNA VEZ QUE QUIERA AGREAGAR ESTE COMPORTAMIENTO
-	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas) {
-		ArrayList<Subasta> subastasPop = new ArrayList<Subasta>();
+	public List<Subasta> buscar(List<Subasta> subastas) {
+		/*ArrayList<Subasta> subastasPop = new ArrayList<Subasta>();
 		if (false) { //(subastas.size() <= minimoDeSubastasPermitido) {
 			subastasPop = subastas;
 		}
@@ -21,6 +24,9 @@ public class CriterioPopular implements CriterioBusqueda {
 			}		
 		}
 		return subastasPop;
+		*/
+		Collections.sort(subastas,(sub1, sub2) ->  sub2.cantidadPostores() - sub1.cantidadPostores());
+		 return subastas.stream().limit(MINIMO_DE_SUBASTAS_PERMITIDO).collect(Collectors.toList());
 	}
 	
 	private int mediaPostoresPorSubasta(ArrayList<Subasta> subastas) {
@@ -34,7 +40,7 @@ public class CriterioPopular implements CriterioBusqueda {
 	}
     
     //private constructor to avoid client applications to use constructor
-    private CriterioPopular(){}
+    
 
     public static CriterioPopular getInstance(){
         return instance;

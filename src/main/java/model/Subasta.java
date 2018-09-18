@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import model.exceptions.DescripcionLongitudMin10Max100Exception;
 import model.exceptions.FechaFinalizacionNoEsComoMinimoDosDiasMayorALaFechaPublicacion;
 import model.exceptions.HoraInvalidaException;
@@ -20,7 +22,7 @@ public class Subasta {
 	int horaFinalizacion;
 	EstadoSubasta estado = new NuevaSubasta();
 	Usuario propietario;
-	ArrayList<Usuario> postores = new ArrayList<Usuario>();
+	List<Usuario> postores = new ArrayList<Usuario>();
 	
 	// Por cuestiones de simplicidad en test
 	public Subasta() {} 
@@ -163,7 +165,7 @@ public class Subasta {
 		else throw new DescripcionLongitudMin10Max100Exception();
 	}
 	
-	public ArrayList<Usuario> getPostores() {
+	public List<Usuario> getPostores() {
 		return this.postores;
 	}
 	
@@ -187,6 +189,12 @@ public class Subasta {
 			esPostor = esPostor || postores.get(i).equals(usuario);
 		}
 		return esPostor;
+	}
+	
+	////////
+	
+	public void setPostores(List<Usuario> postores2) {
+		this.postores = postores2;
 	}
 
 }

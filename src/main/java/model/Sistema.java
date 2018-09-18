@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
 
 public class Sistema {
@@ -94,7 +96,7 @@ public class Sistema {
 		return home.buscarPorDescripcion(descripcion, subastasEnProgreso());
 	}
 
-	public ArrayList<Subasta> buscarPopulares() {
+	public List<Subasta> buscarPopulares() {
 		return home.subastasPopulares(subastasEnProgreso());
 	}
 

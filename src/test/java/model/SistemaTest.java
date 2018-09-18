@@ -2,6 +2,8 @@ package model;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
@@ -169,7 +171,7 @@ public class SistemaTest {
 		subasta2.agregarPostor(usuarioPostor1);
 		subasta3.agregarPostor(usuarioPostor0);
 		// Agregar tantos postores a estas subastas de modo que solo dos sean populares...
-		ArrayList<Subasta> populares = sistema.buscarPopulares();
+		List<Subasta> populares = sistema.buscarPopulares();
 		assertEquals(populares.size(), 2);
 	}
 	

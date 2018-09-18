@@ -1,17 +1,5 @@
 package model;
 
-import static org.junit.Assert.*;
-import org.joda.time.LocalTime;
-import org.joda.time.LocalDate;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import model.exceptions.SubastaMismoUsuarioException;
-
 public class EjemploTest {
 	
 	Usuario u1;
