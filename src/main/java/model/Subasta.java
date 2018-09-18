@@ -193,4 +193,9 @@ public class Subasta {
 		return esPostor;
 	}
 
+	public boolean pujoUltimo(Usuario usuario) {
+		int posUltimoPostor = postores.size() - 1;
+		return postores.size() != 0 && postores.get(posUltimoPostor).equals(usuario);
+	}
+
 }

@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import model.exceptions.NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUltimoPujanteException;
 import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
+import model.exceptions.PujaSobreUnaSubastaDeLaQueSeEsOwnerException;
 
 public class Sistema {
 	ArrayList<Subasta> subastas = new ArrayList<Subasta>();
@@ -22,6 +24,19 @@ public class Sistema {
 	public void crear(Subasta subasta, Usuario usuario) {
 		if (puedeCrearSubasta(usuario))
 			agregar(subasta, usuario);
+	}
+	
+	// En vez de usuario podria usarse a subasta para preg. si se puede ofertar sobre ella
+	public void realizarOferta(Subasta subasta, Usuario usuario) {
+		if (estaAutenticado(usuario)) {
+			if (usuario.puedeOfertar(subasta)) usuario.ofertar(subasta);
+				else if (subasta.estaEnProgresoPara(usuario))  
+					throw new PujaSobreUnaSubastaDeLaQueSeEsOwnerException();
+				else if (subasta.pujoUltimo(usuario))  
+					throw new NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUltimoPujanteException();
+		}
+		else { }
+		// Excepciones de no autenticado...No Logueado, usuario inexistente, etc
 	}
 
 	private void agregar(Subasta subasta, Usuario usuario) {
