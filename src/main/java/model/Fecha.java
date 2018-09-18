@@ -2,6 +2,7 @@ package model;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.LocalDate;
 
 public class Fecha {
 	int dia;
@@ -16,9 +17,9 @@ public class Fecha {
 
 	// Se deberia poder mejorar un poco este metodo (A mí me seco el cerebro)
 	public boolean sucedisteHace(int cantDias) {
-		DateTime miFecha = new DateTime(anio,mes,dia,0,0,0);
-		DateTime hoy = DateTime.now();
-		int diferenciaEnDias = Days.daysBetween(miFecha.toLocalDate(), hoy.toLocalDate()).getDays();
+		LocalDate miFecha = new LocalDate(anio,mes,dia);
+		LocalDate hoy = LocalDate.now();
+		int diferenciaEnDias = Days.daysBetween(miFecha, hoy).getDays();
 		return  diferenciaEnDias <= cantDias;
 	}
 

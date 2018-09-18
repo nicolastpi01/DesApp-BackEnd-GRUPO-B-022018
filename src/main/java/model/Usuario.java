@@ -22,13 +22,17 @@ public class Usuario {
 		this.setCorreo(correo);
 		this.setPassword(password);
 		this.setFechaNacimiento(fechaNacimiento);
-		this.setPerfil(new Perfil());
+		this.setPerfil(new Registrado());
 	}
 
 	public Usuario() {}
 	
 	private Boolean tieneLongValida(String dato) {
 		return dato.length() <= 30;
+	}
+	
+	public String getNombreDeCorreo(){
+		return correo.getNombre();
 	}
 	
 	// GETTERS & SETTERS

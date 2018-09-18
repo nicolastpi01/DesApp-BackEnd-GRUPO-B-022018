@@ -6,18 +6,18 @@ import java.util.List;
 import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
 
 public class Sistema {
-	ArrayList<Subasta> subastas = new ArrayList<Subasta>();
-	ArrayList<Usuario> usuarios = new ArrayList<Usuario>(); // registrados (Los anonimos solo operan ciertas funciones
-															// que no requieren saber quienes son)
-	Registro registro = new Registro(); // Se encarga de registro, verificar ingresos, etc
-	Home home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 	
-
-	// mmm, no, demasiado complejo llevarlo a Perfil
-	// UN USUARIO REGISTRADO TIENE EL COMP. DE CREAR, BORRAR Y EDITAR
-	// CUANDO SE REGISTRA UN OBJ. CAMBIA SU ESTADO A REGISTRADO
-	// LUEGO PARA CREAR, EDITAR, BORRAR
-	// OBJETO ESTADO --> ASI DESACOPLAMOS COMPORTAMIENTO EN SISTEMA
+	Registro registro;
+	Home home;
+	List<Subasta> subastas;
+	ArrayList<Usuario> usuarios;
+	
+	public Sistema() {
+		subastas = new ArrayList<Subasta>();
+		usuarios = new ArrayList<Usuario>();
+		registro = new Registro(usuarios); // Se encarga de registro, verificar ingresos, etc
+		home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
+	}
 
 	public void crear(Subasta subasta, Usuario usuario) {
 		if (puedeCrearSubasta(usuario))
@@ -49,7 +49,6 @@ public class Sistema {
 	
 	private void eliminar(Subasta subasta) {
 		for(int i=0; i < subastas.size(); i++) {
-			if (subastas.get(i).equals(subasta)) subastas.remove(i);
 		}
 	}
 
@@ -86,11 +85,11 @@ public class Sistema {
 		return enProgreso;
 	}
 
-	public ArrayList<Subasta> buscarPorTitulo(String titulo) {
+	public List<Subasta> buscarPorTitulo(String titulo) {
 		return home.buscarPorTitulo(titulo, subastasEnProgreso());
 	}
 
-	public ArrayList<Subasta> buscarPorDescripcion(String descripcion) {
+	public List<Subasta> buscarPorDescripcion(String descripcion) {
 		return home.buscarPorDescripcion(descripcion, subastasEnProgreso());
 	}
 
@@ -98,11 +97,11 @@ public class Sistema {
 		return home.subastasPopulares(subastasEnProgreso());
 	}
 
-	public ArrayList<Subasta> buscarProximasAFinalizar() {
+	public List<Subasta> buscarProximasAFinalizar() {
 		return home.subastasPorTerminar(subastas);
 	}
 
-	public ArrayList<Subasta> buscarRecientes() {
+	public List<Subasta> buscarRecientes() {
 		return home.subastasRecientes(subastas);
 	}
 
@@ -110,7 +109,7 @@ public class Sistema {
 
 	// private methods
 
-	public ArrayList<Subasta> getSubastas() {
+	public List<Subasta> getSubastas() {
 		return this.subastas;
 	}
 

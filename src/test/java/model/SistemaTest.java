@@ -97,7 +97,7 @@ public class SistemaTest {
 		sistema.crear(subasta0, usuarioNicolas);
 		subasta0.setTitulo("Guantelete del Infinito");
 		subasta0.setEstado(new EnProgreso());
-		ArrayList<Subasta> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
+		List<Subasta> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
 		assertEquals(subastasConTitulo.size(), 1);
 		Subasta subastaGuantelete = subastasConTitulo.get(0);
 		assertEquals(subastaGuantelete.getTitulo(), "Guantelete del Infinito");
@@ -109,7 +109,7 @@ public class SistemaTest {
 		sistema.crear(subasta0, usuarioNicolas);
 		subasta0.setEstado(new EnProgreso());
 		subasta0.setDescripcion("La subasta estaba un poco seca");
-		ArrayList<Subasta> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
+		List<Subasta> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
 		assertEquals(subastasPorDescripcion.size(), 1);
 		Subasta subastaConDescripcion = subastasPorDescripcion.get(0);
 		assertEquals(subastaConDescripcion.getDescripcion(), "La subasta estaba un poco seca");
@@ -125,7 +125,7 @@ public class SistemaTest {
 		subasta1.setEstado(new EnProgreso());
 		subasta0.setFechaPublicacion(new Fecha(14,9,2018));
 		subasta1.setFechaPublicacion(new Fecha(15,9,2018));
-		ArrayList<Subasta> subastasRecientes = sistema.buscarRecientes();
+		List<Subasta> subastasRecientes = sistema.buscarRecientes();
 		assertEquals(subastasRecientes.size(), 2);
 	}
 	
@@ -139,7 +139,7 @@ public class SistemaTest {
 		subasta1.setEstado(new EnProgreso());
 		subasta0.setFechaFinalizacion(new Fecha(17,9,2018));
 		subasta1.setFechaFinalizacion(new Fecha(18,9,2018));
-		ArrayList<Subasta> proximasAFinalizar = sistema.buscarProximasAFinalizar();
+		List<Subasta> proximasAFinalizar = sistema.buscarProximasAFinalizar();
 		assertEquals(proximasAFinalizar.size(), 2);
 	}
 	

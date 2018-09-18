@@ -18,7 +18,7 @@ public class Correo {
 		return nombre.equals(correo.getNombre());
 	}
 
-	private String getNombre() {
+	public String getNombre() {
 		return this.nombre;
 	}
 

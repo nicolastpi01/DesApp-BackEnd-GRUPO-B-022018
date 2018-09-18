@@ -1,13 +1,18 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import model.exceptions.CorreoYaRegistradoException;
 
 public class Registro {
-	// clave/valor
-	// Necesito una est. de datos mas compleja que permita guardar mas datos de un usuario. Por. ej: nombre usuario, clave, y correo.
-	ArrayList<Correo> correos = new ArrayList<Correo>(); // Correos de usuarios registrados
+	
+	List <Usuario> usuariosRegistrados;
+	
+	public Registro(List<Usuario> usuarios) {
+		this.usuariosRegistrados = usuarios;
+	}
 
 	public Boolean inicioSesion(Usuario usuario) {
 		return true;
@@ -18,17 +23,19 @@ public class Registro {
 		else return true;
 	}
 
-	private boolean existeCorreoAsociado(Usuario usuario) {
-		Boolean existeCorreo = false;
+	public boolean existeCorreoAsociado(Usuario usuario) {
+		List<String> correos = this.usuariosRegistrados.stream().map(u -> u.getNombreDeCorreo()).collect(Collectors.toList());
+		/*Boolean existeCorreo = false;
 		for (int i=0; correos.size() < i; i++) { 
 			existeCorreo = existeCorreo || correos.get(i).esIgual(usuario.getCorreo());
 		}
 		return existeCorreo;
+		*/
+		return correos.contains(usuario.getNombreDeCorreo());
 	}
 
 	// mas complejo    dfsdgsfbfdbfb
 	public void registrar(Usuario usuario) {
-		correos.add(usuario.getCorreo());
+		this.usuariosRegistrados.add(usuario);
 	}
-
 }
