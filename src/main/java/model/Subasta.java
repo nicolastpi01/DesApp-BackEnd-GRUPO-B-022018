@@ -1,8 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import model.exceptions.DescripcionLongitudMin10Max100Exception;
+import model.exceptions.FechaFinalizacionNoEsComoMinimoDosDiasMayorALaFechaPublicacion;
+import model.exceptions.HoraInvalidaException;
+import model.exceptions.LaFechaDePublicacionDebeSerMayorAFechaActual;
 import model.exceptions.PropietarioParticipaComoPujanteEnSuPropiaSubastaException;
-
+import model.exceptions.TituloLongitudMin10Max50Exception;
 
 public class Subasta {
 	String titulo;
@@ -23,29 +27,15 @@ public class Subasta {
 	public Subasta(String titulo, String descripcion, String direccion, int precioInicial,
 			Fecha fechaPublicacion, Fecha fechaFinalizacion, int horaFinalizacion) {
 		
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.direccion = direccion;
-		this.precioInicial = precioInicial;
-		this.fechaPublicacion = fechaPublicacion;
-		this.fechaFinalizacion = fechaFinalizacion;
-		this.horaFinalizacion = horaFinalizacion;
+		this.setTitulo(titulo);
+		this.setDescripcion(descripcion);
+		this.setDireccion(direccion);
+		this.setPrecioInicial(precioInicial);
+		this.setFechaPublicacion(fechaPublicacion);
+		this.setFechaFinalizacion(fechaFinalizacion);
+		this.setHoraFinalizacion(horaFinalizacion);
 	}
 	
-	// HACEEEEEEEEERRRRRRRRR
-	public Boolean esValida() {
-		return true; // retorna un bool indicando si la subasta esta bien formada (fechaPublicacion correcta, hora correcta, etc)
-	}
-	
-	public void setEstado(EstadoSubasta estado) {
-		this.estado = estado;
-	}
-	
-	public void setPropietario(Usuario propietario) {
-		this.propietario = propietario;
-	}
-	
-
 	public boolean esNueva() {
 		return estado.esNueva();
 	}
@@ -67,28 +57,8 @@ public class Subasta {
 		urlFotos.add(url);
 	}
 
-	public Usuario getPropietario() {
-		return this.propietario;
-	}
-	
-	public String getTitulo() {
-		return this.titulo;
-	}
-
 	public boolean tieneMismoTitulo(String titulo) {
 		return getTitulo().equals(titulo);
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getDescripcion() {
-		return this.descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 
 	public boolean tieneDescripcion(String descripcion) {
@@ -103,24 +73,8 @@ public class Subasta {
 		return getFechaPublicacion().sucedisteHace(cantDias);
 	}
 
-	private Fecha getFechaPublicacion() {
-		return this.fechaPublicacion;
-	}
-
-	public void setFechaPublicacion(Fecha fechaPublicacion) {
-		this.fechaPublicacion = fechaPublicacion;
-	}
-
-	public void setFechaFinalizacion(Fecha fechaFinalizacion) {
-		this.fechaFinalizacion = fechaFinalizacion;	
-	}
-
 	public boolean finalizaDentroDe(int cantDias) {
 		return getFechaFinalizacion().sucedesDentroDe(cantDias);
-	}
-
-	private Fecha getFechaFinalizacion() {
-		return this.fechaFinalizacion;
 	}
 
 	public void agregarPostor(Usuario usuarioPostor) {
@@ -136,12 +90,89 @@ public class Subasta {
 		return getPostores().size() >= mediaPostoresPorSubasta;
 	}
 	
+	public int cantidadPostores() {
+		return getPostores().size();
+	}
+	
+	private Boolean tieneLongTituloValido(String titulo) {
+		int longTitulo = titulo.length(); 
+		return longTitulo >= 10 && longTitulo <= 30;
+	}
+	
+	private Boolean tieneLongDescripcionValida(String descripcion) {
+		int longDescr = descripcion.length();
+		return longDescr >= 10 && longDescr <= 100;
+	}
+	
+	/////////////////////////////////// SETTERS && GETTERS   ////////////////////////////////////////////////
+	
+	private void setDireccion(String direccion) {
+		this.direccion = direccion;	
+	}
+	
+	private Fecha getFechaFinalizacion() {
+		return this.fechaFinalizacion;
+	}
+	
+	
+	public void setFechaPublicacion(Fecha fechaPublicacion) {
+		if(fechaPublicacion.esMayorAHoy()) this.fechaPublicacion = fechaPublicacion;
+		else throw new LaFechaDePublicacionDebeSerMayorAFechaActual();		
+	}
+	
+	// requiere verificacion // No terminado
+	public void setFechaFinalizacion(Fecha fechaFinalizacion) {
+		if (fechaFinalizacion.esMayorPorAlMenosDosDiasALaFechaPublicacion(getFechaPublicacion())) {
+			this.fechaFinalizacion = fechaFinalizacion;	
+		}
+		else throw new FechaFinalizacionNoEsComoMinimoDosDiasMayorALaFechaPublicacion();
+	}
+	
+	private Fecha getFechaPublicacion() {
+		return this.fechaPublicacion;
+	}
+	
+	public void setEstado(EstadoSubasta estado) {
+		this.estado = estado;
+	}
+	
+	public void setPropietario(Usuario propietario) {
+		this.propietario = propietario;
+	}
+	
+	public Usuario getPropietario() {
+		return this.propietario;
+	}
+	
+	public String getTitulo() {
+		return this.titulo;
+	}
+	
+	public void setTitulo(String titulo) {
+		if (this.tieneLongTituloValido(titulo)) this.titulo = titulo;
+		else throw new TituloLongitudMin10Max50Exception();
+	}
+
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+	
+	public void setDescripcion(String descripcion) {
+		if (this.tieneLongDescripcionValida(descripcion)) this.descripcion = descripcion;
+		else throw new DescripcionLongitudMin10Max100Exception();
+	}
+	
 	public ArrayList<Usuario> getPostores() {
 		return this.postores;
 	}
-
-	public int cantidadPostores() {
-		return getPostores().size();
+	
+	private void setPrecioInicial(int precioInicial) {
+		this.precioInicial = precioInicial;
+	}
+	
+	private void setHoraFinalizacion(int horaFinalizacion) {
+		if (horaFinalizacion >= 0 && horaFinalizacion <= 23) this.horaFinalizacion = horaFinalizacion;
+		else throw new HoraInvalidaException();
 	}
 
 }

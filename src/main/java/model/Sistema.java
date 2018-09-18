@@ -10,16 +10,20 @@ public class Sistema {
 	Registro registro = new Registro(); // Se encarga de registro, verificar ingresos, etc
 	Home home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 
+	
+	//////////////////////////////// CRUD  //////////////////////////////////////////////////////////////////
+	// UN USUARIO REGISTRADO TIENE EL COMP. DE CREAR, BORRAR Y EDITAR
+	// CUANDO SE REGISTRA UN OBJ. CAMBIA SU ESTADO A REGISTRADO
+	// LUEGO PARA CREAR, EDITAR, BORRAR SE PREGUNTA SI EL USUARIO ESTA REGISTRADO Y SE DELEGA EL COMP. EN EL
+	// OBJETO ESTADO --> ASI DESACOPLAMOS COMPORTAMIENTO EN SISTEMA
+	
+	
+	// No hay que verificar nada de subasta ni usuario, solo que el usuario sea valido y haya iniciado sesion
 	public void crear(Subasta subasta, Usuario usuario) {
 		if (puedeCrearSubasta(usuario))
 			agregar(subasta, usuario);  
 	}
-	
-	// Acá se muestran todas las subastas (en progreso y no) sin embargo en el sist. solo hay que mostrar subastas en progreso... 
-	public ArrayList<Subasta> getSubastas() {
-		return this.subastas;
-	}
-	
+	 
 	private Boolean puedeCrearSubasta(Usuario usuario) {
 		if (! estaAutenticado(usuario)) 
 			throw new UsuarioInvalidoException();
@@ -40,32 +44,29 @@ public class Sistema {
 		return cantidadEnProgreso;
 	}
 	
-	private Boolean estaAutenticado(Usuario usuario) {
-		return registro.estaRegistrado(usuario);
-	}
-
 	private void agregar(Subasta subasta, Usuario usuario) {
 		subasta.setEstado(new NuevaSubasta());
 		subasta.setPropietario(usuario);
 		subastas.add(subasta);
 	}
 
-	public ArrayList<Usuario> getUsuarios() {
-		return this.usuarios;
+	////////////////////////////////// 	REGISTRO     ///////////////////////////////////////////////////////////
+	
+	
+	// ya inicio sesión?
+	private Boolean estaAutenticado(Usuario usuario) {
+		return registro.inicioSesion(usuario);
 	}
+	
+	// Autenticarse
+	// Con cuenta de Gmail o Usuario
+	public void iniciarSesion() {}
 
 	public void registrarse(Usuario usuario) {
 		if (registro.sePuedeRegistrar(usuario)) {
 			registro.registrar(usuario);
 			this.agregar(usuario);
 		}
-	}
-
-	private void agregar(Usuario usuario) {
-		usuarios.add(usuario);
-		//usuario.setPerfil(new Registrado()); // Si se setea el valor del perfil de usuario acá
-		// y luego se chequea el perfil de un usuario para, por ej: que pueda editar una subasta
-		// se estaria exponiendo un msj publico demasiado peligroso para la app
 	}
 	
 	///////////////////////////// BUSQUEDAS SUBASTAS  /////////////////////////////////////////////////////
@@ -103,5 +104,20 @@ public class Sistema {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// private methods
+	
+	public ArrayList<Subasta> getSubastas() {
+		return this.subastas;
+	}
+	
+	public ArrayList<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+	
+	private void agregar(Usuario usuario) {
+		usuarios.add(usuario);
+		usuario.setPerfil(new Registrado()); // Acá esta el comportamiento de edicion, creacion, y modificacion de subastas
+	}
 
 }
