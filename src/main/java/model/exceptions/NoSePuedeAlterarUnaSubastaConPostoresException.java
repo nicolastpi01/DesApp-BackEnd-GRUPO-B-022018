@@ -1,6 +1,6 @@
 package model.exceptions;
 
-public class NoSePuedeEliminarUnaSubastaConPostoresException extends RuntimeException {
+public class NoSePuedeAlterarUnaSubastaConPostoresException extends RuntimeException {
 
 	/**
 	 * 

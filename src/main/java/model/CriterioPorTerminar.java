@@ -14,13 +14,9 @@ public class CriterioPorTerminar implements CriterioBusqueda {
 	public ArrayList<Subasta> buscar(ArrayList<Subasta> subastas) {
 		ArrayList<Subasta> porTerminar = new ArrayList<Subasta>();
 		for(int i=0; i < subastas.size(); i++) {
-			if (estaPorTerminar(subastas.get(i))) porTerminar.add(subastas.get(i));
+			if (subastas.get(i).estaPorTerminar(DiasCotaMaxReciente)) porTerminar.add(subastas.get(i));
 		}
 		return porTerminar;
-	}
-	
-	private boolean estaPorTerminar(Subasta subasta) {
-		return subasta.estaEnProgreso() && subasta.finalizaDentroDe(DiasCotaMaxReciente);
 	}
     
     //private constructor to avoid client applications to use constructor

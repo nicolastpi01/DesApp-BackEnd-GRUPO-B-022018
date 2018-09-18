@@ -5,7 +5,7 @@ import model.exceptions.DescripcionLongitudMin10Max100Exception;
 import model.exceptions.FechaFinalizacionNoEsComoMinimoDosDiasMayorALaFechaPublicacion;
 import model.exceptions.HoraInvalidaException;
 import model.exceptions.LaFechaDePublicacionDebeSerMayorAFechaActual;
-import model.exceptions.NoSePuedeEliminarUnaSubastaConPostoresException;
+import model.exceptions.NoSePuedeAlterarUnaSubastaConPostoresException;
 import model.exceptions.PropietarioParticipaComoPujanteEnSuPropiaSubastaException;
 import model.exceptions.TituloLongitudMin10Max50Exception;
 
@@ -70,12 +70,16 @@ public class Subasta {
 		return getTitulo().equals(titulo);
 	}
 
-	public boolean fuePublicadaHace(int cantDias) {
+	private boolean fuePublicadaHace(int cantDias) {
 		return getFechaPublicacion().sucedisteHace(cantDias);
 	}
 
-	public boolean finalizaDentroDe(int cantDias) {
+	public boolean estaPorTerminar(int cantDias) {
 		return getFechaFinalizacion().sucedesDentroDe(cantDias);
+	}
+	
+	public boolean esReciente(int cantDias) {
+		return fuePublicadaHace(cantDias);
 	}
 
 	public void agregarPostor(Usuario usuarioPostor) {
@@ -176,9 +180,9 @@ public class Subasta {
 		else throw new HoraInvalidaException();
 	}
 
-	public boolean sePuedeEliminar() {
-		if (getPostores().size() == 0) return true;
-		else throw new NoSePuedeEliminarUnaSubastaConPostoresException();
+	public boolean sePuedeModificar(Usuario usuario) {
+		if (getPostores().size() == 0 && perteneceA(usuario)) return true;
+		else throw new NoSePuedeAlterarUnaSubastaConPostoresException();
 	}
 
 	public boolean tieneComoPostor(Usuario usuario) {

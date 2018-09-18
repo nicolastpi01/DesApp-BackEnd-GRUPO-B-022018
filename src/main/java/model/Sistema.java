@@ -35,22 +35,25 @@ public class Sistema {
 	}
 	
 	public void modificar(Subasta subasta, Usuario usuario) {
-		// Es la misma cond. que borrar una subasta --> No debe tener postores
+		if (sePuedeEditarSubasta(subasta, usuario)) editar(subasta);
 	}
 	
 	public void eliminar(Subasta subasta, Usuario usuario) {
-		if (puedeEliminarSubasta(subasta, usuario)) eliminar(subasta);
+		if (sePuedeEditarSubasta(subasta, usuario)) eliminar(subasta);
 	}
 	
 	// Las Excepciones van en este metodo, no en los internos
-	private Boolean puedeEliminarSubasta(Subasta subasta, Usuario usuario) {
-		return estaAutenticado(usuario) && subasta.sePuedeEliminar();
+	private Boolean sePuedeEditarSubasta(Subasta subasta, Usuario usuario) {
+		return estaAutenticado(usuario) && subasta.sePuedeModificar(usuario);
+	}
+	
+	// mmm, como hacerlo?
+	private void editar(Subasta subasta) {
+		/// ..................
 	}
 	
 	private void eliminar(Subasta subasta) {
-		for(int i=0; i < subastas.size(); i++) {
-			if (subastas.get(i).equals(subasta)) subastas.remove(i);
-		}
+		subastas.remove(subasta);
 	}
 
 	///////////////////////////////////////// REGISTRO
@@ -120,7 +123,7 @@ public class Sistema {
 
 	private void agregar(Usuario usuario) {
 		usuarios.add(usuario);
-		usuario.setPerfil(new Registrado()); // Para que estoy haciendo esto?
+		usuario.setPerfil(new Registrado()); // Para que estoy haciendo esto si despues no lo uso?
 	}
 
 	private ArrayList<Subasta> subastasEnProgreso(Usuario usuario) {
