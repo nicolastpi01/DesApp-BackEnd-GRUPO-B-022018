@@ -11,9 +11,7 @@ public class Sistema {
 															// que no requieren saber quienes son)
 	Registro registro = new Registro(); // Se encarga de registro, verificar ingresos, etc
 	Home home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
-
-	///////////////////////////////////////// CRUD
-	///////////////////////////////////////// //////////////////////////////////////////////////////////////////
+	
 
 	// mmm, no, demasiado complejo llevarlo a Perfil
 	// UN USUARIO REGISTRADO TIENE EL COMP. DE CREAR, BORRAR Y EDITAR
