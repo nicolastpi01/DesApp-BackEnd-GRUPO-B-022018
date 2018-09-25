@@ -4,8 +4,7 @@ sudo: false
 deploy:
   provider: heroku
 
-  api_key:
-    secure: bQjugu7So17dMSsN4n6hzI0hzjA2TVREjZ662fAyw4YA1EyOhAotcJWotOonWE9ApdZ5OXPsBEDopVJMdXsPlRNh576Opfv7p5vvSMXE0efvTqh62NvZqQZLEFIP+lQWq20IpxTHHx+2dSNVpjSzY19mCk6P+1dFEMqYf3AHVc0WH+uzt0zHpwcp2NfMGdLezzU3T8/WWQtIFJBM1c/HOv9k6ICogAEbnvHQ3wQEKYcM3iqJYl+TjjJvOCpJxi5T6T9MvjDCft7FPLmgSJIPHqgJV7sf/kS4IO19gLhQFX729BQUq9yKMxN5rjBqR5x/j1EA7V+tWmqSmInyo/MiAFQeKsrSicOS5rNRjxOowudfAZXRR1DsaPSjILP83b+5in0Yf+Kox1yGc+6Vg6uNwJwZs7ZKR5KXOQNA3PYTakrU/ITiJDuMNLLksvSK+kQf39Ka0vYhEtKibirh+J0TctGbhu1HdqISEhGfiKFYhHNGzE+wygpnrNOnighHVzCRgoVbV/FSeuCoknVHjBmByJKHZH+Iezobqr1Sg/XUVQLxR05c7zATmUfdFGgH2UnhISjTZtxHTzU6z1nOb5s0183kH0s4io+zNtIZ1vKsTYbroxW4xVlVDElS8TWOng0Oh1/oCCU8h2GV+Mx8QmQxm60bw6HYU4mVKrzHWNWvDIE=
+  
 
   app: desapp-backend-grupo-b-s22018
 
