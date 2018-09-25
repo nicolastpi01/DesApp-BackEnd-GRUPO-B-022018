@@ -2,8 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.exceptions.NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUltimoPujanteException;
 
 import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
+import model.exceptions.PujaSobreUnaSubastaDeLaQueSeEsOwnerException;
 
 public class Sistema {
 	
@@ -23,6 +25,19 @@ public class Sistema {
 		if (puedeCrearSubasta(usuario))
 			agregar(subasta, usuario);
 	}
+	
+	// En vez de usuario podria usarse a subasta para preg. si se puede ofertar sobre ella
+	public void realizarOferta(Subasta subasta, Usuario usuario) {
+		if (estaAutenticado(usuario)) {
+			if (usuario.puedeOfertar(subasta)) usuario.ofertar(subasta);
+				else if (subasta.estaEnProgresoPara(usuario))  
+					throw new PujaSobreUnaSubastaDeLaQueSeEsOwnerException();
+				else if (subasta.pujoUltimo(usuario))  
+					throw new NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUltimoPujanteException();
+		}
+		else { }
+		// Excepciones de no autenticado...No Logueado, usuario inexistente, etc
+	}
 
 	private void agregar(Subasta subasta, Usuario usuario) {
 		subasta.setEstado(new NuevaSubasta());
@@ -35,21 +50,27 @@ public class Sistema {
 	}
 	
 	public void modificar(Subasta subasta, Usuario usuario) {
-		// Es la misma cond. que borrar una subasta --> No debe tener postores
+		if (sePuedeEditarSubasta(subasta, usuario)) editar(subasta);
 	}
 	
 	public void eliminar(Subasta subasta, Usuario usuario) {
-		if (puedeEliminarSubasta(subasta, usuario)) eliminar(subasta);
+		if (sePuedeEditarSubasta(subasta, usuario)) eliminar(subasta);
 	}
 	
 	// Las Excepciones van en este metodo, no en los internos
-	private Boolean puedeEliminarSubasta(Subasta subasta, Usuario usuario) {
-		return estaAutenticado(usuario) && subasta.sePuedeEliminar();
+	private Boolean sePuedeEditarSubasta(Subasta subasta, Usuario usuario) {
+		return estaAutenticado(usuario) && subasta.sePuedeModificar(usuario);
+	}
+	
+	// mmm, como hacerlo?
+	private void editar(Subasta subasta) {
+		/// ..................
 	}
 	
 	private void eliminar(Subasta subasta) {
-		for(int i=0; i < subastas.size(); i++) {
-		}
+		//for(int i=0; i < subastas.size(); i++) {
+		//}
+		//subastas.remove(subasta);
 	}
 
 	///////////////////////////////////////// REGISTRO
@@ -119,7 +140,7 @@ public class Sistema {
 
 	private void agregar(Usuario usuario) {
 		usuarios.add(usuario);
-		usuario.setPerfil(new Registrado()); // Para que estoy haciendo esto?
+		usuario.setPerfil(new Registrado()); // Para que estoy haciendo esto si despues no lo uso?
 	}
 
 	private ArrayList<Subasta> subastasEnProgreso(Usuario usuario) {

@@ -2,6 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 sudo: false
+<<<<<<< HEAD
 install: true
 deploy:
   provider: heroku
@@ -12,6 +13,26 @@ deploy:
     repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+=======
+
+
+>>>>>>> 45042cbebde120d548f0b2a61797ef057d141ee7
 cache:
   directories:
   - "$HOME/.m2"
+
+before_cache:
+  - rm -rf $HOME/.m2/repository/com/autentia/traviscodacy
+
+before_install:
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | 	jq -r .assets[0].browser_download_url)
+
+after_success:
+  - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml  
+
+
+jdk:
+  - oraclejdk8
+
+

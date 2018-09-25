@@ -14,13 +14,9 @@ public class CriterioReciente implements CriterioBusqueda {
 	public ArrayList<Subasta> buscar(List<Subasta> subastas) {
 		ArrayList<Subasta> recientes = new ArrayList<Subasta>();
 		for(int i=0; i < subastas.size(); i++) {
-			if (esReciente(subastas.get(i))) recientes.add(subastas.get(i));
+			if (subastas.get(i).esReciente(DiasCotaMaxReciente)) recientes.add(subastas.get(i));
 		}
 		return recientes;
-	}
-	
-	private Boolean esReciente(Subasta subasta) {
-		return subasta.estaEnProgreso() && subasta.fuePublicadaHace(DiasCotaMaxReciente); 
 	}
 	
 	//private constructor to avoid client applications to use constructor

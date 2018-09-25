@@ -75,6 +75,16 @@ public class Usuario {
 		return this.perfil;
 	}
 
+	// Este metodo podria ser de subasta
+	public boolean puedeOfertar(Subasta subasta) {
+		return ! subasta.estaEnProgresoPara(this) && ! subasta.pujoUltimo(this);
+	}
+
+	public void ofertar(Subasta subasta) {
+		// if soy el primer postor --> un comportamiento
+		// sino otro
+	}
+
 	
 	//////////////////////////////////// CRUD GENERACION DE SUBASTAS  ///////////////////////////////////////////
 	

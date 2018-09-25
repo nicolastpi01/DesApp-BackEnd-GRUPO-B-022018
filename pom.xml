@@ -8,6 +8,23 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>desapp-grupoB-backend Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<java.version>1.8</java.version>
+
+		<jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
+
+		<jacoco.utreportpath>${project.build.directory}/jacoco</jacoco.utreportpath>
+		<jacoco.utreportfile>${jacoco.utreportpath}/jacoco.exec</jacoco.utreportfile>
+
+		<jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
+		<jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -17,40 +34,125 @@
 			<version>2.5</version>
 		</dependency>
 		<dependency>
-  			<groupId>org.apache.maven.plugins</groupId>
-  			<artifactId>maven-war-plugin</artifactId>
-  			<version>3.2.2</version>
-  			<type>maven-plugin</type>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>3.2.2</version>
+			<type>maven-plugin</type>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
-    		<groupId>junit</groupId>
-    		<artifactId>junit</artifactId>
-    		<version>4.12</version>
-    		<scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
 		<dependency>
-    		<groupId>joda-time</groupId>
-    		<artifactId>joda-time</artifactId>
-    		<version>2.8.2</version>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.8.2</version>
 		</dependency>
+
 	</dependencies>
 	<build>
-		<finalName>desapp-grupoB-backend</finalName>
-		
-    
-      <plugins>
-        <plugin>
+		<plugins>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.2</version>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefireArgLine</propertyName>
+							<destFile>${jacoco.utreportfile}</destFile>
+							<append>true</append>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${jacoco.utreportpath}</outputDirectory>
+							<dataFile>${jacoco.utreportfile}</dataFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>pre-integration-test</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<propertyName>failsafeArgLine</propertyName>
+							<destFile>${jacoco.itreportfile}</destFile>
+							<append>true</append>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${jacoco.itreportpath}</outputDirectory>
+							<dataFile>${jacoco.itreportfile}</dataFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<argLine>${surefireArgLine}</argLine>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.0</version>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<argLine>${failsafeArgLine}</argLine>
+							<reportsDirectory>${project.build.directory}/failsafe-reports</reportsDirectory>
+							<skipTests>false</skipTests>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			 <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
 		<configuration>
           <compilerVersion>1.8</compilerVersion>
         </configuration>
         </plugin>
-      </plugins>
+
+		</plugins>
+		<finalName>desapp-grupoB-backend</finalName>
     
 	</build>
-	
 </project>

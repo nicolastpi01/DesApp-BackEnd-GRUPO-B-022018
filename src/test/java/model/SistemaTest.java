@@ -41,28 +41,43 @@ public class SistemaTest {
 		usuarioPostor3 = new Usuario();
 	}
 	
-	
-	
+
 	@Test
-	// Todas las variaciones con las que se puede inciar sesion (incluso las que dan error)
-	public void iniciarSesionTest() {
-		
+	// Todas las variaciones para registrarse, con los errores (nombre demasiado largo, formato Fecha incorrecto, etc)
+	public void registrarseTest() {
+		sistema.registrarse(usuarioNicolas);
+		assertEquals(sistema.getUsuarios().size(), 1);
+		sistema.registrarse(usuarioVigo);
+		assertEquals(sistema.getUsuarios().size(), 2);
 	}
 	
 	@Test
-	public void usuarioRealizaUnaOfertaParaUnaSubastaTest() {}
+	// Todas las variaciones con las que se puede inciar sesion (incluso las que dan error)
+	public void iniciarSesionTest() {	
+	}
+	
+	//////////////////////////////////  REGISTRO   ///////////////////////////////////////////////////////////
+	
+	@Test
+	public void realizaUnaOfertaParaUnaSubastaTest() {}
 	
 	@Test
 	public void crearUnaSubastaTest() {
+		// Funciona porque no hace la verificacion de Usuario registrado y log.
 		sistema.crear(subasta0, usuarioNicolas); 
 		assertEquals(sistema.getSubastas().size(), 1);
 		assertTrue(subasta0.esNueva());
 		assertEquals(subasta0.getPropietario(), usuarioNicolas);
+		sistema.crear(subasta1, usuarioVigo); 
+		assertEquals(sistema.getSubastas().size(), 2);
+		assertTrue(subasta1.esNueva());
+		assertEquals(subasta1.getPropietario(), usuarioVigo);
 	}
 	
 
 	@Test(expected=NoPuedesTenerMasDeCincoSubastasEnProgresoException.class)
 	public void crearUnaSubastaCuandoTengoMasDeCincoEnProgresoTest() {
+		// Funciona porque no hace la verificacion de Usuario registrado y log.
 		sistema.crear(subasta0, usuarioNicolas);
 		sistema.crear(subasta1, usuarioNicolas);
 		sistema.crear(subasta2, usuarioNicolas);
@@ -77,6 +92,22 @@ public class SistemaTest {
 		sistema.crear(subasta5, usuarioNicolas);
 	}
 	
+	@Test
+	public void eliminarUnaSubastaTest() {
+		// Funciona porque no hace la verificacion de Usuario registrado y log.
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioVigo);
+		assertEquals(sistema.getSubastas().size(), 2);
+		sistema.eliminar(subasta0, usuarioNicolas);
+		assertEquals(sistema.getSubastas().size(), 1);
+		sistema.eliminar(subasta1, usuarioVigo);
+		assertEquals(sistema.getSubastas().size(), 0);
+	}
+	
+	@Test
+	public void editarUnaSubastaTest() {
+		// Funciona porque no hace la verificacion de Usuario registrado y log.
+	}
 	
 	
 	/////////////////////////// BUSQUEDAS  //////////////////////////////////////////////////
@@ -106,6 +137,73 @@ public class SistemaTest {
 		assertEquals(subastaConDescripcion.getDescripcion(), "La subasta estaba un poco seca");
 	}
 	
+	/*
+	@Test
+	// Ultimas 15 subastas (Como max)
+	// Esta bien, pero ahora se hizo muy complicado testearlo
+	
+	public void buscarSubastasRecientesTest() {
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
+		subasta1.setEstado(new EnProgreso());
+		subasta0.setFechaPublicacion(new Fecha(14,9,2018));
+		subasta1.setFechaPublicacion(new Fecha(15,9,2018));
+		ArrayList<Subasta> subastasRecientes = sistema.buscarRecientes();
+		assertEquals(subastasRecientes.size(), 2);
+	}
+	
+	@Test
+	// Esta bien, pero ahora se hizo muy complicado testearlo
+	// Ultimas 15 subastas (Como max)
+	public void buscarSubastasProximasAFinalizarTest() {
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
+		subasta1.setEstado(new EnProgreso());
+		subasta0.setFechaFinalizacion(new Fecha(17,9,2018));
+		subasta1.setFechaFinalizacion(new Fecha(16,9,2018));
+		ArrayList<Subasta> proximasAFinalizar = sistema.buscarProximasAFinalizar();
+		assertEquals(proximasAFinalizar.size(), 2);
+	}
+	
+	*/
+	
+	@Test
+	// Ultimas 15 subastas // Esto quiere decir que retorna hasta 15 subastas en caso de que haya tantas, caso contrario devuelve lo que hay de populares. Ej: 5 populares
+	// NO FUNCIONA --> (es medio complejo)
+	// Las populares son aquellas subastas cuya cant. de postores estan por encima de la media de postores
+	// de subastas en progreso [Recordar: Owner no puede ser postor de su propia subasta]
+	public void buscarSubastasPopularesTest() {
+		// crear las subastas
+		sistema.registrarse(usuarioNicolas);
+		sistema.crear(subasta0, usuarioNicolas);
+		sistema.crear(subasta1, usuarioNicolas);
+		sistema.crear(subasta2, usuarioNicolas);
+		sistema.crear(subasta3, usuarioNicolas);
+		subasta0.setEstado(new EnProgreso());
+		subasta1.setEstado(new EnProgreso());
+		subasta2.setEstado(new EnProgreso());
+		subasta3.setEstado(new EnProgreso());
+		subasta0.agregarPostor(usuarioPostor0);
+		subasta0.agregarPostor(usuarioPostor1);
+		subasta0.agregarPostor(usuarioPostor2);
+		subasta0.agregarPostor(usuarioPostor3);
+		subasta1.agregarPostor(usuarioPostor0);
+		subasta1.agregarPostor(usuarioPostor1);
+		subasta1.agregarPostor(usuarioPostor2);
+		subasta1.agregarPostor(usuarioPostor3);
+		subasta2.agregarPostor(usuarioPostor0);
+		subasta2.agregarPostor(usuarioPostor1);
+		subasta3.agregarPostor(usuarioPostor0);
+		// Agregar tantos postores a estas subastas de modo que solo dos sean populares...
+		List<Subasta> populares = sistema.buscarPopulares();
+		assertEquals(populares.size(), 2);
+	}
+	
+	///////////////////////////// BUSQUEDAS  ///////////////////////////////////////////////
 	/*
 	@Test
 	 
