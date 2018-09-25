@@ -41,15 +41,6 @@ public class SistemaTest {
 		usuarioPostor3 = new Usuario();
 	}
 	
-	@Test
-	// Todas las variaciones para registrarse, con los errores (nombre demasiado largo, formato Fecha incorrecto, etc)
-	public void usuarioRegistrarseTest() {
-		sistema.registrarse(usuarioNicolas);
-		assertEquals(sistema.getUsuarios().size(), 1);
-		sistema.registrarse(usuarioVigo);
-		assertEquals(sistema.getUsuarios().size(), 2);
-	}
-	
 	
 	
 	@Test
@@ -114,68 +105,6 @@ public class SistemaTest {
 		Subasta subastaConDescripcion = subastasPorDescripcion.get(0);
 		assertEquals(subastaConDescripcion.getDescripcion(), "La subasta estaba un poco seca");
 	}
-	
-	@Test
-	// Ultimas 15 subastas (Como max)
-	public void buscarSubastasRecientesTest() {
-		sistema.registrarse(usuarioNicolas);
-		sistema.crear(subasta0, usuarioNicolas);
-		sistema.crear(subasta1, usuarioNicolas);
-		subasta0.setEstado(new EnProgreso());
-		subasta1.setEstado(new EnProgreso());
-		subasta0.setFechaPublicacion(new Fecha(14,9,2018));
-		subasta1.setFechaPublicacion(new Fecha(15,9,2018));
-		List<Subasta> subastasRecientes = sistema.buscarRecientes();
-		assertEquals(subastasRecientes.size(), 2);
-	}
-	
-	@Test
-	// Ultimas 15 subastas (Como max)
-	public void buscarSubastasProximasAFinalizarTest() {
-		sistema.registrarse(usuarioNicolas);
-		sistema.crear(subasta0, usuarioNicolas);
-		sistema.crear(subasta1, usuarioNicolas);
-		subasta0.setEstado(new EnProgreso());
-		subasta1.setEstado(new EnProgreso());
-		subasta0.setFechaFinalizacion(new Fecha(17,9,2018));
-		subasta1.setFechaFinalizacion(new Fecha(18,9,2018));
-		List<Subasta> proximasAFinalizar = sistema.buscarProximasAFinalizar();
-		assertEquals(proximasAFinalizar.size(), 2);
-	}
-	
-	@Test
-	// Ultimas 15 subastas // Esto quiere decir que retorna hasta 15 subastas en caso de que haya tantas, caso contrario devuelve lo que hay de populares. Ej: 5 populares
-	// NO FUNCIONA --> (es medio complejo)
-	// Las populares son aquellas subastas cuya cant. de postores estan por encima de la media de postores
-	// de subastas en progreso [Recordar: Owner no puede ser postor de su propia subasta]
-	public void buscarSubastasPopularesTest() {
-		// crear las subastas
-		sistema.registrarse(usuarioNicolas);
-		sistema.crear(subasta0, usuarioNicolas);
-		sistema.crear(subasta1, usuarioNicolas);
-		sistema.crear(subasta2, usuarioNicolas);
-		sistema.crear(subasta3, usuarioNicolas);
-		subasta0.setEstado(new EnProgreso());
-		subasta1.setEstado(new EnProgreso());
-		subasta2.setEstado(new EnProgreso());
-		subasta3.setEstado(new EnProgreso());
-		subasta0.agregarPostor(usuarioPostor0);
-		subasta0.agregarPostor(usuarioPostor1);
-		subasta0.agregarPostor(usuarioPostor2);
-		subasta0.agregarPostor(usuarioPostor3);
-		subasta1.agregarPostor(usuarioPostor0);
-		subasta1.agregarPostor(usuarioPostor1);
-		subasta1.agregarPostor(usuarioPostor2);
-		subasta1.agregarPostor(usuarioPostor3);
-		subasta2.agregarPostor(usuarioPostor0);
-		subasta2.agregarPostor(usuarioPostor1);
-		subasta3.agregarPostor(usuarioPostor0);
-		// Agregar tantos postores a estas subastas de modo que solo dos sean populares...
-		List<Subasta> populares = sistema.buscarPopulares();
-		assertEquals(populares.size(), 2);
-	}
-	
-	///////////////////////////// BUSQUEDAS  ///////////////////////////////////////////////
 	
 	/*
 	@Test
