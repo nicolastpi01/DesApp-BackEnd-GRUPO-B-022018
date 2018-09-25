@@ -93,7 +93,7 @@ public class SistemaTest {
 	
 	@Test
 	public void editarUnaSubastaTest() {
-		// Funciona porque no hace la verificacion de Usuario registrado y log.
+		
 	}
 	
 	
