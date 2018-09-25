@@ -1,16 +1,10 @@
 language: java
+
 sudo: false
+
 install: true
+
 script: mvn clean install
-
-deploy:
-  provider: heroku
-
-
-  app: desapp-backend-grupo-b-s22018
-
-  on:
-    repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
 
 cache:
   directories:
@@ -25,5 +19,8 @@ before_install:
 		
 after_success:
 - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml
+
+jdk:
+- oraclejdk8
 
 
