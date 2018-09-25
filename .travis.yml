@@ -13,7 +13,6 @@ deploy:
     repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-=======
 
 deploy:
   provider: heroku
