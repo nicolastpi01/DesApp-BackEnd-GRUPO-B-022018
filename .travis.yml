@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 sudo: false
-<<<<<<< HEAD
+
 install: true
 deploy:
   provider: heroku
@@ -25,9 +25,6 @@ deploy:
 
   on:
     repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
-
-
->>>>>>> 45042cbebde120d548f0b2a61797ef057d141ee7
 cache:
   directories:
   - "$HOME/.m2"
