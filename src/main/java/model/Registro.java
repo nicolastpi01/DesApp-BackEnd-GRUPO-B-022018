@@ -25,16 +25,9 @@ public class Registro {
 
 	public boolean existeCorreoAsociado(Usuario usuario) {
 		List<String> correos = this.usuariosRegistrados.stream().map(u -> u.getNombreDeCorreo()).collect(Collectors.toList());
-		/*Boolean existeCorreo = false;
-		for (int i=0; correos.size() < i; i++) { 
-			existeCorreo = existeCorreo || correos.get(i).esIgual(usuario.getCorreo());
-		}
-		return existeCorreo;
-		*/
 		return correos.contains(usuario.getNombreDeCorreo());
 	}
 
-	// mas complejo    dfsdgsfbfdbfb
 	public void registrar(Usuario usuario) {
 		this.usuariosRegistrados.add(usuario);
 	}
