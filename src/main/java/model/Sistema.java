@@ -70,7 +70,7 @@ public class Sistema {
 	private void eliminar(Subasta subasta) {
 		//for(int i=0; i < subastas.size(); i++) {
 		//}
-		//subastas.remove(subasta);
+		subastas.remove(subasta);
 	}
 
 	///////////////////////////////////////// REGISTRO

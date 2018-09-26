@@ -4,6 +4,10 @@ jdk:
 sudo: false
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> branchGuido
 install: true
 deploy:
   provider: heroku
@@ -14,7 +18,6 @@ deploy:
     repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-=======
 
 =======
 >>>>>>> 96853c7ba92eb77592e31c8bfff568ba7af1e57c
@@ -26,11 +29,14 @@ deploy:
   on:
     repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 >>>>>>> 45042cbebde120d548f0b2a61797ef057d141ee7
 =======
 >>>>>>> 96853c7ba92eb77592e31c8bfff568ba7af1e57c
+=======
+>>>>>>> branchGuido
 cache:
   directories:
   - "$HOME/.m2"

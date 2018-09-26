@@ -49,7 +49,7 @@ public class CriterioPopularTest {
 		s1 = crearSubasta(postores1,1);
 		
 		List<Usuario> postores2 = new ArrayList<Usuario>();
-		postores1.add(u1);
+		postores2.add(u1);
 		s2 = crearSubasta(postores2,2);
 		
 		List<Usuario> postores3 = new ArrayList<Usuario>();
@@ -100,5 +100,16 @@ public class CriterioPopularTest {
 		assertEquals("La Subasta numero 3",subFiltradas.get(0).getTitulo());
 		assertEquals("La Subasta numero 6",subFiltradas.get(4).getTitulo());
 		assertEquals(5,subFiltradas.size());
+	}
+	
+	
+	@Test
+	public void promedioPostoresPorSubastasTest() {
+		List<Subasta> subastas = new ArrayList<Subasta>();
+		subastas.add(s1);
+		subastas.add(s2);
+		subastas.add(s3);
+		double promedioPostores = cp.mediaPostoresPorSubasta(subastas);
+		assertEquals(3.3333333333333335,promedioPostores,0);
 	}
 }
