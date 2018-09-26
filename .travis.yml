@@ -3,6 +3,7 @@ jdk:
   - oraclejdk8
 sudo: false
 <<<<<<< HEAD
+<<<<<<< HEAD
 install: true
 deploy:
   provider: heroku
@@ -15,35 +16,31 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 =======
 
+=======
+>>>>>>> 96853c7ba92eb77592e31c8bfff568ba7af1e57c
 deploy:
   provider: heroku
-
   api_key:
-    secure: bQjugu7So17dMSsN4n6hzI0hzjA2TVREjZ662fAyw4YA1EyOhAotcJWotOonWE9ApdZ5OXPsBEDopVJMdXsPlRNh576Opfv7p5vvSMXE0efvTqh62NvZqQZLEFIP+lQWq20IpxTHHx+2dSNVpjSzY19mCk6P+1dFEMqYf3AHVc0WH+uzt0zHpwcp2NfMGdLezzU3T8/WWQtIFJBM1c/HOv9k6ICogAEbnvHQ3wQEKYcM3iqJYl+TjjJvOCpJxi5T6T9MvjDCft7FPLmgSJIPHqgJV7sf/kS4IO19gLhQFX729BQUq9yKMxN5rjBqR5x/j1EA7V+tWmqSmInyo/MiAFQeKsrSicOS5rNRjxOowudfAZXRR1DsaPSjILP83b+5in0Yf+Kox1yGc+6Vg6uNwJwZs7ZKR5KXOQNA3PYTakrU/ITiJDuMNLLksvSK+kQf39Ka0vYhEtKibirh+J0TctGbhu1HdqISEhGfiKFYhHNGzE+wygpnrNOnighHVzCRgoVbV/FSeuCoknVHjBmByJKHZH+Iezobqr1Sg/XUVQLxR05c7zATmUfdFGgH2UnhISjTZtxHTzU6z1nOb5s0183kH0s4io+zNtIZ1vKsTYbroxW4xVlVDElS8TWOng0Oh1/oCCU8h2GV+Mx8QmQxm60bw6HYU4mVKrzHWNWvDIE=
-
+    secure: ap0+TZnraQTLRBn5QFxFkmTKsvls+XJn7MmOCQlVo7y2lTuLoBBxf312hhvALxDjT1IlzM1mgVV6BIsIjKBhuSDqb3HwAurjDKLVLFqRd+eEJRW1eMR4qhTQyp1yOdiltsDYkmy8F0uZCzxhKb/Wg1Qlrbcwrfb0g0glhUljxu39GoIZUpEZjdEQSLQMK53phQeedk4VsQf8GnM77t8dvPLUEUAO8YEAX8GzSxKRIZ8q62syVRjxm+P+7jqzIn4TIiuci2/5k+mLb4sA3dMTH5+Y1dScu3//TkDy273j8lCTrbERCSKQ97LHAyQdVoiU303Suv0SgrtAB0bT2EnQEcDov9VAQ0SXZ8VzNM/F36KqrTuxeTdwJCmpM+lGT4YYfjvh8j7Nvx+7IJcN8LQA1UyOwmdH9bgKXYbKRdrWxEuMH7K2L+emKEBuoGpb5tmSRfzez9Pf92jUXKYg4OQWOwux4+2+aQCtRBbNykb+R8UNUV4Jo1l/tPynpauTft4meSeGZleGNxGI4upl6ffuvgJ4BKab2ExHgEF2sStb4ZDms+joW8VA0UH38GbRvaB/+fo3ZGC77Zat8aq50ewHKsiCnsRy+zOq0KikkIC9xTkTeSmjKe/ivIXravI9CTgErW+HTMTeBIjknJ59S5rppD7LB1uDaxdeG73b+8wLO/U=
   app: desapp-backend-grupo-b-s22018
-
   on:
     repo: nicolastpi01/DesApp-BackEnd-GRUPO-B-S22018
+<<<<<<< HEAD
 
 
 >>>>>>> 45042cbebde120d548f0b2a61797ef057d141ee7
+=======
+>>>>>>> 96853c7ba92eb77592e31c8bfff568ba7af1e57c
 cache:
   directories:
   - "$HOME/.m2"
-
 before_cache:
-  - rm -rf $HOME/.m2/repository/com/autentia/traviscodacy
-
+- rm -rf $HOME/.m2/repository/com/autentia/traviscodacy
 before_install:
-  - sudo apt-get install jq
-  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | 	jq -r .assets[0].browser_download_url)
-
+- sudo apt-get install jq
+- "wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest
+  | \tjq -r .assets[0].browser_download_url)"
 after_success:
-  - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml  
-
-
+- java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml
 jdk:
-  - oraclejdk8
-
-
+- oraclejdk8
