@@ -17,8 +17,8 @@ public class Subasta {
 	String direccion;
 	ArrayList<String> urlFotos = new ArrayList<String>();
 	int precioInicial;
-	Fecha fechaPublicacion;
-	Fecha fechaFinalizacion;
+	Date fechaPublicacion;
+	Date fechaFinalizacion;
 	int horaFinalizacion;
 	EstadoSubasta estado = new NuevaSubasta();
 	User propietario;
@@ -28,7 +28,7 @@ public class Subasta {
 	public Subasta() {} 
 	
 	public Subasta(String titulo, String descripcion, String direccion, int precioInicial,
-			Fecha fechaPublicacion, Fecha fechaFinalizacion, int horaFinalizacion) {
+			Date fechaPublicacion, Date fechaFinalizacion, int horaFinalizacion) {
 		
 		this.setTitulo(titulo);
 		this.setDescripcion(descripcion);
@@ -73,11 +73,11 @@ public class Subasta {
 	}
 
 	private boolean fuePublicadaHace(int cantDias) {
-		return getFechaPublicacion().sucedisteHace(cantDias);
+		return getFechaPublicacion().happenedDaysAgo(cantDias);
 	}
 
 	public boolean estaPorTerminar(int cantDias) {
-		return getFechaFinalizacion().sucedesDentroDe(cantDias);
+		return getFechaFinalizacion().happensWithinDays(cantDias);
 	}
 	
 	public boolean esReciente(int cantDias) {
@@ -117,25 +117,25 @@ public class Subasta {
 		this.direccion = direccion;	
 	}
 	
-	private Fecha getFechaFinalizacion() {
+	private Date getFechaFinalizacion() {
 		return this.fechaFinalizacion;
 	}
 	
 	
-	public void setFechaPublicacion(Fecha fechaPublicacion) {
-		if(fechaPublicacion.esMayorAHoy()) this.fechaPublicacion = fechaPublicacion;
+	public void setFechaPublicacion(Date fechaPublicacion) {
+		if(fechaPublicacion.isAfterToday()) this.fechaPublicacion = fechaPublicacion;
 		else throw new LaFechaDePublicacionDebeSerMayorAFechaActual();		
 	}
 	
 	// requiere verificacion // No terminado
-	public void setFechaFinalizacion(Fecha fechaFinalizacion) {
-		if (fechaFinalizacion.esMayorPorAlMenosDosDiasALaFechaPublicacion(getFechaPublicacion())) {
+	public void setFechaFinalizacion(Date fechaFinalizacion) {
+		if (fechaFinalizacion.isLaterForAtLeastTwoDays(getFechaPublicacion())) {
 			this.fechaFinalizacion = fechaFinalizacion;	
 		}
 		else throw new FechaFinalizacionNoEsComoMinimoDosDiasMayorALaFechaPublicacion();
 	}
 	
-	private Fecha getFechaPublicacion() {
+	private Date getFechaPublicacion() {
 		return this.fechaPublicacion;
 	}
 	

@@ -19,9 +19,9 @@ public class RegistroTest {
 	
 	@Before
 	public void setUp() {
-		u1 = new User("Pepito", "Gonzalez", new Email("pepito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
-		u2 = new User("sultanito", "Gonzalez", new Email("sultanito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
-		u3 = new User("menganito", "Gonzalez", new Email("menganito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
+		u1 = new User("Pepito", "Gonzalez", new Email("pepito@hotmail.com"), new Pass("pass"), new Date(2010,03,03));
+		u2 = new User("sultanito", "Gonzalez", new Email("sultanito@hotmail.com"), new Pass("pass"), new Date(2010,03,03));
+		u3 = new User("menganito", "Gonzalez", new Email("menganito@hotmail.com"), new Pass("pass"), new Date(2010,03,03));
 		List<User> usuarios = new ArrayList<User>();
 		usuarios.add(u3);
 		r = new Registro(usuarios);

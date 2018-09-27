@@ -26,8 +26,8 @@ public class SistemaTest {
 	
 	@Before
 	public void setUp() {
-		usuarioNicolas = new User("Nicolás", "García", new Email("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Fecha(12,03,1991));
-		usuarioVigo = new User("Guido", "Pujadas", new Email("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Fecha(20,06,1992));
+		usuarioNicolas = new User("Nicolás", "García", new Email("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Date(12,03,1991));
+		usuarioVigo = new User("Guido", "Pujadas", new Email("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Date(20,06,1992));
 		sistema = new Sistema();
 		subasta0 = new Subasta();
 		subasta1 = new Subasta();

@@ -10,12 +10,12 @@ public class User {
 	String lastName;
 	Email email;
 	Pass password;
-	Fecha birthday;
+	Date birthday;
 	Profile profile; // No es necesario el perfil Anonimo ya por ahora no tiene comportamiento, de modo que Usuario base seria anonimo
 	// El que si tiene comportamiento es UsuarioRegistrado // mmmm, no
 	
 	
-	public User(String name, String lastName, Email email, Pass password, Fecha birthday) {
+	public User(String name, String lastName, Email email, Pass password, Date birthday) {
 		this.setName(name);
 		this.setLastName(lastName);
 		this.setEmail(email);
@@ -58,7 +58,7 @@ public class User {
 	}
 	
 	// temporally without verification
-	private void setBirthday(Fecha birthday) {
+	private void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
