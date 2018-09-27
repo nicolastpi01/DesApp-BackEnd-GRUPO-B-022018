@@ -1,14 +1,15 @@
 package model;
 
 public class Pass {
-	String nombre;
+	String text;
 	
-	public Pass(String nombre) {
-		this.nombre = nombre;
+	public Pass(String text) {
+		this.text = text;
 	}
 
-	public boolean esValido() {
-		return nombre.length() >= 4 && nombre.length() <= 20 && true; // hay que verificar que contenga nros y Mayusculas (no sé como hacerlo) 
+	// hay que verificar que contenga nros y Mayusculas (no sé como hacerlo)
+	public boolean isValid() {
+		return text.length() >= 4 && text.length() <= 20 && true;  
 	}
 
 }

@@ -16,16 +16,16 @@ public class CriterioPopularTest {
 	Subasta s5;
 	Subasta s6;
 	
-	Usuario u1;
-	Usuario u2;
-	Usuario u3;
-	Usuario u4;
-	Usuario u5;
-	Usuario u6;
+	User u1;
+	User u2;
+	User u3;
+	User u4;
+	User u5;
+	User u6;
 	
 	CriterioPopular cp;
 	
-	public Subasta crearSubasta(List<Usuario> postores, Integer numeroSubasta) {
+	public Subasta crearSubasta(List<User> postores, Integer numeroSubasta) {
 		Subasta s = new Subasta();
 		s.setPostores(postores);
 		s.setTitulo("La Subasta numero " + numeroSubasta);
@@ -35,24 +35,24 @@ public class CriterioPopularTest {
 	@Before
 	public void setUp() {
 		
-		u1 = new Usuario();
-		u2 = new Usuario();
-		u3 = new Usuario();
-		u4 = new Usuario();
-		u5 = new Usuario();
-		u6 = new Usuario();
+		u1 = new User();
+		u2 = new User();
+		u3 = new User();
+		u4 = new User();
+		u5 = new User();
+		u6 = new User();
 		
-		List<Usuario> postores1 = new ArrayList<Usuario>();
+		List<User> postores1 = new ArrayList<User>();
 		postores1.add(u1);
 		postores1.add(u2);
 		postores1.add(u3);
 		s1 = crearSubasta(postores1,1);
 		
-		List<Usuario> postores2 = new ArrayList<Usuario>();
+		List<User> postores2 = new ArrayList<User>();
 		postores2.add(u1);
 		s2 = crearSubasta(postores2,2);
 		
-		List<Usuario> postores3 = new ArrayList<Usuario>();
+		List<User> postores3 = new ArrayList<User>();
 		postores3.add(u1);
 		postores3.add(u2);
 		postores3.add(u3);
@@ -61,7 +61,7 @@ public class CriterioPopularTest {
 		postores3.add(u6);
 		s3 = crearSubasta(postores3,3);
 		
-		List<Usuario> postores4 = new ArrayList<Usuario>();
+		List<User> postores4 = new ArrayList<User>();
 		postores4.add(u1);
 		postores4.add(u2);
 		postores4.add(u3);
@@ -70,7 +70,7 @@ public class CriterioPopularTest {
 		
 		s4 = crearSubasta(postores4,4);
 		
-		List<Usuario> postores5 = new ArrayList<Usuario>();
+		List<User> postores5 = new ArrayList<User>();
 		postores5.add(u1);
 		postores5.add(u2);
 		postores5.add(u3);
@@ -78,7 +78,7 @@ public class CriterioPopularTest {
 		postores5.add(u5);
 		s5 = crearSubasta(postores5,5);
 		
-		List<Usuario> postores6 = new ArrayList<Usuario>();
+		List<User> postores6 = new ArrayList<User>();
 		postores6.add(u1);
 		postores6.add(u2);
 		

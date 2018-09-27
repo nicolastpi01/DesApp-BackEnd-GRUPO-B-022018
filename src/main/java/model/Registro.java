@@ -8,27 +8,27 @@ import model.exceptions.CorreoYaRegistradoException;
 
 public class Registro {
 	
-	List <Usuario> usuariosRegistrados;
+	List <User> usuariosRegistrados;
 	
-	public Registro(List<Usuario> usuarios) {
+	public Registro(List<User> usuarios) {
 		this.usuariosRegistrados = usuarios;
 	}
 
-	public Boolean inicioSesion(Usuario usuario) {
+	public Boolean inicioSesion(User usuario) {
 		return true;
 	}
 
-	public boolean sePuedeRegistrar(Usuario usuario) {
+	public boolean sePuedeRegistrar(User usuario) {
 		if (existeCorreoAsociado(usuario)) throw new CorreoYaRegistradoException();
 		else return true;
 	}
 
-	public boolean existeCorreoAsociado(Usuario usuario) {
-		List<String> correos = this.usuariosRegistrados.stream().map(u -> u.getNombreDeCorreo()).collect(Collectors.toList());
-		return correos.contains(usuario.getNombreDeCorreo());
+	public boolean existeCorreoAsociado(User usuario) {
+		List<String> correos = this.usuariosRegistrados.stream().map(u -> u.emailName()).collect(Collectors.toList());
+		return correos.contains(usuario.emailName());
 	}
 
-	public void registrar(Usuario usuario) {
+	public void registrar(User usuario) {
 		this.usuariosRegistrados.add(usuario);
 	}
 }

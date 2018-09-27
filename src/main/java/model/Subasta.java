@@ -21,8 +21,8 @@ public class Subasta {
 	Fecha fechaFinalizacion;
 	int horaFinalizacion;
 	EstadoSubasta estado = new NuevaSubasta();
-	Usuario propietario;
-	List<Usuario> postores = new ArrayList<Usuario>();
+	User propietario;
+	List<User> postores = new ArrayList<User>();
 	
 	// Por cuestiones de simplicidad en test
 	public Subasta() {} 
@@ -48,11 +48,11 @@ public class Subasta {
 		return estado.esEnProgreso();
 	}
 
-	public boolean estaEnProgresoPara(Usuario propietario) {
+	public boolean estaEnProgresoPara(User propietario) {
 		return estado.esEnProgreso() && perteneceA(propietario);
 	}
 
-	private boolean perteneceA(Usuario usuario) {
+	private boolean perteneceA(User usuario) {
 		return propietario.equals(usuario);
 	}
 	
@@ -84,7 +84,7 @@ public class Subasta {
 		return fuePublicadaHace(cantDias);
 	}
 
-	public void agregarPostor(Usuario usuarioPostor) {
+	public void agregarPostor(User usuarioPostor) {
 		if (perteneceA(usuarioPostor)) {
 			throw new PropietarioParticipaComoPujanteEnSuPropiaSubastaException();
 		}
@@ -143,11 +143,11 @@ public class Subasta {
 		this.estado = estado;
 	}
 	
-	public void setPropietario(Usuario propietario) {
+	public void setPropietario(User propietario) {
 		this.propietario = propietario;
 	}
 	
-	public Usuario getPropietario() {
+	public User getPropietario() {
 		return this.propietario;
 	}
 	
@@ -169,7 +169,7 @@ public class Subasta {
 		else throw new DescripcionLongitudMin10Max100Exception();
 	}
 	
-	public List<Usuario> getPostores() {
+	public List<User> getPostores() {
 		return this.postores;
 	}
 	
@@ -182,12 +182,12 @@ public class Subasta {
 		else throw new HoraInvalidaException();
 	}
 
-	public boolean sePuedeModificar(Usuario usuario) {
+	public boolean sePuedeModificar(User usuario) {
 		if (getPostores().size() == 0 && perteneceA(usuario)) return true;
 		else throw new NoSePuedeAlterarUnaSubastaConPostoresException();
 	}
 
-	public boolean tieneComoPostor(Usuario usuario) {
+	public boolean tieneComoPostor(User usuario) {
 		Boolean esPostor = false;
 		for(int i=0; i < postores.size(); i++) {
 			esPostor = esPostor || postores.get(i).equals(usuario);
@@ -195,13 +195,17 @@ public class Subasta {
 		return esPostor;
 	}
 	
+	public boolean puedeOfertar(User usuario) {
+		return ! this.estaEnProgresoPara(usuario) && ! this.pujoUltimo(usuario);
+	}
+	
 	////////
 	
-	public void setPostores(List<Usuario> postores2) {
+	public void setPostores(List<User> postores2) {
 		this.postores = postores2;
 	}
 
-	public boolean pujoUltimo(Usuario usuario) {
+	public boolean pujoUltimo(User usuario) {
 		int posUltimoPostor = postores.size() - 1;
 		return postores.size() != 0 && postores.get(posUltimoPostor).equals(usuario);
 	}

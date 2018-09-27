@@ -2,8 +2,8 @@ package model;
 
 public class EjemploTest {
 	
-	Usuario u1;
-	Usuario u2;
+	User u1;
+	User u2;
 	Subasta s1;
 	
 	/*

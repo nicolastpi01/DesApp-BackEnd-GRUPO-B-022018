@@ -10,12 +10,12 @@ import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
 
 
 public class SistemaTest {
-	Usuario usuarioNicolas;
-	Usuario usuarioVigo;
-	Usuario usuarioPostor0;
-	Usuario usuarioPostor1;
-	Usuario usuarioPostor2;
-	Usuario usuarioPostor3;
+	User usuarioNicolas;
+	User usuarioVigo;
+	User usuarioPostor0;
+	User usuarioPostor1;
+	User usuarioPostor2;
+	User usuarioPostor3;
 	Sistema sistema;
 	Subasta subasta0;
 	Subasta subasta1;
@@ -26,8 +26,8 @@ public class SistemaTest {
 	
 	@Before
 	public void setUp() {
-		usuarioNicolas = new Usuario("Nicolás", "García", new Correo("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Fecha(12,03,1991));
-		usuarioVigo = new Usuario("Guido", "Pujadas", new Correo("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Fecha(20,06,1992));
+		usuarioNicolas = new User("Nicolás", "García", new Email("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Fecha(12,03,1991));
+		usuarioVigo = new User("Guido", "Pujadas", new Email("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Fecha(20,06,1992));
 		sistema = new Sistema();
 		subasta0 = new Subasta();
 		subasta1 = new Subasta();
@@ -35,10 +35,10 @@ public class SistemaTest {
 		subasta3 = new Subasta();
 		subasta4 = new Subasta();
 		subasta5 = new Subasta();
-		usuarioPostor0 = new Usuario();
-		usuarioPostor1 = new Usuario();
-		usuarioPostor2 = new Usuario();
-		usuarioPostor3 = new Usuario();
+		usuarioPostor0 = new User();
+		usuarioPostor1 = new User();
+		usuarioPostor2 = new User();
+		usuarioPostor3 = new User();
 	}
 	
 	@Test

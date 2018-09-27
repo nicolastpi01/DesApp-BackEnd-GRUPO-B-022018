@@ -3,7 +3,7 @@ package model;
 import org.junit.Before;
 
 public class UsuarioTest {
-	Usuario usuario;
+	User usuario;
 	
 	@Before
 	public void setUp() {

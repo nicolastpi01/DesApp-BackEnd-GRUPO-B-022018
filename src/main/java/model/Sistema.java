@@ -12,24 +12,24 @@ public class Sistema {
 	Registro registro;
 	Home home;
 	List<Subasta> subastas;
-	ArrayList<Usuario> usuarios;
+	ArrayList<User> usuarios;
 	
 	public Sistema() {
 		subastas = new ArrayList<Subasta>();
-		usuarios = new ArrayList<Usuario>();
+		usuarios = new ArrayList<User>();
 		registro = new Registro(usuarios); // Se encarga de registro, verificar ingresos, etc
 		home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 	}
 
-	public void crear(Subasta subasta, Usuario usuario) {
+	public void crear(Subasta subasta, User usuario) {
 		if (puedeCrearSubasta(usuario))
 			agregar(subasta, usuario);
 	}
 	
 	// En vez de usuario podria usarse a subasta para preg. si se puede ofertar sobre ella
-	public void realizarOferta(Subasta subasta, Usuario usuario) {
+	public void realizarOferta(Subasta subasta, User usuario) {
 		if (estaAutenticado(usuario)) {
-			if (usuario.puedeOfertar(subasta)) usuario.ofertar(subasta);
+			if (subasta.puedeOfertar(usuario)) usuario.makeAOfert(subasta);
 				else if (subasta.estaEnProgresoPara(usuario))  
 					throw new PujaSobreUnaSubastaDeLaQueSeEsOwnerException();
 				else if (subasta.pujoUltimo(usuario))  
@@ -39,26 +39,26 @@ public class Sistema {
 		// Excepciones de no autenticado...No Logueado, usuario inexistente, etc
 	}
 
-	private void agregar(Subasta subasta, Usuario usuario) {
+	private void agregar(Subasta subasta, User usuario) {
 		subasta.setEstado(new NuevaSubasta());
 		subasta.setPropietario(usuario);
 		subastas.add(subasta);
 	}
 
-	private Boolean puedeCrearSubasta(Usuario usuario) {
+	private Boolean puedeCrearSubasta(User usuario) {
 		return estaAutenticado(usuario) && tieneMenosSubastasEnProgresoQueLaCantMaximaPermitida(usuario);
 	}
 	
-	public void modificar(Subasta subasta, Usuario usuario) {
+	public void modificar(Subasta subasta, User usuario) {
 		if (sePuedeEditarSubasta(subasta, usuario)) editar(subasta);
 	}
 	
-	public void eliminar(Subasta subasta, Usuario usuario) {
+	public void eliminar(Subasta subasta, User usuario) {
 		if (sePuedeEditarSubasta(subasta, usuario)) eliminar(subasta);
 	}
 	
 	// Las Excepciones van en este metodo, no en los internos
-	private Boolean sePuedeEditarSubasta(Subasta subasta, Usuario usuario) {
+	private Boolean sePuedeEditarSubasta(Subasta subasta, User usuario) {
 		return estaAutenticado(usuario) && subasta.sePuedeModificar(usuario);
 	}
 	
@@ -77,7 +77,7 @@ public class Sistema {
 	///////////////////////////////////////// ///////////////////////////////////////////////////////////////
 
 	// ya inicio sesión?
-	private Boolean estaAutenticado(Usuario usuario) {
+	private Boolean estaAutenticado(User usuario) {
 		return registro.inicioSesion(usuario); // Dispara las distintas excepciones de porque este metodo podria fallar
 		// UsuarioDebeIniciarSesionException(), UsuarioInexistenteException, etc.
 	}
@@ -87,7 +87,7 @@ public class Sistema {
 	public void iniciarSesion() {
 	}
 
-	public void registrarse(Usuario usuario) {
+	public void registrarse(User usuario) {
 		if (registro.sePuedeRegistrar(usuario)) {
 			registro.registrar(usuario);
 			this.agregar(usuario);
@@ -134,16 +134,16 @@ public class Sistema {
 		return this.subastas;
 	}
 
-	public ArrayList<Usuario> getUsuarios() {
+	public ArrayList<User> getUsuarios() {
 		return this.usuarios;
 	}
 
-	private void agregar(Usuario usuario) {
+	private void agregar(User usuario) {
 		usuarios.add(usuario);
-		usuario.setPerfil(new Registrado()); // Para que estoy haciendo esto si despues no lo uso?
+		usuario.setProfile(new Registrado()); // Para que estoy haciendo esto si despues no lo uso?
 	}
 
-	private ArrayList<Subasta> subastasEnProgreso(Usuario usuario) {
+	private ArrayList<Subasta> subastasEnProgreso(User usuario) {
 		ArrayList<Subasta> subastasEnProgreso = new ArrayList<Subasta>();
 		for (int i = 0; i < subastas.size(); i++) {
 			if (subastas.get(i).estaEnProgresoPara(usuario))
@@ -154,14 +154,14 @@ public class Sistema {
 
 	// Revisar este, se puede expresar de otra manera para que quede mejor la
 	// excepcion
-	private Boolean tieneMenosSubastasEnProgresoQueLaCantMaximaPermitida(Usuario usuario) {
+	private Boolean tieneMenosSubastasEnProgresoQueLaCantMaximaPermitida(User usuario) {
 		if (subastasEnProgreso(usuario).size() < 5)
 			return true;
 		else
 			throw new NoPuedesTenerMasDeCincoSubastasEnProgresoException();
 	}
 	
-	public ArrayList<Subasta> subastasEnLasQueParticipo(Usuario usuario) {
+	public ArrayList<Subasta> subastasEnLasQueParticipo(User usuario) {
 		ArrayList<Subasta> subastasUsuarioPostor = new ArrayList<Subasta>();
 		for(int i=0; i < subastas.size(); i++) {
 			if(subastas.get(i).tieneComoPostor(usuario)) subastasUsuarioPostor.add(subastas.get(i));

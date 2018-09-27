@@ -11,18 +11,18 @@ import org.junit.Test;
 
 public class RegistroTest {
 	
-	Usuario u1;
-	Usuario u2;
-	Usuario u3;
+	User u1;
+	User u2;
+	User u3;
 	
 	Registro r;
 	
 	@Before
 	public void setUp() {
-		u1 = new Usuario("Pepito", "Gonzalez", new Correo("pepito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
-		u2 = new Usuario("sultanito", "Gonzalez", new Correo("sultanito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
-		u3 = new Usuario("menganito", "Gonzalez", new Correo("menganito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
-		List<Usuario> usuarios = new ArrayList<Usuario>();
+		u1 = new User("Pepito", "Gonzalez", new Email("pepito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
+		u2 = new User("sultanito", "Gonzalez", new Email("sultanito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
+		u3 = new User("menganito", "Gonzalez", new Email("menganito@hotmail.com"), new Pass("pass"), new Fecha(2010,03,03));
+		List<User> usuarios = new ArrayList<User>();
 		usuarios.add(u3);
 		r = new Registro(usuarios);
 	}
