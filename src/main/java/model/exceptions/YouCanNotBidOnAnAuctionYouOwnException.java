@@ -1,6 +1,6 @@
 package model.exceptions;
 
-public class PujaSobreUnaSubastaDeLaQueSeEsOwnerException extends RuntimeException {
+public class YouCanNotBidOnAnAuctionYouOwnException extends RuntimeException {
 	/**
 	 * 
 	 */

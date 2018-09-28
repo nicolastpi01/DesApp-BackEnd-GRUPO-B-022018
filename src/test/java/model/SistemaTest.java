@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
+import model.exceptions.YouCanNotHaveMoreThanFiveAuctionsInProgressException;
 
 
 public class SistemaTest {
@@ -65,7 +65,7 @@ public class SistemaTest {
 	}
 	
 
-	@Test(expected=NoPuedesTenerMasDeCincoSubastasEnProgresoException.class)
+	@Test(expected=YouCanNotHaveMoreThanFiveAuctionsInProgressException.class)
 	public void crearUnaSubastaCuandoTengoMasDeCincoEnProgresoTest() {
 		// Funciona porque no hace la verificacion de Usuario registrado y log.
 		sistema.crear(subasta0, usuarioNicolas);

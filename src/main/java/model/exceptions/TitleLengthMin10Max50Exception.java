@@ -1,6 +1,6 @@
 package model.exceptions;
 
-public class TituloLongitudMin10Max50Exception extends RuntimeException {
+public class TitleLengthMin10Max50Exception extends RuntimeException {
 
 	/**
 	 * 

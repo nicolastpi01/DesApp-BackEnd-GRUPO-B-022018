@@ -76,7 +76,7 @@ public class User {
 
 
 	// a better name?
-	public void makeAOfert(Auction subasta) {
+	public void bid(Auction auction) {
 		// if soy el primer postor --> un comportamiento
 		// sino otro
 	}

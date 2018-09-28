@@ -8,7 +8,7 @@ import model.exceptions.InvalidTimeException;
 import model.exceptions.TheOpeningDateMustBeHigherThanTheCurrentDateException;
 import model.exceptions.YouCanNotModifyAnAuctionWithBiddersException;
 import model.exceptions.AnOwnerCanNotParticipateAsABidderInHisOwnAuctionException;
-import model.exceptions.TituloLongitudMin10Max50Exception;
+import model.exceptions.TitleLengthMin10Max50Exception;
 
 public class Auction {
 	String title;
@@ -100,13 +100,36 @@ public class Auction {
 		return description.length() >= 10 && description.length() <= 100;
 	}
 	
+	public boolean canBid(User user) {
+		return ! this.isInProgressFor(user) && ! isBidLast(user);
+	}
+	
+	public boolean isBidLast(User user) {
+		int posLastBidder = bidders.size() - 1;
+		return ! bidders.isEmpty() && bidders.get(posLastBidder).equals(user); 
+	}
+	
+	// The exception not belongs to this class
+	// Two exceptions, lack one
+	public boolean canBeModified(User usuario) {
+		if (getBidders().size() == 0 && belongsTo(usuario)) return true;
+		else throw new YouCanNotModifyAnAuctionWithBiddersException();
+	}
+
+	public boolean hasABidder(User user) {
+		Boolean isBidder = false;
+		for(int i=0; i < bidders.size(); i++) {
+			isBidder = isBidder || bidders.get(i).equals(user);
+		}
+		return isBidder;
+	}
+	
 	/////////////////////////////////// SETTERS && GETTERS   ////////////////////////////////////////////////
 	
 	
 	private void setAddress(String address) {
 		this.address = address;	
 	}
-	
 	
 	public void setOpeningDate(Date openingDate) {
 		if(openingDate.isAfterToday()) this.openingDate = openingDate;
@@ -137,7 +160,7 @@ public class Auction {
 	
 	public void setTitle(String title) {
 		if (this.hasAValidSizeForTitle(title)) this.title = title;
-		else throw new TituloLongitudMin10Max50Exception();
+		else throw new TitleLengthMin10Max50Exception();
 	}
 
 	public String getDescription() {
@@ -160,30 +183,6 @@ public class Auction {
 	private void setEndTime(int endTime) {
 		if (endTime >= 0 && endTime <= 23) this.endTime = endTime;
 		else throw new InvalidTimeException();
-	}
-
-	// The exception not belongs to this class
-	// Two exceptions, lack one
-	public boolean canBeModified(User usuario) {
-		if (getBidders().size() == 0 && belongsTo(usuario)) return true;
-		else throw new YouCanNotModifyAnAuctionWithBiddersException();
-	}
-
-	public boolean hasABidder(User user) {
-		Boolean isBidder = false;
-		for(int i=0; i < bidders.size(); i++) {
-			isBidder = isBidder || bidders.get(i).equals(user);
-		}
-		return isBidder;
-	}
-	
-	public boolean canBid(User user) {
-		return ! this.isInProgressFor(user) && ! isBidLast(user);
-	}
-	
-	public boolean isBidLast(User user) {
-		int posLastBidder = bidders.size() - 1;
-		return ! bidders.isEmpty() && bidders.get(posLastBidder).equals(user); 
 	}
 
 }

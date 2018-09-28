@@ -1,34 +1,33 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.exceptions.CorreoYaRegistradoException;
+import model.exceptions.MailAlreadyExistException;
 
 public class Registry {
 	
-	List <User> usuariosRegistrados;
+	List <User> registeredUsers;
 	
-	public Registry(List<User> usuarios) {
-		this.usuariosRegistrados = usuarios;
+	public Registry(List<User> users) {
+		this.registeredUsers = users;
 	}
 
-	public Boolean inicioSesion(User usuario) {
+	public Boolean isLogIn(User user) {
 		return true;
 	}
 
-	public boolean sePuedeRegistrar(User usuario) {
-		if (existeCorreoAsociado(usuario)) throw new CorreoYaRegistradoException();
+	public boolean canSigIn(User user) {
+		if (existsEmail(user)) throw new MailAlreadyExistException();
 		else return true;
 	}
 
-	public boolean existeCorreoAsociado(User usuario) {
-		List<String> correos = this.usuariosRegistrados.stream().map(u -> u.emailName()).collect(Collectors.toList());
-		return correos.contains(usuario.emailName());
+	public boolean existsEmail(User user) {
+		List<String> correos = registeredUsers.stream().map(u -> u.emailName()).collect(Collectors.toList());
+		return correos.contains(user.emailName());
 	}
 
-	public void registrar(User usuario) {
-		this.usuariosRegistrados.add(usuario);
+	public void sigIn(User user) {
+		registeredUsers.add(user);
 	}
 }

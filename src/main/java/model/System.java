@@ -2,10 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.exceptions.NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUltimoPujanteException;
+import model.exceptions.YouCanNotMakeAnOfferAboutAnAuctionWhereYouWentTheLastBiddingException;
 
-import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
-import model.exceptions.PujaSobreUnaSubastaDeLaQueSeEsOwnerException;
+import model.exceptions.YouCanNotHaveMoreThanFiveAuctionsInProgressException;
+import model.exceptions.YouCanNotBidOnAnAuctionYouOwnException;
 
 public class System {
 	
@@ -21,152 +21,148 @@ public class System {
 		home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 	}
 
-	public void crear(Auction subasta, User usuario) {
-		if (puedeCrearSubasta(usuario))
-			agregar(subasta, usuario);
+	public void create(Auction auction, User user) {
+		if (canCreateAnAuction(user)) add(auction, user);
 	}
 	
-	// En vez de usuario podria usarse a subasta para preg. si se puede ofertar sobre ella
-	public void realizarOferta(Auction subasta, User usuario) {
-		if (estaAutenticado(usuario)) {
-			if (subasta.puedeOfertar(usuario)) usuario.makeAOfert(subasta);
-				else if (subasta.estaEnProgresoPara(usuario))  
-					throw new PujaSobreUnaSubastaDeLaQueSeEsOwnerException();
-				else if (subasta.pujoUltimo(usuario))  
-					throw new NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUltimoPujanteException();
+	public void makeOffer(Auction auction, User user) {
+		if (isAuthenticated(user)) {
+			if (auction.canBid(user)) user.bid(auction);
+				else if (auction.isInProgressFor(user))  
+					throw new YouCanNotBidOnAnAuctionYouOwnException();
+				else if (auction.isBidLast(user))  
+					throw new YouCanNotMakeAnOfferAboutAnAuctionWhereYouWentTheLastBiddingException();
 		}
 		else { }
 		// Excepciones de no autenticado...No Logueado, usuario inexistente, etc
 	}
 
-	private void agregar(Auction subasta, User usuario) {
-		subasta.setEstado(new NewSubasta());
-		subasta.setPropietario(usuario);
-		subastas.add(subasta);
+	private void add(Auction auction, User user) {
+		auction.setState(new NewSubasta());
+		auction.setOwner(user);
+		auctions.add(auction);
 	}
 
-	private Boolean puedeCrearSubasta(User usuario) {
-		return estaAutenticado(usuario) && tieneMenosSubastasEnProgresoQueLaCantMaximaPermitida(usuario);
+	private Boolean canCreateAnAuction(User user) {
+		return isAuthenticated(user) && hasLessAuctionsInProgressThanTheMaximumAllowedAmount(user);
 	}
 	
-	public void modificar(Auction subasta, User usuario) {
-		if (sePuedeEditarSubasta(subasta, usuario)) editar(subasta);
+	// es editar?
+	public void Modify(Auction auction, User user) {
+		if (canEditAnAuction(auction, user)) edit(auction);
 	}
 	
-	public void eliminar(Auction subasta, User usuario) {
-		if (sePuedeEditarSubasta(subasta, usuario)) eliminar(subasta);
+	public void delete(Auction auction, User user) {
+		if (canEditAnAuction(auction, user)) del(auction);
 	}
 	
 	// Las Excepciones van en este metodo, no en los internos
-	private Boolean sePuedeEditarSubasta(Auction subasta, User usuario) {
-		return estaAutenticado(usuario) && subasta.sePuedeModificar(usuario);
+	private Boolean canEditAnAuction(Auction auction, User user) {
+		return isAuthenticated(user) && auction.canBeModified(user);
 	}
 	
 	// mmm, como hacerlo?
-	private void editar(Auction subasta) {
+	private void edit(Auction auction) {
 		/// ..................
 	}
 	
-	private void eliminar(Auction subasta) {
-		//for(int i=0; i < subastas.size(); i++) {
-		//}
-		subastas.remove(subasta);
+	private void del(Auction auction) {
+		auctions.remove(auction);
 	}
 
 	///////////////////////////////////////// REGISTRO
 	///////////////////////////////////////// ///////////////////////////////////////////////////////////////
 
 	// ya inicio sesión?
-	private Boolean estaAutenticado(User usuario) {
-		return registro.inicioSesion(usuario); // Dispara las distintas excepciones de porque este metodo podria fallar
+	private Boolean isAuthenticated(User user) {
+		return registry.isLogIn(user); // Dispara las distintas excepciones de porque este metodo podria fallar
 		// UsuarioDebeIniciarSesionException(), UsuarioInexistenteException, etc.
 	}
 
 	// Autenticarse
 	// Con cuenta de Gmail o Usuario
-	public void iniciarSesion() {
+	public void logIn() {
 	}
 
-	public void registrarse(User usuario) {
-		if (registro.sePuedeRegistrar(usuario)) {
-			registro.registrar(usuario);
-			this.agregar(usuario);
+	public void sigIn(User user) {
+		if (registry.canSigIn(user)) {
+			registry.sigIn(user);
+			this.add(user);
 		}
 	}
 
-	////////////////////////////////////// BUSQUEDAS SUBASTAS
+	////////////////////////////////////// FIND AUCTIONS
 	////////////////////////////////////// /////////////////////////////////////////////////////
 
-	public ArrayList<Auction> subastasEnProgreso() {
-		ArrayList<Auction> enProgreso = new ArrayList<Auction>();
-		for (int i = 0; i < subastas.size(); i++) {
-			if (subastas.get(i).estaEnProgreso())
-				enProgreso.add(subastas.get(i));
+	public ArrayList<Auction> progressAuctions() {
+		ArrayList<Auction> inProgress = new ArrayList<Auction>();
+		for (int i = 0; i < auctions.size(); i++) {
+			if (auctions.get(i).isInProgress())
+				inProgress.add(auctions.get(i));
 		}
-		return enProgreso;
+		return inProgress;
 	}
 
-	public List<Auction> buscarPorTitulo(String titulo) {
-		return home.buscarPorTitulo(titulo, subastasEnProgreso());
+	public List<Auction> searchForTitle(String title) {
+		return home.searchForTitle(title, progressAuctions());
 	}
 
-	public List<Auction> buscarPorDescripcion(String descripcion) {
-		return home.buscarPorDescripcion(descripcion, subastasEnProgreso());
+	public List<Auction> searchForDescription(String description) {
+		return home.searchForDescription(description, progressAuctions());
 	}
 
-	public List<Auction> buscarPopulares() {
-		return home.subastasPopulares(subastasEnProgreso());
+	public List<Auction> searchPopulars() {
+		return home.popularsAuctions(progressAuctions());
 	}
 
-	public List<Auction> buscarProximasAFinalizar() {
-		return home.subastasPorTerminar(subastas);
+	public List<Auction> searchNextToFinish() {
+		return home.nextToFinishAuctions(auctions);
 	}
 
-	public List<Auction> buscarRecientes() {
-		return home.subastasRecientes(subastas);
+	public List<Auction> searchRecents() {
+		return home.recentAuctions(auctions);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// private methods
 
-	public List<Auction> getSubastas() {
-		return this.subastas;
+	public List<Auction> getAuctions() {
+		return this.auctions;
 	}
 
-	public ArrayList<User> getUsuarios() {
-		return this.usuarios;
+	public ArrayList<User> getUsers() {
+		return this.users;
 	}
 
-	private void agregar(User usuario) {
-		usuarios.add(usuario);
-		usuario.setProfile(new Registered()); // Para que estoy haciendo esto si despues no lo uso?
+	private void add(User user) {
+		users.add(user);
+		user.setProfile(new Registered()); // Para que estoy haciendo esto si despues no lo uso?
 	}
 
-	private ArrayList<Auction> subastasEnProgreso(User usuario) {
-		ArrayList<Auction> subastasEnProgreso = new ArrayList<Auction>();
-		for (int i = 0; i < subastas.size(); i++) {
-			if (subastas.get(i).estaEnProgresoPara(usuario))
-				subastasEnProgreso.add(subastas.get(i));
+	private ArrayList<Auction> auctionsInProgress(User user) {
+		ArrayList<Auction> inProgress = new ArrayList<Auction>();
+		for (int i = 0; i < auctions.size(); i++) {
+			if (auctions.get(i).isInProgressFor(user)) inProgress.add(auctions.get(i));
 		}
-		return subastasEnProgreso;
+		return inProgress;
 	}
 
 	// Revisar este, se puede expresar de otra manera para que quede mejor la
 	// excepcion
-	private Boolean tieneMenosSubastasEnProgresoQueLaCantMaximaPermitida(User usuario) {
-		if (subastasEnProgreso(usuario).size() < 5)
+	private Boolean hasLessAuctionsInProgressThanTheMaximumAllowedAmount(User user) {
+		if (auctionsInProgress(user).size() < 5)
 			return true;
 		else
-			throw new NoPuedesTenerMasDeCincoSubastasEnProgresoException();
+			throw new YouCanNotHaveMoreThanFiveAuctionsInProgressException();
 	}
 	
-	public ArrayList<Auction> subastasEnLasQueParticipo(User usuario) {
-		ArrayList<Auction> subastasUsuarioPostor = new ArrayList<Auction>();
-		for(int i=0; i < subastas.size(); i++) {
-			if(subastas.get(i).tieneComoPostor(usuario)) subastasUsuarioPostor.add(subastas.get(i));
+	public ArrayList<Auction> auctionsInWhichParticipated(User user) {
+		ArrayList<Auction> auctionsWhereUserIsBidder = new ArrayList<Auction>();
+		for(int i=0; i < auctions.size(); i++) {
+			if(auctions.get(i).hasABidder(user)) auctionsWhereUserIsBidder.add(auctions.get(i));
 		}
-		return subastasUsuarioPostor;
+		return auctionsWhereUserIsBidder;
 	}
 
 }
