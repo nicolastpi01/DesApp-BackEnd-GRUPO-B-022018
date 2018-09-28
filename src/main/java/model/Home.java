@@ -5,24 +5,24 @@ import java.util.List;
 
 public class Home {
 	
-	public List<Subasta> subastasRecientes(List<Subasta> subastas) {
-		return CriterioReciente.getInstance().buscar(subastas);
+	public List<Auction> recentAuctions(List<Auction> auctions) {
+		return RecentCriteria.getInstance().search(auctions);
 	}
 
-	public List<Subasta> subastasPorTerminar(List<Subasta> subastas) {
-		return CriterioPorTerminar.getInstance().buscar(subastas);
+	public List<Auction> nextToFinishAuctions(List<Auction> auctions) {
+		return FinishCriteria.getInstance().search(auctions);
 	}
 
-	public List<Subasta> buscarPorDescripcion(String descripcion, ArrayList<Subasta> subastas) {
-		return CriterioPorDescripcion.getInstance(descripcion).buscar(subastas);
+	public List<Auction> searchForDescription(String description, ArrayList<Auction> auctions) {
+		return DescriptionCriteria.getInstance(description).search(auctions);
 	}
 	
-	public List<Subasta> buscarPorTitulo(String titulo, ArrayList<Subasta> subastas) {
-		return CriterioPorTitulo.getInstance(titulo).buscar(subastas);
+	public List<Auction> searchForTitle(String title, ArrayList<Auction> auctions) {
+		return TitleCriteria.getInstance(title).search(auctions);
 	}
 
-	public List<Subasta> subastasPopulares(List<Subasta> subastas) {
-		return CriterioPopular.getInstance().buscar(subastas);
+	public List<Auction> popularsAuctions(List<Auction> auctions) {
+		return PopularCriteria.getInstance().search(auctions);
 	}
 	
 }
