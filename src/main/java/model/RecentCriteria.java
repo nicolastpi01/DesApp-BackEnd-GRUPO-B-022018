@@ -6,23 +6,23 @@ import java.util.List;
 // LA SUBASTA NO PUEDE SER NUEVA (YA QUE NO ESTA PUBLICADA TODAVIA)
 // LA SUBASTA NO PUEDE SER FINALIZADA (NI HABLAR)
 // LA SUBASTA DEBE ESTAR EN PROGRESO Y COMPRENDIDA ENTRE LOS 3 DIAS ANTERIORES A HOY [Una forma de aplicar el filtro por reciente]
-public class CriterioReciente implements CriterioBusqueda {
-	private static final CriterioReciente instance = new CriterioReciente();
+public class RecentCriteria implements SearchCriteria {
+	private static final RecentCriteria instance = new RecentCriteria();
 	private static final int DiasCotaMaxReciente = 3;
 
 	@Override
-	public ArrayList<Subasta> buscar(List<Subasta> subastas) {
-		ArrayList<Subasta> recientes = new ArrayList<Subasta>();
-		for(int i=0; i < subastas.size(); i++) {
-			if (subastas.get(i).esReciente(DiasCotaMaxReciente)) recientes.add(subastas.get(i));
+	public ArrayList<Auction> search(List<Auction> auctions) {
+		ArrayList<Auction> recents = new ArrayList<Auction>();
+		for(int i=0; i < auctions.size(); i++) {
+			if (auctions.get(i).isRecent(DiasCotaMaxReciente)) recents.add(auctions.get(i));
 		}
-		return recientes;
+		return recents;
 	}
 	
 	//private constructor to avoid client applications to use constructor
-    private CriterioReciente(){}
+    private RecentCriteria(){}
 
-    public static CriterioReciente getInstance(){
+    public static RecentCriteria getInstance(){
         return instance;
     }
 

@@ -16,25 +16,25 @@ public class SistemaTest {
 	User usuarioPostor1;
 	User usuarioPostor2;
 	User usuarioPostor3;
-	Sistema sistema;
-	Subasta subasta0;
-	Subasta subasta1;
-	Subasta subasta2;
-	Subasta subasta3;
-	Subasta subasta4;
-	Subasta subasta5;
+	System sistema;
+	Auction subasta0;
+	Auction subasta1;
+	Auction subasta2;
+	Auction subasta3;
+	Auction subasta4;
+	Auction subasta5;
 	
 	@Before
 	public void setUp() {
 		usuarioNicolas = new User("Nicolás", "García", new Email("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Date(12,03,1991));
 		usuarioVigo = new User("Guido", "Pujadas", new Email("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Date(20,06,1992));
-		sistema = new Sistema();
-		subasta0 = new Subasta();
-		subasta1 = new Subasta();
-		subasta2 = new Subasta();
-		subasta3 = new Subasta();
-		subasta4 = new Subasta();
-		subasta5 = new Subasta();
+		sistema = new System();
+		subasta0 = new Auction();
+		subasta1 = new Auction();
+		subasta2 = new Auction();
+		subasta3 = new Auction();
+		subasta4 = new Auction();
+		subasta5 = new Auction();
 		usuarioPostor0 = new User();
 		usuarioPostor1 = new User();
 		usuarioPostor2 = new User();
@@ -73,11 +73,11 @@ public class SistemaTest {
 		sistema.crear(subasta2, usuarioNicolas);
 		sistema.crear(subasta3, usuarioNicolas);
 		sistema.crear(subasta4, usuarioNicolas);
-		subasta0.setEstado(new EnProgreso());
-		subasta1.setEstado(new EnProgreso());
-		subasta2.setEstado(new EnProgreso());
-		subasta3.setEstado(new EnProgreso());
-		subasta4.setEstado(new EnProgreso());
+		subasta0.setEstado(new InProgress());
+		subasta1.setEstado(new InProgress());
+		subasta2.setEstado(new InProgress());
+		subasta3.setEstado(new InProgress());
+		subasta4.setEstado(new InProgress());
 		// Las cinco subastas en progreso
 		sistema.crear(subasta5, usuarioNicolas);
 	}
@@ -105,10 +105,10 @@ public class SistemaTest {
 		sistema.registrarse(usuarioNicolas);
 		sistema.crear(subasta0, usuarioNicolas);
 		subasta0.setTitulo("Guantelete del Infinito");
-		subasta0.setEstado(new EnProgreso());
-		List<Subasta> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
+		subasta0.setEstado(new InProgress());
+		List<Auction> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
 		assertEquals(subastasConTitulo.size(), 1);
-		Subasta subastaGuantelete = subastasConTitulo.get(0);
+		Auction subastaGuantelete = subastasConTitulo.get(0);
 		assertEquals(subastaGuantelete.getTitulo(), "Guantelete del Infinito");
 	}
 	
@@ -116,11 +116,11 @@ public class SistemaTest {
 	public void buscarSubastasPorDescripcionTest() {
 		sistema.registrarse(usuarioNicolas);
 		sistema.crear(subasta0, usuarioNicolas);
-		subasta0.setEstado(new EnProgreso());
+		subasta0.setEstado(new InProgress());
 		subasta0.setDescripcion("La subasta estaba un poco seca");
-		List<Subasta> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
+		List<Auction> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
 		assertEquals(subastasPorDescripcion.size(), 1);
-		Subasta subastaConDescripcion = subastasPorDescripcion.get(0);
+		Auction subastaConDescripcion = subastasPorDescripcion.get(0);
 		assertEquals(subastaConDescripcion.getDescripcion(), "La subasta estaba un poco seca");
 	}
 	

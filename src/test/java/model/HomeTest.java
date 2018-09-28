@@ -3,11 +3,11 @@ package model;
 
 public class HomeTest {
 	Home home;
-	Subasta subastaPopular;
-	Subasta subastaReciente;
-	Subasta subastaPorTerminar;
-	Subasta subastaConTitulo;
-	Subasta subastaConDescripcion;
+	Auction subastaPopular;
+	Auction subastaReciente;
+	Auction subastaPorTerminar;
+	Auction subastaConTitulo;
+	Auction subastaConDescripcion;
 	/* 
 	@Before
 	public void setUp() {

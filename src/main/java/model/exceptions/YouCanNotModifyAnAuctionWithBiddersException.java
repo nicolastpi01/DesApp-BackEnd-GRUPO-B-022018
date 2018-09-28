@@ -1,6 +1,6 @@
 package model.exceptions;
 
-public class NoSePuedeAlterarUnaSubastaConPostoresException extends RuntimeException {
+public class YouCanNotModifyAnAuctionWithBiddersException extends RuntimeException {
 
 	/**
 	 * 

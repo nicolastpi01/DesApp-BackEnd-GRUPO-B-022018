@@ -4,7 +4,7 @@ public class EjemploTest {
 	
 	User u1;
 	User u2;
-	Subasta s1;
+	Auction s1;
 	
 	/*
 	private Date generarFecha(Integer dia, Integer mes, Integer anio) {

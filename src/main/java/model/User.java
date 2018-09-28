@@ -21,7 +21,7 @@ public class User {
 		this.setEmail(email);
 		this.setPassword(password);
 		this.setBirthday(birthday);
-		this.setProfile(new Registrado());
+		this.setProfile(new Registered());
 	}
 
 	public User() {}
@@ -76,7 +76,7 @@ public class User {
 
 
 	// a better name?
-	public void makeAOfert(Subasta subasta) {
+	public void makeAOfert(Auction subasta) {
 		// if soy el primer postor --> un comportamiento
 		// sino otro
 	}

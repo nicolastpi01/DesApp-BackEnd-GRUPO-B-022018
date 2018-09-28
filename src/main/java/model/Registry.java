@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 
 import model.exceptions.CorreoYaRegistradoException;
 
-public class Registro {
+public class Registry {
 	
 	List <User> usuariosRegistrados;
 	
-	public Registro(List<User> usuarios) {
+	public Registry(List<User> usuarios) {
 		this.usuariosRegistrados = usuarios;
 	}
 

@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CriterioPopularTest {
-	Subasta s1;
-	Subasta s2;
-	Subasta s3;
-	Subasta s4;
-	Subasta s5;
-	Subasta s6;
+	Auction s1;
+	Auction s2;
+	Auction s3;
+	Auction s4;
+	Auction s5;
+	Auction s6;
 	
 	User u1;
 	User u2;
@@ -23,10 +23,10 @@ public class CriterioPopularTest {
 	User u5;
 	User u6;
 	
-	CriterioPopular cp;
+	PopularCriteria cp;
 	
-	public Subasta crearSubasta(List<User> postores, Integer numeroSubasta) {
-		Subasta s = new Subasta();
+	public Auction crearSubasta(List<User> postores, Integer numeroSubasta) {
+		Auction s = new Auction();
 		s.setPostores(postores);
 		s.setTitulo("La Subasta numero " + numeroSubasta);
 		return s;
@@ -84,19 +84,19 @@ public class CriterioPopularTest {
 		
 		s6 = crearSubasta(postores6,6);
 		
-		cp = new CriterioPopular();
+		cp = new PopularCriteria();
 	}
 	
 	@Test
 	public void ordenarSubastaPorCriterioPopularTest() {
-		List<Subasta> subastas = new ArrayList<Subasta>();
+		List<Auction> subastas = new ArrayList<Auction>();
 		subastas.add(s1);
 		subastas.add(s2);
 		subastas.add(s3);
 		subastas.add(s4);
 		subastas.add(s5);
 		subastas.add(s6);
-		List<Subasta> subFiltradas = cp.buscar(subastas);
+		List<Auction> subFiltradas = cp.buscar(subastas);
 		assertEquals("La Subasta numero 3",subFiltradas.get(0).getTitulo());
 		assertEquals("La Subasta numero 6",subFiltradas.get(4).getTitulo());
 		assertEquals(5,subFiltradas.size());
@@ -105,7 +105,7 @@ public class CriterioPopularTest {
 	
 	@Test
 	public void promedioPostoresPorSubastasTest() {
-		List<Subasta> subastas = new ArrayList<Subasta>();
+		List<Auction> subastas = new ArrayList<Auction>();
 		subastas.add(s1);
 		subastas.add(s2);
 		subastas.add(s3);

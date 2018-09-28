@@ -7,27 +7,27 @@ import model.exceptions.NoPuedesRealizarUnaOfertaSobreUnaSubastaDondeFuisteElUlt
 import model.exceptions.NoPuedesTenerMasDeCincoSubastasEnProgresoException;
 import model.exceptions.PujaSobreUnaSubastaDeLaQueSeEsOwnerException;
 
-public class Sistema {
+public class System {
 	
-	Registro registro;
+	Registry registry;
 	Home home;
-	List<Subasta> subastas;
-	ArrayList<User> usuarios;
+	List<Auction> auctions;
+	ArrayList<User> users;
 	
-	public Sistema() {
-		subastas = new ArrayList<Subasta>();
-		usuarios = new ArrayList<User>();
-		registro = new Registro(usuarios); // Se encarga de registro, verificar ingresos, etc
+	public System() {
+		auctions = new ArrayList<Auction>();
+		users = new ArrayList<User>();
+		registry = new Registry(users); // Se encarga de registro, verificar ingresos, etc
 		home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 	}
 
-	public void crear(Subasta subasta, User usuario) {
+	public void crear(Auction subasta, User usuario) {
 		if (puedeCrearSubasta(usuario))
 			agregar(subasta, usuario);
 	}
 	
 	// En vez de usuario podria usarse a subasta para preg. si se puede ofertar sobre ella
-	public void realizarOferta(Subasta subasta, User usuario) {
+	public void realizarOferta(Auction subasta, User usuario) {
 		if (estaAutenticado(usuario)) {
 			if (subasta.puedeOfertar(usuario)) usuario.makeAOfert(subasta);
 				else if (subasta.estaEnProgresoPara(usuario))  
@@ -39,8 +39,8 @@ public class Sistema {
 		// Excepciones de no autenticado...No Logueado, usuario inexistente, etc
 	}
 
-	private void agregar(Subasta subasta, User usuario) {
-		subasta.setEstado(new NuevaSubasta());
+	private void agregar(Auction subasta, User usuario) {
+		subasta.setEstado(new NewSubasta());
 		subasta.setPropietario(usuario);
 		subastas.add(subasta);
 	}
@@ -49,25 +49,25 @@ public class Sistema {
 		return estaAutenticado(usuario) && tieneMenosSubastasEnProgresoQueLaCantMaximaPermitida(usuario);
 	}
 	
-	public void modificar(Subasta subasta, User usuario) {
+	public void modificar(Auction subasta, User usuario) {
 		if (sePuedeEditarSubasta(subasta, usuario)) editar(subasta);
 	}
 	
-	public void eliminar(Subasta subasta, User usuario) {
+	public void eliminar(Auction subasta, User usuario) {
 		if (sePuedeEditarSubasta(subasta, usuario)) eliminar(subasta);
 	}
 	
 	// Las Excepciones van en este metodo, no en los internos
-	private Boolean sePuedeEditarSubasta(Subasta subasta, User usuario) {
+	private Boolean sePuedeEditarSubasta(Auction subasta, User usuario) {
 		return estaAutenticado(usuario) && subasta.sePuedeModificar(usuario);
 	}
 	
 	// mmm, como hacerlo?
-	private void editar(Subasta subasta) {
+	private void editar(Auction subasta) {
 		/// ..................
 	}
 	
-	private void eliminar(Subasta subasta) {
+	private void eliminar(Auction subasta) {
 		//for(int i=0; i < subastas.size(); i++) {
 		//}
 		subastas.remove(subasta);
@@ -97,8 +97,8 @@ public class Sistema {
 	////////////////////////////////////// BUSQUEDAS SUBASTAS
 	////////////////////////////////////// /////////////////////////////////////////////////////
 
-	public ArrayList<Subasta> subastasEnProgreso() {
-		ArrayList<Subasta> enProgreso = new ArrayList<Subasta>();
+	public ArrayList<Auction> subastasEnProgreso() {
+		ArrayList<Auction> enProgreso = new ArrayList<Auction>();
 		for (int i = 0; i < subastas.size(); i++) {
 			if (subastas.get(i).estaEnProgreso())
 				enProgreso.add(subastas.get(i));
@@ -106,23 +106,23 @@ public class Sistema {
 		return enProgreso;
 	}
 
-	public List<Subasta> buscarPorTitulo(String titulo) {
+	public List<Auction> buscarPorTitulo(String titulo) {
 		return home.buscarPorTitulo(titulo, subastasEnProgreso());
 	}
 
-	public List<Subasta> buscarPorDescripcion(String descripcion) {
+	public List<Auction> buscarPorDescripcion(String descripcion) {
 		return home.buscarPorDescripcion(descripcion, subastasEnProgreso());
 	}
 
-	public List<Subasta> buscarPopulares() {
+	public List<Auction> buscarPopulares() {
 		return home.subastasPopulares(subastasEnProgreso());
 	}
 
-	public List<Subasta> buscarProximasAFinalizar() {
+	public List<Auction> buscarProximasAFinalizar() {
 		return home.subastasPorTerminar(subastas);
 	}
 
-	public List<Subasta> buscarRecientes() {
+	public List<Auction> buscarRecientes() {
 		return home.subastasRecientes(subastas);
 	}
 
@@ -130,7 +130,7 @@ public class Sistema {
 
 	// private methods
 
-	public List<Subasta> getSubastas() {
+	public List<Auction> getSubastas() {
 		return this.subastas;
 	}
 
@@ -140,11 +140,11 @@ public class Sistema {
 
 	private void agregar(User usuario) {
 		usuarios.add(usuario);
-		usuario.setProfile(new Registrado()); // Para que estoy haciendo esto si despues no lo uso?
+		usuario.setProfile(new Registered()); // Para que estoy haciendo esto si despues no lo uso?
 	}
 
-	private ArrayList<Subasta> subastasEnProgreso(User usuario) {
-		ArrayList<Subasta> subastasEnProgreso = new ArrayList<Subasta>();
+	private ArrayList<Auction> subastasEnProgreso(User usuario) {
+		ArrayList<Auction> subastasEnProgreso = new ArrayList<Auction>();
 		for (int i = 0; i < subastas.size(); i++) {
 			if (subastas.get(i).estaEnProgresoPara(usuario))
 				subastasEnProgreso.add(subastas.get(i));
@@ -161,8 +161,8 @@ public class Sistema {
 			throw new NoPuedesTenerMasDeCincoSubastasEnProgresoException();
 	}
 	
-	public ArrayList<Subasta> subastasEnLasQueParticipo(User usuario) {
-		ArrayList<Subasta> subastasUsuarioPostor = new ArrayList<Subasta>();
+	public ArrayList<Auction> subastasEnLasQueParticipo(User usuario) {
+		ArrayList<Auction> subastasUsuarioPostor = new ArrayList<Auction>();
 		for(int i=0; i < subastas.size(); i++) {
 			if(subastas.get(i).tieneComoPostor(usuario)) subastasUsuarioPostor.add(subastas.get(i));
 		}

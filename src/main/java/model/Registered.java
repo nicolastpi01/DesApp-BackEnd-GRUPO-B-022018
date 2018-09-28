@@ -1,6 +1,6 @@
 package model;
 
-public class Registrado extends Profile {
+public class Registered extends Profile {
 	
 	//public Boolean esRegistrado() {
 	//	return true;

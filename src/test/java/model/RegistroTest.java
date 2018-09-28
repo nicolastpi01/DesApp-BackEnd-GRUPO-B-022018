@@ -15,7 +15,7 @@ public class RegistroTest {
 	User u2;
 	User u3;
 	
-	Registro r;
+	Registry r;
 	
 	@Before
 	public void setUp() {
@@ -24,7 +24,7 @@ public class RegistroTest {
 		u3 = new User("menganito", "Gonzalez", new Email("menganito@hotmail.com"), new Pass("pass"), new Date(2010,03,03));
 		List<User> usuarios = new ArrayList<User>();
 		usuarios.add(u3);
-		r = new Registro(usuarios);
+		r = new Registry(usuarios);
 	}
 	
 	
