@@ -9,119 +9,117 @@ import org.junit.Test;
 import model.exceptions.YouCanNotHaveMoreThanFiveAuctionsInProgressException;
 
 
-public class SistemaTest {
-	User usuarioNicolas;
-	User usuarioVigo;
-	User usuarioPostor0;
-	User usuarioPostor1;
-	User usuarioPostor2;
-	User usuarioPostor3;
-	System sistema;
-	Auction subasta0;
-	Auction subasta1;
-	Auction subasta2;
-	Auction subasta3;
-	Auction subasta4;
-	Auction subasta5;
+public class SystemTest {
+	User nicolasUser;
+	User vigoUser;
+	User bidderUser0;
+	User bidderUser1;
+	User bidderUser2;
+	User bidderUser3;
+	System system;
+	Auction auction0;
+	Auction auction1;
+	Auction auction2;
+	Auction auction3;
+	Auction auction4;
+	Auction auction5;
 	
 	@Before
 	public void setUp() {
-		usuarioNicolas = new User("Nicolás", "García", new Email("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Date(12,03,1991));
-		usuarioVigo = new User("Guido", "Pujadas", new Email("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Date(20,06,1992));
-		sistema = new System();
-		subasta0 = new Auction();
-		subasta1 = new Auction();
-		subasta2 = new Auction();
-		subasta3 = new Auction();
-		subasta4 = new Auction();
-		subasta5 = new Auction();
-		usuarioPostor0 = new User();
-		usuarioPostor1 = new User();
-		usuarioPostor2 = new User();
-		usuarioPostor3 = new User();
+		nicolasUser = new User("Nicolás", "García", new Email("nicolasgarcia@gmail.com"), new Pass("TonySoprano100"), new Date(12,03,1991));
+		vigoUser = new User("Guido", "Pujadas", new Email("guidopujadas@gmail.com"), new Pass("SilvioDante11"), new Date(20,06,1992));
+		system = new System();
+		auction0 = new Auction();
+		auction1 = new Auction();
+		auction2 = new Auction();
+		auction3 = new Auction();
+		auction4 = new Auction();
+		auction5 = new Auction();
+		bidderUser0 = new User();
+		bidderUser1 = new User();
+		bidderUser2 = new User();
+		bidderUser3 = new User();
 	}
 	
 	@Test
 	// Todas las variaciones con las que se puede inciar sesion (incluso las que dan error)
-	public void iniciarSesionTest() {	
+	public void sigInTest() {	
 	}
 	
 	//////////////////////////////////  REGISTRO   ///////////////////////////////////////////////////////////
 	
 	@Test
-	public void realizaUnaOfertaParaUnaSubastaTest() {}
+	public void makeABidForAnAuctionTest() {}
 	
 	@Test
-	public void crearUnaSubastaTest() {
+	public void createAnAuctionTest() {
 		// Funciona porque no hace la verificacion de Usuario registrado y log.
-		sistema.crear(subasta0, usuarioNicolas); 
-		assertEquals(sistema.getSubastas().size(), 1);
-		assertTrue(subasta0.esNueva());
-		assertEquals(subasta0.getPropietario(), usuarioNicolas);
-		sistema.crear(subasta1, usuarioVigo); 
-		assertEquals(sistema.getSubastas().size(), 2);
-		assertTrue(subasta1.esNueva());
-		assertEquals(subasta1.getPropietario(), usuarioVigo);
+		system.create(auction0, nicolasUser); 
+		assertEquals(system.getAuctions().size(), 1);
+		assertTrue(auction0.isNew());
+		assertEquals(auction0.getOwner(), nicolasUser);
+		system.create(auction1, vigoUser); 
+		assertEquals(system.getAuctions().size(), 2);
+		assertTrue(auction1.isNew());
+		assertEquals(auction1.getOwner(), vigoUser);
 	}
 	
 
 	@Test(expected=YouCanNotHaveMoreThanFiveAuctionsInProgressException.class)
-	public void crearUnaSubastaCuandoTengoMasDeCincoEnProgresoTest() {
+	public void createAnAuctionWhenIHaveMoreThanFiveAuctionsInProgressTest() {
 		// Funciona porque no hace la verificacion de Usuario registrado y log.
-		sistema.crear(subasta0, usuarioNicolas);
-		sistema.crear(subasta1, usuarioNicolas);
-		sistema.crear(subasta2, usuarioNicolas);
-		sistema.crear(subasta3, usuarioNicolas);
-		sistema.crear(subasta4, usuarioNicolas);
-		subasta0.setEstado(new InProgress());
-		subasta1.setEstado(new InProgress());
-		subasta2.setEstado(new InProgress());
-		subasta3.setEstado(new InProgress());
-		subasta4.setEstado(new InProgress());
+		system.create(auction0, nicolasUser);
+		system.create(auction1, nicolasUser);
+		system.create(auction2, nicolasUser);
+		system.create(auction3, nicolasUser);
+		system.create(auction4, nicolasUser);
+		auction0.setState(new InProgress());
+		auction1.setState(new InProgress());
+		auction2.setState(new InProgress());
+		auction3.setState(new InProgress());
+		auction4.setState(new InProgress());
 		// Las cinco subastas en progreso
-		sistema.crear(subasta5, usuarioNicolas);
+		system.create(auction5, nicolasUser);
 	}
 	
 	@Test
-	public void eliminarUnaSubastaTest() {
+	public void deleteAnAuctionTest() {
 		// Funciona porque no hace la verificacion de Usuario registrado y log.
-		sistema.crear(subasta0, usuarioNicolas);
-		sistema.crear(subasta1, usuarioVigo);
-		sistema.eliminar(subasta0, usuarioNicolas);
-		assertEquals(1,sistema.getSubastas().size());
+		system.create(auction0, nicolasUser);
+		system.create(auction1, vigoUser);
+		system.delete(auction0, nicolasUser);
+		assertEquals(1, system.getAuctions().size());
 	}
 	
 	@Test
-	public void editarUnaSubastaTest() {
-		
-	}
+	public void editAnAuctionTest() {}
 	
 	
 	/////////////////////////// BUSQUEDAS  //////////////////////////////////////////////////
 	
 	
 	@Test
-	public void buscarSubastaPorTituloTest() {
-		sistema.registrarse(usuarioNicolas);
-		sistema.crear(subasta0, usuarioNicolas);
-		subasta0.setTitulo("Guantelete del Infinito");
-		subasta0.setEstado(new InProgress());
-		List<Auction> subastasConTitulo = sistema.buscarPorTitulo("Guantelete del Infinito");
-		assertEquals(subastasConTitulo.size(), 1);
-		Auction subastaGuantelete = subastasConTitulo.get(0);
-		assertEquals(subastaGuantelete.getTitulo(), "Guantelete del Infinito");
+	public void searchAnAuctionForTitleTest() {
+		system.sigIn(nicolasUser);
+		system.create(auction0, nicolasUser);
+		auction0.setTitle("Guantelete del Infinito");
+		auction0.setState(new InProgress());
+		List<Auction> auctionWithTitle = system.searchForTitle("Guantelete del Infinito");
+		assertEquals(auctionWithTitle.size(), 1);
+		Auction subastaGuantelete = auctionWithTitle.get(0);
+		assertEquals(subastaGuantelete.getTitle(), "Guantelete del Infinito");
 	}
 	
 	@Test
-	public void buscarSubastasPorDescripcionTest() {
-		sistema.registrarse(usuarioNicolas);
-		sistema.crear(subasta0, usuarioNicolas);
-		subasta0.setEstado(new InProgress());
-		subasta0.setDescripcion("La subasta estaba un poco seca");
-		List<Auction> subastasPorDescripcion = sistema.buscarPorDescripcion("La subasta estaba un poco seca");
-		assertEquals(subastasPorDescripcion.size(), 1);
-		Auction subastaConDescripcion = subastasPorDescripcion.get(0);
-		assertEquals(subastaConDescripcion.getDescripcion(), "La subasta estaba un poco seca");
+	public void searchAnAuctionForDescriptionTest() {
+		system.sigIn(nicolasUser);
+		system.create(auction0, nicolasUser);
+		auction0.setState(new InProgress());
+		auction0.setDescription("La subasta estaba un poco seca");
+		List<Auction> auctionForDescription = system.searchForDescription("La subasta estaba un poco seca");
+		assertEquals(auctionForDescription.size(), 1);
+		Auction auctionWithDescription = auctionForDescription.get(0);
+		assertEquals(auctionWithDescription.getDescription(), "La subasta estaba un poco seca");
 	}
 	
 	/*

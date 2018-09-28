@@ -4,29 +4,29 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CorreoTest {
+public class MailTest {
 	Email c1;
 	
 	@Test
-	public void correoCorrectoTest() {
+	public void validMailTest() {
 		c1 = new Email("pepitoGonzalez@gmail.com");
 		assertTrue(c1.isValid());
 	}
 	
 	@Test
-	public void correoSinArrobaTest() {
+	public void mailWithoutArrobaTest() {
 		c1 = new Email("pepitoGonzalezgmail.com");
 		assertFalse(c1.isValid());
 	}
 	
 	@Test
-	public void correoSinPuntoComTest() {
+	public void mailWithoutDotComTest() {
 		c1 = new Email("pepitoGonzalez@gmail");
 		assertFalse(c1.isValid());
 	}
 	
 	@Test
-	public void correoOtroDominioTest() {
+	public void mailAnothoerDomTest() {
 		c1 = new Email("pepitoGonzalez@ciudad.com");
 		assertFalse(c1.isValid());
 	}
