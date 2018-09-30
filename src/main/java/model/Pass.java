@@ -9,7 +9,11 @@ public class Pass {
 
 	// hay que verificar que contenga nros y Mayusculas (no sé como hacerlo)
 	public boolean isValid() {
-		return text.length() >= 4 && text.length() <= 20 && true;  
+		String regexCapitalLetter = "^.*[A-Z].*$";
+		String regexNumber = "^.*[0-9].*$";
+		return text.matches(regexCapitalLetter) && text.matches(regexNumber) && 
+			   text.length() >= 4 && text.length() <= 20;
+		
 	}
 
 }
