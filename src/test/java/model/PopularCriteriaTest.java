@@ -23,13 +23,13 @@ public class PopularCriteriaTest {
 	User u5;
 	User u6;
 	
-	PopularCriteria cp;
+	PopularCriteria pc;
 	
-	/* 
-	public Auction crearSubasta(List<User> postores, Integer numeroSubasta) {
+	
+	public Auction createAuction(List<User> postores, Integer numeroSubasta) {
 		Auction s = new Auction();
-		s.setPostores(postores);
-		s.setTitulo("La Subasta numero " + numeroSubasta);
+		s.setBidders(postores);
+		s.setTitle("La Subasta numero " + numeroSubasta);
 		return s;
 	}
 	
@@ -47,11 +47,11 @@ public class PopularCriteriaTest {
 		postores1.add(u1);
 		postores1.add(u2);
 		postores1.add(u3);
-		s1 = crearSubasta(postores1,1);
+		s1 = createAuction(postores1,1);
 		
 		List<User> postores2 = new ArrayList<User>();
 		postores2.add(u1);
-		s2 = crearSubasta(postores2,2);
+		s2 = createAuction(postores2,2);
 		
 		List<User> postores3 = new ArrayList<User>();
 		postores3.add(u1);
@@ -60,7 +60,7 @@ public class PopularCriteriaTest {
 		postores3.add(u4);
 		postores3.add(u5);
 		postores3.add(u6);
-		s3 = crearSubasta(postores3,3);
+		s3 = createAuction(postores3,3);
 		
 		List<User> postores4 = new ArrayList<User>();
 		postores4.add(u1);
@@ -69,7 +69,7 @@ public class PopularCriteriaTest {
 		postores4.add(u4);
 		postores4.add(u5);
 		
-		s4 = crearSubasta(postores4,4);
+		s4 = createAuction(postores4,4);
 		
 		List<User> postores5 = new ArrayList<User>();
 		postores5.add(u1);
@@ -77,15 +77,15 @@ public class PopularCriteriaTest {
 		postores5.add(u3);
 		postores5.add(u4);
 		postores5.add(u5);
-		s5 = crearSubasta(postores5,5);
+		s5 = createAuction(postores5,5);
 		
 		List<User> postores6 = new ArrayList<User>();
 		postores6.add(u1);
 		postores6.add(u2);
 		
-		s6 = crearSubasta(postores6,6);
+		s6 = createAuction(postores6,6);
 		
-		cp = new PopularCriteria();
+		pc = new PopularCriteria();
 	}
 	
 	@Test
@@ -97,9 +97,9 @@ public class PopularCriteriaTest {
 		subastas.add(s4);
 		subastas.add(s5);
 		subastas.add(s6);
-		List<Auction> subFiltradas = cp.buscar(subastas);
-		assertEquals("La Subasta numero 3",subFiltradas.get(0).getTitulo());
-		assertEquals("La Subasta numero 6",subFiltradas.get(4).getTitulo());
+		List<Auction> subFiltradas = pc.search(subastas);
+		assertEquals("La Subasta numero 3",subFiltradas.get(0).getTitle());
+		assertEquals("La Subasta numero 6",subFiltradas.get(4).getTitle());
 		assertEquals(5,subFiltradas.size());
 	}
 	
@@ -110,8 +110,7 @@ public class PopularCriteriaTest {
 		subastas.add(s1);
 		subastas.add(s2);
 		subastas.add(s3);
-		double promedioPostores = cp.mediaPostoresPorSubasta(subastas);
+		double promedioPostores = pc.averageBiddersPerAuction(subastas);
 		assertEquals(3.3333333333333335,promedioPostores,0);
 	}
-	*/
 }

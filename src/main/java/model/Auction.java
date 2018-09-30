@@ -14,7 +14,7 @@ public class Auction {
 	String title;
 	String description;
 	String address;
-	ArrayList<String> urlPics = new ArrayList<String>();
+	List<String> urlPics = new ArrayList<String>();
 	// initial
 	int price;
 	Date openingDate;
@@ -68,7 +68,7 @@ public class Auction {
 	}
 
 	private boolean hasBeenPublished(int days) {
-		return openingDate.happenedDaysAgo(days);
+		return openingDate.happenedXDaysAgo(days);
 	}
 
 	public boolean isNextToFinish(int days) {
@@ -138,7 +138,7 @@ public class Auction {
 	
 	// requiere mas verificación? mmm, donde?
 	public void setEndingDate(Date endingDate) {
-		if(endingDate.isLaterForAtLeastTwoDays(openingDate)) this.endingDate = endingDate;	
+		if(endingDate.isLaterForAtLeastTwoDays(openingDate.myDate)) this.endingDate = endingDate;	
 		else throw new EndingDateIsNotAtLeastTwoDaysHigherThanOpeningDateException();
 	}
 	
@@ -174,6 +174,10 @@ public class Auction {
 	
 	public List<User> getBidders() {
 		return this.bidders;
+	}
+	
+	public void setBidders(List<User> b) {
+		this.bidders = b;
 	}
 	
 	private void setPrice(int price) {

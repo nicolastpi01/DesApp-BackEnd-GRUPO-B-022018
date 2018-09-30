@@ -1,57 +1,38 @@
 package model;
 
+import java.util.function.Function;
+
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 public class Date {
-	int day;
-	int month;
-	int year;
+	LocalDate myDate;
 	
 	public Date(int day, int month, int year) {
-		this.day = day;
-		this.month = month;
-		this.year = year;
+		myDate = new LocalDate(year,month,day);
 	}
+	
+	private Boolean daysBetween(LocalDate endDate,Function<Integer, Boolean> funct) {
+		int daysOfDifference = Days.daysBetween(myDate, endDate).getDays();
+		return funct.apply(daysOfDifference);
+		
+	} 
 
-	public boolean happenedDaysAgo(int days) {
-		LocalDate myDate = new LocalDate(year,month,day);
-		LocalDate today = LocalDate.now();
-		int daysOfDifference = Days.daysBetween(myDate, today).getDays();
-		return  daysOfDifference == days;
+	public boolean happenedXDaysAgo(int days) {	
+		return daysBetween(LocalDate.now(),daysdOfDiff -> daysdOfDiff == days);
 	}
 
 	public boolean happensWithinDays(int days) {
-		LocalDate myDate = new LocalDate(year,month,day);
-		LocalDate today = LocalDate.now();
-		int daysOfDifference = Days.daysBetween(myDate, today).getDays();
-		return daysOfDifference <= days;
+		return daysBetween(LocalDate.now(),daysdOfDiff -> days <= daysdOfDiff );
 	}
 
 	public boolean isAfterToday() {
-		LocalDate myDate = new LocalDate(year,month,day);
 		return myDate.isAfter(LocalDate.now());
 	}
 	
-	public boolean isLaterForAtLeastTwoDays(Date publicationDate) {	
-		LocalDate myDate = new LocalDate(year,month,day);
-		LocalDate publication = new LocalDate(publicationDate.getYear(),publicationDate.getMonth(),publicationDate.getDay());
-		int daysOfDifference = Days.daysBetween(myDate, publication).getDays();
-		return daysOfDifference > 2 && myDate.isAfter(publication); 
+	public boolean isLaterForAtLeastTwoDays(LocalDate publicationDate) {
+		//enves de crear un LocalDate a partir de datos de un Date, directamente recibis un LocalDate por
+		//param y evitar crear algo despues.
+		return daysBetween(publicationDate,daysdOfDiff -> 2 > daysdOfDiff );
 	}
-	
-	/////////////////////////////// GETTERS && SETTERS  /////////////////////////////////////////////////////
-	
-	public int getDay() {
-		return this.day;
-	}
-	
-	public int getMonth() {
-		return this.month;
-	}
-	
-	public int getYear() {
-		return this.year;
-	}
-
 }

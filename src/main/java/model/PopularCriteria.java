@@ -14,7 +14,7 @@ public class PopularCriteria implements SearchCriteria {
 		return auctions.stream().limit(minimumOfAuctionsPermitted).collect(Collectors.toList());
 	}
 	
-	public double perAuctionAverageBidders(List<Auction> auctions) {
+	public double averageBiddersPerAuction(List<Auction> auctions) {
         return auctions.stream().mapToDouble(sub ->  sub.getBidders().size()).average().getAsDouble();    
 	}
 	
