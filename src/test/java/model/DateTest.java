@@ -25,23 +25,21 @@ public class DateTest {
 		assertTrue(d1.happenedXDaysAgo(3));
 	}
 	
+	
 	@Test
-	public void happensWithin3DaysTest() {
+	public void happensWithinXDaysTest() {
 		assertTrue(d1.happensWithinDays(3));
-		assertTrue(d1.happensWithinDays(2));
-		assertTrue(d1.happensWithinDays(1));
-		assertTrue(d1.happensWithinDays(0));
-		assertFalse(d1.happensWithinDays(4));
+		assertTrue(d1.happensWithinDays(4));
+		assertFalse(d1.happensWithinDays(2));
 	}
 	
 	@Test
 	public void isLaterForAtLeastTwoDaysTrueTest() {
-		assertTrue(d1.isLaterForAtLeastTwoDays(new LocalDate(2018,9,28)));
+		assertTrue(d1.isLaterForAtLeastTwoDays(new LocalDate(2018,9,30)));
 	}
 	
 	@Test
 	public void isLaterForAtLeastTwoDaysFalseTest() {
-		assertFalse(d1.isLaterForAtLeastTwoDays(new LocalDate(2018,9,29)));
-	}
-	
-}	
+		assertFalse(d1.isLaterForAtLeastTwoDays(new LocalDate(2018,9,28)));
+	}	
+}
