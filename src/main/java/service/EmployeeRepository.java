@@ -1,8 +1,9 @@
 package service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import model.Employee;
- 
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+import java.util.List;
+import org.springframework.data.repository.CrudRepository;
+
+public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+	List<Employee> findByName(String name);
 
 }
