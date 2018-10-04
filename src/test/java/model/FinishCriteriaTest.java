@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class FinishCriteriaTest {
 	Auction a1;
 	Auction a2;
@@ -18,7 +19,8 @@ public class FinishCriteriaTest {
 	Auction a6;
 	
 	FinishCriteria fc;
-	
+
+	/* 
 	public Auction createAuction() {
 		Auction s = new Auction();
 		
@@ -55,4 +57,6 @@ public class FinishCriteriaTest {
 		List<Auction> subFiltradas = fc.search(auctions);
 		assertEquals(1,subFiltradas.size());
 	}
+	
+	*/
 }
