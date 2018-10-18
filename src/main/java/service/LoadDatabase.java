@@ -1,13 +1,16 @@
 package service;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import lombok.extern.slf4j.Slf4j;
+import model.Auction;
+import model.Date;
+import model.User;
 
 
 @Configuration
@@ -15,37 +18,52 @@ import lombok.extern.slf4j.Slf4j;
 public class LoadDatabase {
 	private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-	
 	@Bean
-	public CommandLineRunner initDatabase(EmployeeRepository repository) {	
+	public CommandLineRunner initDatabase(AuctionRepository repository, UserRepository userRepository) {	
 		return (args) -> {
-			// save a couple of employees
-			repository.save(new Employee("Jack", "Bauer"));
-			repository.save(new Employee("Chloe", "O'Brian"));
-			repository.save(new Employee("Kim", "Bauer"));
+			// save a couple of auctions
+			User user0 = new User("Tony", "Soprano", "tonyS", "tonySoprano@gmail.com", "pass", new java.util.Date());
+			User user1 = new User("Corrado", "Soprano", "UncleJun", "SopranoJr@gmail.com", "pass", new java.util.Date());
+			User user2 = new User("Paulie", "Gualtieri", "GuantieriP", "PaulieG@gmail.com", "pass", new java.util.Date());
+			User user3 = new User("Christopher", "Moltisanti", "ChrisMoltisanti", "Moltisanti@gmail.com", "pass", new java.util.Date());
+			User user4 = new User("Salvatore", "Bonpensiero", "pussy", "pussy@gmail.com", "pass", new java.util.Date());
+			User user5 = new User("Silvio", "Dante", "DanteNJ", "DanteS@gmail.com", "pass", new java.util.Date());
+			Auction auction0 = new Auction("Mascara de Corrado.S", "la usa para no roncar y aliviar su viejo corazón", "address", 1000, new java.util.Date(), new java.util.Date(), 12);
+			Auction auction1 = new Auction("Chaqueta de Richie Aprile", "De gran valor sentimental para este. Tony la desecho", "address", 200, new java.util.Date(), new java.util.Date(), 12);
+			Auction auction2 = new Auction("Gorro Corrado Jr", "Lo usa para cubrir su prominente calvicie", "address", 5000, new java.util.Date(), new java.util.Date(), 12);
+			user0.addAuction(auction0);
+			userRepository.save(user0);
+			auction1.addBidder(user1);
+			auction1.addBidder(user2);
+			//auction1.addBidder(user3);
+			//auction1.addBidder(user4);
+			//auction1.addBidder(user5);
+			repository.save(auction1);
+			repository.save(auction2);
+			
 
-			// fetch all employees
+			// fetch all auctions
 			log.info("Employers found with findAll():");
 			log.info("-------------------------------");
-			for (Employee employee : repository.findAll()) {
-				log.info(employee.toString());
+			for (Auction auction : repository.findAll()) {
+				log.info(auction.toString());
 			}
 			log.info("");
 
-			// fetch an individual employee by ID
+			// fetch an individual auction by ID
 			repository.findById(1L)
-				.ifPresent(employee -> {
-					log.info("Employee found with findById(1L):");
+				.ifPresent(auction -> {
+					log.info("Auction found with findById(1L):");
 					log.info("--------------------------------");
-					log.info(employee.toString());
+					log.info(auction.toString());
 					log.info("");
 				});
 
 			// fetch customers by name
 			log.info("Customer found with findByName('Jack'):");
 			log.info("--------------------------------------------");
-			repository.findByName("Jack").forEach(jack -> {
-				log.info(jack.toString());
+			repository.findByTitle("Guantelete del Infinito").forEach(guantelete -> {
+				log.info(guantelete.toString());
 			});
 			
 			log.info("");

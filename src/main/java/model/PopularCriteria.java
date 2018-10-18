@@ -1,25 +1,35 @@
 package model;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class PopularCriteria implements SearchCriteria {
-	private static final PopularCriteria instance = new PopularCriteria();
-	private final int minimumOfAuctionsPermitted = 5;
+public class PopularCriteria {
+	private final int minimumOfAuctionsAllowedToShow = 5;
 	
-	@Override
-	public List<Auction> search(List<Auction> auctions) {
-		Collections.sort(auctions,(sub1, sub2) ->  sub2.biddersSize() - sub1.biddersSize());
-		return auctions.stream().limit(minimumOfAuctionsPermitted).collect(Collectors.toList());
+	
+	/* 
+	public List<Auction> apply(List<Auction> auctions) {
+		List<Auction> pop = new ArrayList<Auction>();
+		if (auctions.size() <= minimumOfAuctionsAllowedToShow) pop = auctions;
+		else {
+				int media = average(auctions);
+				for (int i=0; i < auctions.size(); i++) {
+					if (auctions.get(i).isPopular(media)) pop.add(auctions.get(i));
+			}		
+		}
+		return pop;
 	}
 	
-	public double averageBiddersPerAuction(List<Auction> auctions) {
-        return auctions.stream().mapToDouble(sub ->  sub.getBidders().size()).average().getAsDouble();    
+	private int average(List<Auction> auctions) {
+		int amountBidders = 0;
+		int amountAuctions = auctions.size();
+		for(int i=0; i < auctions.size(); i++) {
+			amountBidders += auctions.get(i).biddersSize();
+		}
+		//System.out.prinln(amountBidders % amountAuctions);
+		return amountBidders % amountAuctions;
 	}
-	
-    public static PopularCriteria getInstance() {
-        return instance;
-    }
+
+	*/
 
 }

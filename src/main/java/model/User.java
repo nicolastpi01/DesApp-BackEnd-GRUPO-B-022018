@@ -1,71 +1,127 @@
 package model;
 
-import model.exceptions.TooLongNameException;
-import model.exceptions.InvalidEmailException;
-import model.exceptions.InvalidPasswordException;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.*;
+import org.hibernate.annotations.NaturalId;
+import lombok.Data;
+
+@Data
+@Entity 
+@Table 
 public class User {
 	
-	String name;
-	String lastName;
-	Email email;
-	Pass password;
-	Date birthday;
-	Profile profile; // No es necesario el perfil Anonimo ya por ahora no tiene comportamiento, de modo que Usuario base seria anonimo
-	// El que si tiene comportamiento es UsuarioRegistrado // mmmm, no
+	@Id @GeneratedValue
+	private Long id;
+	@NaturalId
+	private String name;
+	private String lastName;
+	private String userName;
+	private String email;
+	private String password;
+	@Temporal(TemporalType.DATE) // puede ser mas eficiente
+	private Date birthday;
 	
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) // Puede ser mas eficiente
+    private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
 	
-	public User(String name, String lastName, Email email, Pass password, Date birthday) {
+	@ManyToMany(mappedBy = "bidders")
+	private Set<Auction> auctionsInWhichIBid = new HashSet<Auction>();
+	
+	//Profile profile; hacer como un enum?
+	
+	public User() {}
+	
+	public User(String name, String lastName, String userName, String email, String password, Date birthday) {
 		this.setName(name);
 		this.setLastName(lastName);
+		this.setUserName(userName);
 		this.setEmail(email);
 		this.setPassword(password);
 		this.setBirthday(birthday);
-		this.setProfile(new Registered());
+	}
+	 
+
+	public void addAuction(Auction auction) {
+        this.auctionsThatIOwn.add(auction);
+        auction.setOwner(this);
+    }
+ 
+    public void removeAuction(Auction auction) {
+        this.auctionsThatIOwn.remove(auction);
+        auction.setOwner(null);
+    }
+	
+	////////////////////////////////// GETTERS & SETTERS   //////////////////////////////////////////////////////
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getLastName() {
+		return this.lastName;
+	}
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public Long getId() {
+		return this.id;
 	}
 
-	public User() {}
-	
-	private Boolean isTooLong(String name) {
-		return name.length() > 30;
-	}
-	
-	public String emailName(){
-		return email.getText();
-	}
-	
-	////////////////////////////////// GETTERS & SETTERS
-	
-	private void setLastName(String lastName) {
-		if (! isTooLong(lastName)) this.lastName = lastName;
-		else throw new TooLongNameException();
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	private void setName(String name) {
-		if (! isTooLong(name)) this.name = name;
-		else throw new TooLongNameException();
-	}
-	
-	private void setPassword(Pass password) {
-		if (password.isValid()) this.password = password;
-		else throw new InvalidPasswordException();
-		
+	public Set<Auction> getAuctionsInWhichIBid() {
+		return this.auctionsInWhichIBid;
 	}
 
-	private void setEmail(Email email) {
-		if (email.isValid()) this.email = email;
-		else throw new InvalidEmailException();
-	}
-	
-	// temporally without verification
-	private void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public String getEmail() {
+		return email;
 	}
 
-	public Email getEmail() {
-		return this.email;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
+	public Set<Auction> getAuctionsThatIOwn() {
+		return this.auctionsThatIOwn;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;	
+	}
+	
+	public Date getBirthday() {
+		return this.birthday;
+	}
+	
+	/*
+	 	
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
@@ -73,25 +129,7 @@ public class User {
 	public Profile getProfile() {
 		return this.profile;
 	}
-
-
-	// a better name?
-	public void bid(Auction auction) {
-		// if soy el primer postor --> un comportamiento
-		// sino otro
-	}
-
 	
-	//////////////////////////////////// CRUD GENERACION DE SUBASTAS  ///////////////////////////////////////////
-	
-	 //CREAR
-	
-	// NO VA ACÁ, MUY DIFICIL
-	 
-	 /*
-	 PUJAR
-	 MODIFICAR
-	 ELIMINAR
-	 
 	*/
+
 }

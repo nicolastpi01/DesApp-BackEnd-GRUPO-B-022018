@@ -10,7 +10,7 @@ import model.exceptions.YouCanNotBidOnAnAuctionYouOwnException;
 public class System {
 	
 	Registry registry;
-	Home home;
+	//Home home;
 	List<Auction> auctions;
 	ArrayList<User> users;
 	
@@ -18,9 +18,10 @@ public class System {
 		auctions = new ArrayList<Auction>();
 		users = new ArrayList<User>();
 		registry = new Registry(users); // Se encarga de registro, verificar ingresos, etc
-		home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
+		//home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 	}
 
+	/* 
 	public void create(Auction auction, User user) {
 		if (canCreateAnAuction(user)) add(auction, user);
 	}
@@ -36,30 +37,36 @@ public class System {
 		else { }
 		// Excepciones de no autenticado...No Logueado, usuario inexistente, etc
 	}
+	
 
+	
 	private void add(Auction auction, User user) {
 		auction.setState(new NewSubasta());
 		auction.setOwner(user);
 		auctions.add(auction);
 	}
+	
+	
 
 	private Boolean canCreateAnAuction(User user) {
 		return isAuthenticated(user) && hasLessAuctionsInProgressThanTheMaximumAllowedAmount(user);
 	}
 	
-	// es editar?
-	public void Modify(Auction auction, User user) {
-		if (canEditAnAuction(auction, user)) edit(auction);
-	}
+	*/
 	
-	public void delete(Auction auction, User user) {
-		if (canEditAnAuction(auction, user)) del(auction);
-	}
+	// es editar?
+	//public void Modify(Auction auction, User user) {
+	//	if (canEditAnAuction(auction, user)) edit(auction);
+	//}
+	
+	//public void delete(Auction auction, User user) {
+	//	if (canEditAnAuction(auction, user)) del(auction);
+	//}
 	
 	// Las Excepciones van en este metodo, no en los internos
-	private Boolean canEditAnAuction(Auction auction, User user) {
-		return isAuthenticated(user) && auction.canBeModified(user);
-	}
+	//private Boolean canEditAnAuction(Auction auction, User user) {
+	//	return isAuthenticated(user) && auction.canBeModified(user);
+	//}
 	
 	// mmm, como hacerlo?
 	private void edit(Auction auction) {
@@ -84,16 +91,17 @@ public class System {
 	public void logIn() {
 	}
 
-	public void sigIn(User user) {
-		if (registry.canSigIn(user)) {
-			registry.sigIn(user);
-			this.add(user);
-		}
-	}
+	//public void sigIn(User user) {
+	//	if (registry.canSigIn(user)) {
+	//		registry.sigIn(user);
+	//		this.add(user);
+	//	}
+	//}
 
 	////////////////////////////////////// FIND AUCTIONS
 	////////////////////////////////////// /////////////////////////////////////////////////////
 
+	/* 
 	public ArrayList<Auction> progressAuctions() {
 		ArrayList<Auction> inProgress = new ArrayList<Auction>();
 		for (int i = 0; i < auctions.size(); i++) {
@@ -102,26 +110,10 @@ public class System {
 		}
 		return inProgress;
 	}
+	
+	
+	*/
 
-	public List<Auction> searchForTitle(String title) {
-		return home.searchForTitle(title, progressAuctions());
-	}
-
-	public List<Auction> searchForDescription(String description) {
-		return home.searchForDescription(description, progressAuctions());
-	}
-
-	public List<Auction> searchPopulars() {
-		return home.popularsAuctions(progressAuctions());
-	}
-
-	public List<Auction> searchNextToFinish() {
-		return home.nextToFinishAuctions(auctions);
-	}
-
-	public List<Auction> searchRecents() {
-		return home.recentAuctions(auctions);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -135,11 +127,13 @@ public class System {
 		return this.users;
 	}
 
+	/*
 	private void add(User user) {
 		users.add(user);
 		user.setProfile(new Registered()); // Para que estoy haciendo esto si despues no lo uso?
 	}
 
+	 
 	private ArrayList<Auction> auctionsInProgress(User user) {
 		ArrayList<Auction> inProgress = new ArrayList<Auction>();
 		for (int i = 0; i < auctions.size(); i++) {
@@ -147,7 +141,8 @@ public class System {
 		}
 		return inProgress;
 	}
-
+	
+	
 	// Revisar este, se puede expresar de otra manera para que quede mejor la
 	// excepcion
 	private Boolean hasLessAuctionsInProgressThanTheMaximumAllowedAmount(User user) {
@@ -157,6 +152,8 @@ public class System {
 			throw new YouCanNotHaveMoreThanFiveAuctionsInProgressException();
 	}
 	
+	
+	
 	public ArrayList<Auction> auctionsInWhichParticipated(User user) {
 		ArrayList<Auction> auctionsWhereUserIsBidder = new ArrayList<Auction>();
 		for(int i=0; i < auctions.size(); i++) {
@@ -164,5 +161,7 @@ public class System {
 		}
 		return auctionsWhereUserIsBidder;
 	}
+	
+	*/
 
 }

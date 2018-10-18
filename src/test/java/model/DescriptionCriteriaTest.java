@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DescriptionCriteriaTest {
+	/* 
 	Auction a1;
 	Auction a2;
 	Auction a3;
@@ -98,4 +99,6 @@ public class DescriptionCriteriaTest {
 		List<Auction> subFiltradas = dc.search(auctions);
 		assertEquals(1,subFiltradas.size());
 	}
+	
+	*/
 }

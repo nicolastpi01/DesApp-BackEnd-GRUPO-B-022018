@@ -10,6 +10,8 @@ import model.exceptions.YouCanNotHaveMoreThanFiveAuctionsInProgressException;
 
 
 public class SystemTest {
+	
+	/* 
 	User nicolasUser;
 	User vigoUser;
 	User bidderUser0;
