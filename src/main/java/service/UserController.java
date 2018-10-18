@@ -17,18 +17,18 @@ import model.exceptions.UserNotFoundException;
 public class UserController {
 	private final UserRepository repository;
 	private final UserResourceAssembler assembler;
-	private final Signer signer;
+	//private final Signer signer;
 	
 	public UserController(UserRepository repository, UserResourceAssembler assembler) {
 		this.repository = repository;
 		this.assembler = assembler;
-		this.signer = new Signer();
+		//this.signer = new Signer();
 	}
 	
 	@PostMapping("/users")
 	ResponseEntity<?> sigIn(@RequestBody User newUser) throws URISyntaxException {
 		
-		signer.validate(newUser);	
+		//signer.validate(newUser);	
 		
 		Resource<User> resource = assembler.toResource(repository.save(newUser));
 
@@ -39,6 +39,8 @@ public class UserController {
 	
 	
 	// logIn, logOut
+	
+	
 	
 	
 	/* 

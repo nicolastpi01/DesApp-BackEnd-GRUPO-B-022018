@@ -11,10 +11,8 @@ import javax.persistence.Table;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
-@Entity
-@Table
 public class Date {
-	private @Id @GeneratedValue
+	private
 	Long id;
 	private int year;
 	private int month;
