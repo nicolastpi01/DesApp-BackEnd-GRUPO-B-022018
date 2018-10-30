@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table
 public class Auction {
-	private @Id @GeneratedValue Long id;
+	private @Id @GeneratedValue Long id; 
 	private String title;
 	private String description;
 	private String address;
@@ -26,14 +29,21 @@ public class Auction {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+	@JsonBackReference()
 	private User owner;
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), 
+					inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> bidders = new HashSet<User>();
 	
-	
-	public Auction() {} 
+
+	public Auction() {
+		LocalDate od = LocalDate.now().plusDays(1);
+		this.setOpeningDate(od.toDate());
+		this.setEndingDate(od.plusDays(2).toDate());
+		this.setEndingTime(0);
+	} 
 	
 	 
 	public Auction(String title, String description, String address, int initialPrice, Date openingDate, 
@@ -49,19 +59,34 @@ public class Auction {
 		this.setEndingTime(endingTime);
 	}
 	
-	
-	
-	
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Auction )) return false;
-			return id != null && id.equals(((Auction) o).id);
+	public boolean isPopular(int average) {
+		return this.getBidders().size() >= average;
 	}
 	
-	@Override
-	public int hashCode() {
-		return 31;
+	public boolean isRecent(int days) {
+		LocalDate od = LocalDate.fromDateFields(openingDate);
+		LocalDate today = LocalDate.now();
+		return this.isBeforeOrEqual(od, today) && this.daysBetween(od, today) <= days;
+	}
+	
+	public boolean isNextToFinish(int days) {
+		LocalDate ed = LocalDate.fromDateFields(endingDate);
+		LocalDate today = LocalDate.now();
+		return ed.isAfter(today) && this.daysBetween(ed, today) <= days;
+	}
+	
+	
+	private int daysBetween(LocalDate date, LocalDate anotherDate) {
+		return Math.abs(Days.daysBetween(date, anotherDate).getDays());
+	}
+	
+	private Boolean isBeforeOrEqual(LocalDate aDate, LocalDate anotherDate) {
+		return aDate.isBefore(anotherDate) || aDate.isEqual(anotherDate);
+	}
+	
+	
+	public int biddersSize() {
+		return getBidders().size();
 	}
 	
 	public void addBidder(User bidder) {
@@ -74,26 +99,16 @@ public class Auction {
     	bidder.getAuctionsInWhichIBid().remove(this);
     }
  
-	
-	//public boolean isNew() {
-	//	return state.isNew();
-	//}
-
-	//public boolean isInProgress() {
-	//	return state.isInProgress();
-	//}
+    /*
 
 	//public boolean isInProgressFor(User owner) {
 	//	return state.isInProgress() && belongsTo(owner);
 	//}
 
-	//private boolean belongsTo(User user) {
+	//public boolean belongsTo(User user) {
 	//	return owner.equals(user);
 	//}
 	
-	public void addAPic(String url) {
-		urlPics.add(url);
-	}
 
 	public boolean hasASameDescription(String description) {
 		return getDescription().equals(description);
@@ -103,16 +118,7 @@ public class Auction {
 		return getTitle().equals(title);
 	}
 
-	
-	//public boolean isNextToFinish(int days) {
-	//	return endingDate.happensWithinDays(days);
-	//}
-	
-	//public boolean isRecent(int days) {
-	//	return this.openingDate.hasBeenPublishedDaysAgo(days);
-	//}
-	
-	/* 
+
 	private boolean hasBeenPublished(int days) {
 		return openingDate.happenedXDaysAgo(days);
 	}
@@ -124,14 +130,6 @@ public class Auction {
 	
 	public void addABidder(User bidderUser) {
 		bidders.add(bidderUser);
-	}
-
-	public boolean isPopular(int average) {
-		return this.getBidders().size() >= average;
-	}
-	
-	public int biddersSize() {
-		return getBidders().size();
 	}
 	
 	private Boolean hasAValidSizeForTitle(String title) {
@@ -168,7 +166,20 @@ public class Auction {
 	
 	*/
 	
+	public void addAPic(String url) {
+		urlPics.add(url);
+	}
+	
 	/////////////////////////////////// SETTERS && GETTERS  /////////////////////////////////////////////
+	
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getTitle() {
+		return this.title;
+	}
 	
 	public Set<User> getBidders() {
 		return this.bidders;
@@ -213,14 +224,6 @@ public class Auction {
 	
 	public User getOwner() {
 		return this.owner;
-	}
-	
-	public String getTitle() {
-		return this.title;
-	}
-	
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public String getDescription() {
@@ -271,5 +274,6 @@ public class Auction {
 	public void setUrlPics(HashSet<String> urlPics) {
 		this.urlPics = urlPics;
 	}
+	
 
 }

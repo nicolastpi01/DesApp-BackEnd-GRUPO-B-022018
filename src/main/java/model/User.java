@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import org.hibernate.annotations.NaturalId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 @Data
@@ -15,7 +16,6 @@ public class User {
 	
 	@Id @GeneratedValue
 	private Long id;
-	@NaturalId
 	private String name;
 	private String lastName;
 	private String userName;
@@ -24,13 +24,14 @@ public class User {
 	@Temporal(TemporalType.DATE) // puede ser mas eficiente
 	private Date birthday;
 	
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) // Puede ser mas eficiente
     private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "bidders")
 	private Set<Auction> auctionsInWhichIBid = new HashSet<Auction>();
-	
-	//Profile profile; hacer como un enum?
 	
 	public User() {}
 	
@@ -119,17 +120,5 @@ public class User {
 	public Date getBirthday() {
 		return this.birthday;
 	}
-	
-	/*
-	 	
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
-	
-	public Profile getProfile() {
-		return this.profile;
-	}
-	
-	*/
 
 }
