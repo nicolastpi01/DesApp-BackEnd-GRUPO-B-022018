@@ -1,7 +1,9 @@
 package service;
 
-import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import org.springframework.stereotype.Service;
+import model.Auction;
 import model.User;
 import model.UserValidation;
 import model.exceptions.UserNotFoundException;
@@ -16,7 +18,32 @@ public class UserService {
 		this.validation = new UserValidation();
 	}
 	
+	// USAR Criteria
+		//TODAS LAS SUBASTAS EN LAS QUE PARTICIPO UN USUARIO (POR ID)
+		
+		//@GetMapping("/auctions/owner/{id}")
+		//@CrossOrigin(origins = "http://localhost:4200")
+		//List<Auction> getUserAuctionsById(@PathVariable Long id) {
+		//	return this.service.searchUserAuctionsById(id);
+		//}
+	
+	
+	
 	// logIn logOut
+	
+	// todas las subastas de un usuario por id
+	public Set<Auction> searchUserAuctionsById(Long id) {
+		User user = repository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException(id));
+			return user.getAuctionsThatIOwn();
+	}
+	
+	// todas las subastas donde pujo un usuario por id
+	public Set<Auction> searchBidderAuctionsForAUserById(Long id) {
+		User user = repository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException(id));
+			return user.getAuctionsInWhichIBid();
+	}
 
 	// create a newUser
 	public User sigIn(User newUser) {
@@ -37,11 +64,9 @@ public class UserService {
 				user.setPassword(newUser.getPassword());
 				return repository.save(user);
 			})
-			.orElseGet(() -> {
-			newUser.setId(id);
-			return repository.save(newUser);
-		});
+			.orElseThrow(() -> new UserNotFoundException(id));
 	}
+	
 	
 	public User getOne(Long id) {
 		User user = repository.findById(id)
@@ -49,13 +74,13 @@ public class UserService {
 		return user;
 	}
 
+	// No podes tener una subasta donde esten pujando otros usuarios
+	// Si estabas pujando sobre una subasta automaticamente la perdes, y se la lleva el anterior postor
 	public void delete(Long id) {
 		repository.findById(id)
 		.orElseThrow(() -> new UserNotFoundException(id));
 			repository.deleteById(id);		
 	}
-	
-	
 	
 
 }

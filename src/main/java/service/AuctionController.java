@@ -15,16 +15,6 @@ public class AuctionController {
 		this.service = service;
 	}
 		
-	// USAR Criteria
-	// TODAS LAS SUBASTAS DE UN USUARIO (POR ID), TODAS LAS SUBASTAS EN LAS QUE PARTICIPO UN USUARIO (POR ID)
-	// User controller
-	
-	//@GetMapping("/auctions/owner/{id}")
-	//@CrossOrigin(origins = "http://localhost:4200")
-	//List<Auction> getUserAuctionsById(@PathVariable Long id) {
-	//	return this.service.searchUserAuctionsById(id);
-	//}
-	
 	
 	@PutMapping("/auctions/{id}")
 	//@CrossOrigin(origins = "http://localhost:4200")

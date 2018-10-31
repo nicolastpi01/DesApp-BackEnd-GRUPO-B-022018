@@ -7,8 +7,8 @@ import model.Auction;
 import model.AuctionSearcher;
 import model.AuctionValidation;
 import model.State;
-import model.UserValidation;
 import model.exceptions.AuctionNotFoundException;
+import model.exceptions.InvalidUpdateAuctionInProgressException;
 
 @SuppressWarnings("deprecation")
 @Service
@@ -26,20 +26,24 @@ public class AuctionService {
 		//this.assembler = assembler; 
 	}
 	
-	// ese set id puede generar conflictos
 	// No puede estar en progreso...o no puede tener pujantes
 	public Auction update(Auction newAuction, Long id) {
 		this.validation.validate(newAuction);
 		return repository.findById(id)
 				.map(auction -> {
+					if (auction.getState().equals(State.ENPROGRESO)) 
+						throw new InvalidUpdateAuctionInProgressException();
 					auction.setTitle(newAuction.getTitle());
-					// more setters
+					auction.setDescription(newAuction.getDescription());
+					auction.setAddress(newAuction.getAddress());
+					auction.setUrlPics(newAuction.getUrlPics());
+					auction.setOpeningDate(newAuction.getOpeningDate());
+					auction.setEndingDate(newAuction.getEndingDate());
+					auction.setEndingTime(newAuction.getEndingTime());
+					auction.setInitialPrice(newAuction.getInitialPrice());
 					return repository.save(auction);
 				})
-				.orElseGet(() -> {
-					newAuction.setId(id);
-					return repository.save(newAuction);
-				});
+				.orElseThrow(() -> new AuctionNotFoundException(id));
 	}
 	
 	public List<Auction> getAll() {
@@ -57,6 +61,7 @@ public class AuctionService {
 	public void delete(Long id) {
 		repository.findById(id)
 		.orElseThrow(() -> new AuctionNotFoundException(id));
+		if (repository.findById(id).get().getState().equals(State.ENPROGRESO)) throw new InvalidUpdateAuctionInProgressException();
 			repository.deleteById(id);	
 	}
 	

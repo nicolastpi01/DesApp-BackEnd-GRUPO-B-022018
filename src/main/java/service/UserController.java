@@ -1,7 +1,9 @@
 package service;
 
 
+import java.util.Set;
 import org.springframework.web.bind.annotation.*;
+import model.Auction;
 import model.User;
 
 @RestController
@@ -19,8 +21,17 @@ public class UserController {
 		return this.service.sigIn(newUser);
 	}
 	
-	
 	// logIn, logOut
+	
+	@GetMapping("/users/bidAuctions/{userId}")
+	public Set<Auction> getBidderAuctionsForAUserById(@PathVariable Long userId) {
+		return this.service.searchBidderAuctionsForAUserById(userId);
+	}
+	
+	@GetMapping("/users/myAuctions/{userId}")
+	Set<Auction> getUserAuctionsById(@PathVariable Long userId) {
+		return this.service.searchUserAuctionsById(userId);
+	}
 	
 	@PutMapping("/users/{id}")
 	User replaceUser(@PathVariable Long id, @RequestBody User newUser) {
@@ -32,8 +43,6 @@ public class UserController {
 		return this.service.getOne(id);
 	}
 	
-	// No podes tener una subasta donde esten pujando otros usuarios
-	// Si estabas pujando sobre una subasta automaticamente la perdes, y se la lleva el anterior postor
 	@DeleteMapping("/users/{id}")
 	void deleteUser(@PathVariable Long id) {
 		this.service.delete(id);
