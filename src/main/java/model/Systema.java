@@ -7,17 +7,17 @@ import model.exceptions.YouCanNotMakeAnOfferAboutAnAuctionWhereYouWentTheLastBid
 import model.exceptions.YouCanNotHaveMoreThanFiveAuctionsInProgressException;
 import model.exceptions.YouCanNotBidOnAnAuctionYouOwnException;
 
-public class System {
+public class Systema {
 	
-	Registry registry;
+	//Registry registry;
 	//Home home;
 	List<Auction> auctions;
 	ArrayList<User> users;
 	
-	public System() {
+	public Systema() {
 		auctions = new ArrayList<Auction>();
 		users = new ArrayList<User>();
-		registry = new Registry(users); // Se encarga de registro, verificar ingresos, etc
+		//registry = new Registry(users); // Se encarga de registro, verificar ingresos, etc
 		//home = new Home(); // Se encarga de aplicar filtros sobre las subastas y mostrarlos ordenados
 	}
 
@@ -81,10 +81,10 @@ public class System {
 	///////////////////////////////////////// ///////////////////////////////////////////////////////////////
 
 	// ya inicio sesión?
-	private Boolean isAuthenticated(User user) {
-		return registry.isLogIn(user); // Dispara las distintas excepciones de porque este metodo podria fallar
+	//private Boolean isAuthenticated(User user) {
+	//	return registry.isLogIn(user); // Dispara las distintas excepciones de porque este metodo podria fallar
 		// UsuarioDebeIniciarSesionException(), UsuarioInexistenteException, etc.
-	}
+	//}
 
 	// Autenticarse
 	// Con cuenta de Gmail o Usuario

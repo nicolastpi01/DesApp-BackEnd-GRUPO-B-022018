@@ -1,106 +1,109 @@
 package service;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import model.Auction;
+import model.AuctionSearcher;
+import model.AuctionValidation;
+import model.State;
 import model.exceptions.AuctionNotFoundException;
+import model.exceptions.InvalidUpdateAuctionInProgressException;
 
+@SuppressWarnings("deprecation")
 @Service
 public class AuctionService {
+	// PERSISTENCIA + LOGICA DE DOM.
 	private final AuctionRepository repository;
-	private final AuctionResourceAssembler assembler;
+	private AuctionSearcher searcher;
+	private final AuctionValidation validation;
+	//private final AuctionResourceAssembler assembler;
 	
-	public AuctionService(AuctionRepository repository, AuctionResourceAssembler assembler) {
-		this.repository = repository; 
-		this.assembler = assembler; 
+	public AuctionService(AuctionRepository repository) {
+		this.repository = repository;
+		this.searcher = new AuctionSearcher();
+		this.validation = new AuctionValidation();
+		//this.assembler = assembler; 
 	}
-
-	// Revisar este metodo (por la excepción)
-	public ResponseEntity<?> update(Auction newAuction, Long id) throws URISyntaxException {
-		//Se puede modificar siempre y cuando el usuario sea el owner y la subasta no tenga pujantes
-		// Debería recibir un parametro más indicando el usuario  que llama al método
-		Auction updatedAuction = repository.findById(id)
-			.map(auction -> {
-				// Llevar este codigo a un objeto que se encargue de la actualización
-				auction.setTitle(newAuction.getTitle());
-				auction.setDescription(newAuction.getDescription());
-				auction.setAddress(newAuction.getAddress());
-				auction.setInitialPrice(newAuction.getInitialPrice());
-				auction.setEndingDate(newAuction.getEndingDate());
-				auction.setOpeningDate(newAuction.getOpeningDate());
-				auction.setEndingTime(newAuction.getEndingTime());
-				auction.setUrlPics(newAuction.getUrlPics());
+	
+	// No puede estar en progreso...o no puede tener pujantes
+	public Auction update(Auction newAuction, Long id) {
+		this.validation.validate(newAuction);
+		return repository.findById(id)
+				.map(auction -> {
+					if (auction.getState().equals(State.ENPROGRESO)) 
+						throw new InvalidUpdateAuctionInProgressException();
+					auction.setTitle(newAuction.getTitle());
+					auction.setDescription(newAuction.getDescription());
+					auction.setAddress(newAuction.getAddress());
+					auction.setUrlPics(newAuction.getUrlPics());
+					auction.setOpeningDate(newAuction.getOpeningDate());
+					auction.setEndingDate(newAuction.getEndingDate());
+					auction.setEndingTime(newAuction.getEndingTime());
+					auction.setInitialPrice(newAuction.getInitialPrice());
 					return repository.save(auction);
 				})
-				.orElseGet(() -> {
-					newAuction.setId(id);
-					return repository.save(newAuction);
-				});
-
-			Resource<Auction> resource = assembler.toResource(updatedAuction);
-
-			return ResponseEntity
-				.created(new URI(resource.getId().expand().getHref()))
-				.body(resource);
+				.orElseThrow(() -> new AuctionNotFoundException(id));
 	}
-
-	public ResponseEntity<?> create(Auction newAuction) throws URISyntaxException {
-		// Se puede generar siempre y cuando el usuario que invoca esto este registrado y autenticado
-		// Se debe comprobar que la subasta tenga el formato requerido
-		// Además, el usuario que llama al metodo no debe tener mas de cinco subastas en_progreso 
-		Resource<Auction> resource = assembler.toResource(repository.save(newAuction));
-
-			return ResponseEntity
-				.created(new URI(resource.getId().expand().getHref()))
-				.body(resource);
+	
+	public List<Auction> getAll() {
+		return repository.findAll();
 	}
-
-	public Resource<Auction> getOne(Long id) {
+	
+	public Auction getOne(Long id) {
 		Auction auction = repository.findById(id)
 			.orElseThrow(() -> new AuctionNotFoundException(id));
 
-		return assembler.toResource(auction);
-	}
-
-	public ResponseEntity<?> delete(Long id) {
-		// Se puede eliminar siempre y cuando el usuario sea el owner y la subasta no tenga pujantes
-		// Debería recibir un parametro más indicando el usuario  que llama al método
-			repository.findById(id)
-			.orElseThrow(() -> new AuctionNotFoundException(id));
-				repository.deleteById(id);	
-				return ResponseEntity.noContent().build();
+		return auction;
 	}
 	
-	private Resources<Resource<Auction>> buildResourceWithLinks(List<Auction> filteredAuctions) {
-
-		List<Resource<Auction>> auctions = filteredAuctions.stream()
-			.map(assembler::toResource)
-			.collect(Collectors.toList());
-
-		return new Resources<>(auctions,
-			linkTo(methodOn(AuctionController.class).all()).withSelfRel());
+	// No puede estar en progreso...o no puede tener pujantes
+	public void delete(Long id) {
+		repository.findById(id)
+		.orElseThrow(() -> new AuctionNotFoundException(id));
+		if (repository.findById(id).get().getState().equals(State.ENPROGRESO)) throw new InvalidUpdateAuctionInProgressException();
+			repository.deleteById(id);	
+	}
+	
+	// el usuario creador no puede tener mas de cinco subastas en progreso
+	public Auction create(Auction newAuction) { 
+		this.validation.validate(newAuction);
+		return repository.save(newAuction);
+	}
+	
+	public List<Auction> getPopulars() {
+		return this.searcher.getPopulars(this.repository.findByState(State.ENPROGRESO));
+	}
+	
+	
+	public List<Auction> getRecents() {
+		return this.searcher.getRecents(this.repository.findByState(State.ENPROGRESO));
+	}
+	
+	
+	public List<Auction> getNextToFinish() {
+		return this.searcher.getNextToFinish(this.repository.findByState(State.ENPROGRESO));
+	}
+	
+	
+	public List<Auction> searchUserAuctionsById(Long id) {
+		return this.repository.findAll(AuctionSpecifications.auctionsByUserId(id));
+	}
+	
+	
+	public List<Auction> userProgressAuctionsById(Long id) {
+		return this.repository.findAll(Specifications.where(AuctionSpecifications.auctionsByUserId(id)).
+				and(AuctionSpecifications.auctionsByState(State.ENPROGRESO)));	
+	}
+	
+	
+	public List<Auction> findByTitle(String title) {
+		return this.repository.findByTitle(title);
+	}
+	
+	public List<Auction> findByDescription(String description) {
+		return this.repository.findByDescription(description);
 	}
 
-	public Resources<Resource<Auction>> getAll() {
-		return buildResourceWithLinks(repository.findAll());
-	}
-
-	public Resources<Resource<Auction>> findByTitle(String title) {
-		return buildResourceWithLinks(repository.findByTitle(title));
-	}
-
-	public Resources<Resource<Auction>> findByDescription(String description) {
-		return buildResourceWithLinks(repository.findByDescription(description));
-	}
 
 }
