@@ -37,15 +37,15 @@ public class LoadDatabase {
 					new java.util.Date(), new java.util.Date(), 12);
 			
 			
-			Auction auction5 = new Auction("Iphone 6", "Robado por Chris Moltisanti", "address", 1000, 
+			Auction auction5 = new Auction("Iphone 6 fffffffff", "Robado por Chris Moltisanti", "address", 1000, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(1).toDate(), 12);
-			Auction auction6 = new Auction("Camion de ropa", "Robados por Tony. S", "address", 200, 
+			Auction auction6 = new Auction("Camion de ropa fffffffff", "Robados por Tony. S", "address", 200, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(2).toDate(), 12);
-			Auction auction7 = new Auction("Libreta", "propiedad de la Dr. Melfi", "address", 5000, 
+			Auction auction7 = new Auction("Libreta ffffffffff", "propiedad de la Dr. Melfi", "address", 5000, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(3).toDate(), 12);
-			Auction auction8 = new Auction("Nintendo64", "Consola videojuegos de Anthony Soprano. Jr", "address", 5000, 
+			Auction auction8 = new Auction("Nintendo64 ffffffff", "Consola videojuegos de Anthony Soprano. Jr", "address", 5000, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(2).toDate(), 12);
-			Auction auction9 = new Auction("Restaurant", "Restaurante el Vesubio, propiedad de Artie Bucco", "address", 5000, 
+			Auction auction9 = new Auction("Restaurant ffffffff", "Restaurante el Vesubio, propiedad de Artie Bucco", "address", 5000, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(3).toDate(), 12);
 			
 			
@@ -63,22 +63,21 @@ public class LoadDatabase {
 			
 			user0.addAuction(auction3);
 			user0.addAuction(auction0);
-			userRepository.save(user0);
-			auction1.addBidder(user1);
-			auction1.addBidder(user2);
-			auction1.addBidder(user3);
-			auction1.addBidder(user4);
-			auction1.addBidder(user5);
-			repository.save(auction1);
-			repository.save(auction2);
-			repository.save(auction4);
+			auction3.addAPic("https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Tony_Soprano.jpg/270px-Tony_Soprano.jpg");
+			auction0.addAPic("https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/Silvio_Dante-_Sopranos.png/220px-Silvio_Dante-_Sopranos.png");
 			
-			repository.save(auction5);
-			repository.save(auction6);
-			repository.save(auction7);
-			repository.save(auction8);
-			repository.save(auction9);
-
+			auction1.addAPic("https://i.pinimg.com/originals/3b/14/c8/3b14c8243204b71217eb78d9fcd8b457.jpg");
+			auction2.addAPic("https://upload.wikimedia.org/wikipedia/en/6/64/JuniorSoprano.jpg");
+			
+			
+			auction1.addBidder(user0);
+			auction2.addBidder(user0);
+			
+			
+			//repository.save(auction1);
+			userRepository.save(user0);
+			
+			
 			// fetch all auctions
 			log.info("Employers found with findAll():");
 			log.info("-------------------------------");
