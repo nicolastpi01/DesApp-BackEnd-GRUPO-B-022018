@@ -29,8 +29,13 @@ public class User {
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) // Puede ser mas eficiente
     private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "bidders")
+	
+	
+	
+	//@JsonIgnore
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "user_id"), 
+					inverseJoinColumns = @JoinColumn(name = "auction_id"))
 	private Set<Auction> auctionsInWhichIBid = new HashSet<Auction>();
 	
 	public User() {}
@@ -49,6 +54,14 @@ public class User {
         this.auctionsThatIOwn.add(auction);
         auction.setOwner(this);
     }
+	
+	public void addBidAuction(Auction auction) {
+		this.auctionsInWhichIBid.add(auction);
+	}
+	
+	public void removeBidAuction(Auction auction) {
+		this.auctionsInWhichIBid.remove(auction);
+	}
  
     public void removeAuction(Auction auction) {
         this.auctionsThatIOwn.remove(auction);

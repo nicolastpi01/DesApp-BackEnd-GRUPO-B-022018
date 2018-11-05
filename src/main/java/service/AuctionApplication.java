@@ -6,15 +6,14 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
 @SpringBootApplication
 @EntityScan( basePackages = {"model"} )
 public class AuctionApplication {
 	
-    @SuppressWarnings("deprecation")
-	private final class WebMvcConfigurerAdapterExtension extends WebMvcConfigurerAdapter {
+	private final class WebMvcConfigurerAdapterExtension implements WebMvcConfigurer {
+		
 		@Override
 		public void addCorsMappings(CorsRegistry registry) {
 		    registry.addMapping("/auctions").allowedOrigins("http://localhost:4200");
@@ -23,8 +22,14 @@ public class AuctionApplication {
 		    registry.addMapping("/auctions/recents").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/toFinalize").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/description").allowedOrigins("http://localhost:4200");
-		    registry.addMapping("/auctions/title").allowedOrigins("http://localhost:4200");
+		    registry.addMapping("/auctions/title/?title={title}").allowedOrigins("http://localhost:4200");
+		    registry.addMapping("/users/myAuctions/{userId}").allowedOrigins("http://localhost:4200");
+		    registry.addMapping("/users/bidAuctions/{userId}").allowedOrigins("http://localhost:4200");
+		    registry.addMapping("/users").allowedOrigins("http://localhost:4200");
+		    registry.addMapping("/users/{id}").allowedMethods("*").allowedOrigins("http://localhost:4200");
+		    
 		}
+	
 	}
 
 	@Bean

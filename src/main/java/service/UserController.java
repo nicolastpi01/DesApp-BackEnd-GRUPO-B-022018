@@ -9,11 +9,9 @@ import model.User;
 @RestController
 public class UserController {
 	private UserService service;
-	//private final UserResourceAssembler assembler;
 	
 	public UserController(UserService service) {
 		this.service = service;
-		//this.assembler = assembler;
 	}
 	
 	@PostMapping("/users")

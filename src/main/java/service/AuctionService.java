@@ -13,26 +13,24 @@ import model.exceptions.InvalidUpdateAuctionInProgressException;
 @SuppressWarnings("deprecation")
 @Service
 public class AuctionService {
-	// PERSISTENCIA + LOGICA DE DOM.
 	private final AuctionRepository repository;
 	private AuctionSearcher searcher;
 	private final AuctionValidation validation;
-	//private final AuctionResourceAssembler assembler;
 	
 	public AuctionService(AuctionRepository repository) {
 		this.repository = repository;
 		this.searcher = new AuctionSearcher();
-		this.validation = new AuctionValidation();
-		//this.assembler = assembler; 
+		this.validation = new AuctionValidation(); 
 	}
 	
 	// No puede estar en progreso...o no puede tener pujantes
+	// Usuario debe ser owner de esta subasta y ademas estar registrado
 	public Auction update(Auction newAuction, Long id) {
 		this.validation.validate(newAuction);
 		return repository.findById(id)
 				.map(auction -> {
 					if (auction.getState().equals(State.ENPROGRESO)) 
-						throw new InvalidUpdateAuctionInProgressException();
+						//throw new InvalidUpdateAuctionInProgressException(); (esto esta bien pero lo comento para simplicidad)
 					auction.setTitle(newAuction.getTitle());
 					auction.setDescription(newAuction.getDescription());
 					auction.setAddress(newAuction.getAddress());
@@ -58,10 +56,12 @@ public class AuctionService {
 	}
 	
 	// No puede estar en progreso...o no puede tener pujantes
+	// Usuario debe ser owner de esta subasta y ademas estar registrado
 	public void delete(Long id) {
 		repository.findById(id)
 		.orElseThrow(() -> new AuctionNotFoundException(id));
-		if (repository.findById(id).get().getState().equals(State.ENPROGRESO)) throw new InvalidUpdateAuctionInProgressException();
+		if (repository.findById(id).get().getState().equals(State.ENPROGRESO)) 
+			//throw new InvalidUpdateAuctionInProgressException(); (comentado por simplicidad)
 			repository.deleteById(id);	
 	}
 	

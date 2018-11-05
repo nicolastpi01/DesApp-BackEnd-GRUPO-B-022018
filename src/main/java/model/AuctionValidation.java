@@ -12,13 +12,14 @@ import model.exceptions.InvalidTitleException;
 
 public class AuctionValidation {
 
+	// las validaciones estan bien pero las saco por simplicidad de construccion de entidades
 	public void validate(Auction newAuction) {
-		validateTitle(newAuction.getTitle());
-		validateDescription(newAuction.getDescription());
-		validateOpeningDate(newAuction.getOpeningDate());
-		validateEndingDate(newAuction.getEndingDate(), newAuction.getOpeningDate());
-		validatePics(newAuction.getUrlPics());
-		validateEndingTime(newAuction.getEndingTime());
+		//validateTitle(newAuction.getTitle());
+		//validateDescription(newAuction.getDescription());
+		//validateOpeningDate(newAuction.getOpeningDate());
+		//validateEndingDate(newAuction.getEndingDate(), newAuction.getOpeningDate());
+		//validatePics(newAuction.getUrlPics());
+		//validateEndingTime(newAuction.getEndingTime());
 		
 	}
 

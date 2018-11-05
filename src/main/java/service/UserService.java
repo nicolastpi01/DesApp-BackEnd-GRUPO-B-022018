@@ -18,17 +18,6 @@ public class UserService {
 		this.validation = new UserValidation();
 	}
 	
-	// USAR Criteria
-		//TODAS LAS SUBASTAS EN LAS QUE PARTICIPO UN USUARIO (POR ID)
-		
-		//@GetMapping("/auctions/owner/{id}")
-		//@CrossOrigin(origins = "http://localhost:4200")
-		//List<Auction> getUserAuctionsById(@PathVariable Long id) {
-		//	return this.service.searchUserAuctionsById(id);
-		//}
-	
-	
-	
 	// logIn logOut
 	
 	// todas las subastas de un usuario por id
