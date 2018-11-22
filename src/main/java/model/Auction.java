@@ -35,7 +35,9 @@ public class Auction {
 	
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "auctionsInWhichIBid")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), 
+					inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> bidders = new HashSet<User>();
 	
 
@@ -99,16 +101,24 @@ public class Auction {
     	this.bidders.remove(bidder);
     	//bidder.removeBidAuction(this);
     }
+    
+    public boolean belongsTo(User user) {
+		return owner.equals(user);
+	}
+    
+    public boolean isLastBidder(User user) {
+    	//int lastBidersPos = bidders.size() - 1;
+    	return false;
+		//return ! bidders.isEmpty() && bidders.toArray(0).get(lastBidersPos).equals(user);
+	}
+    
+    
  
     /*
 
-	//public boolean isInProgressFor(User owner) {
-	//	return state.isInProgress() && belongsTo(owner);
-	//}
+	
 
-	//public boolean belongsTo(User user) {
-	//	return owner.equals(user);
-	//}
+	
 	
 
 	public boolean hasASameDescription(String description) {
@@ -145,10 +155,7 @@ public class Auction {
 		return ! this.isInProgressFor(user) && ! isBidLast(user);
 	}
 	
-	public boolean isBidLast(User user) {
-		int posLastBidder = bidders.size() - 1;
-		return ! bidders.isEmpty() && bidders.get(posLastBidder).equals(user); 
-	}
+	
 	
 	 The exception not belongs to this class
 	 Two exceptions, lack one
@@ -275,6 +282,9 @@ public class Auction {
 	public void setUrlPics(HashSet<String> urlPics) {
 		this.urlPics = urlPics;
 	}
+
+
+	
 	
 
 }

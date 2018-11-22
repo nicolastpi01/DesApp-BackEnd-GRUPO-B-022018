@@ -4,6 +4,7 @@ package service;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 import model.Auction;
+import model.User;
 
 //RPC (Remote Procedure Call) for simplicity (not restfull)
 
@@ -43,6 +44,7 @@ public class AuctionController {
 		return this.service.create(newAuction);
 	}
 	
+	
 	@GetMapping("/auctions/populars")
 	List<Auction> getPopulars() {
 		return this.service.getPopulars();
@@ -68,6 +70,12 @@ public class AuctionController {
 	@GetMapping("/auctions/title")
 	List<Auction> searchByTitle(@RequestParam("title") String title) {
 		return this.service.findByTitle(title);
+	}
+	
+	@PutMapping("/auctions/bid/{id}")
+	// @RequestBody Auction auction
+	Auction makeABid(@PathVariable Long id, @RequestBody Long userId) {
+		return this.service.makeABid(id, userId);
 	}
 	
 	

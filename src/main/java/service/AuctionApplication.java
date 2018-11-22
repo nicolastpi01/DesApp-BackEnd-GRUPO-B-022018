@@ -16,18 +16,20 @@ public class AuctionApplication {
 		
 		@Override
 		public void addCorsMappings(CorsRegistry registry) {
+			 
 		    registry.addMapping("/auctions").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/{id}").allowedMethods("*").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/populars").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/recents").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/toFinalize").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/description").allowedOrigins("http://localhost:4200");
+		    //registry.addMapping("/auctions/search").allowedOrigins("http://localhost:4200"); // test
 		    registry.addMapping("/auctions/title/?title={title}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/myAuctions/{userId}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/bidAuctions/{userId}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/{id}").allowedMethods("*").allowedOrigins("http://localhost:4200");
-		    
+		    registry.addMapping("/auctions/makeAOffert/").allowedOrigins("http://localhost:4200"); // test
 		}
 	
 	}
