@@ -49,4 +49,9 @@ public class AuctionValidation {
 		if(title.length() < 10 || title.length() > 50) throw new InvalidTitleException();
 	}
 
+	public void validateOffert(User user, Auction auction) {
+		if (auction.belongsTo(user)) throw new RuntimeException();
+		if (auction.isLastBidder(user)) throw new RuntimeException();
+	}
+
 }

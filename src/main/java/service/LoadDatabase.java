@@ -61,8 +61,7 @@ public class LoadDatabase {
 			auction8.setState(State.ENPROGRESO);
 			auction9.setState(State.ENPROGRESO);
 			
-			user0.addAuction(auction3);
-			user0.addAuction(auction0);
+			
 			auction3.addAPic("https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Tony_Soprano.jpg/270px-Tony_Soprano.jpg");
 			auction0.addAPic("https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/Silvio_Dante-_Sopranos.png/220px-Silvio_Dante-_Sopranos.png");
 			
@@ -70,12 +69,31 @@ public class LoadDatabase {
 			auction2.addAPic("https://upload.wikimedia.org/wikipedia/en/6/64/JuniorSoprano.jpg");
 			
 			
+			////////////////////////// ADD AUCTIONS ///////////////////////////////////////
+			
+			userRepository.save(user0);
+			
+			user0.addAuction(auction3);
+			user0.addAuction(auction0);
+			
+			repository.save(auction3);
+			repository.save(auction0);
+			
+			////////////////////// ADD BIDDERS ////////////////////////////////////////////
+			
+			repository.save(auction1);
+			repository.save(auction2);
+			
 			auction1.addBidder(user0);
 			auction2.addBidder(user0);
 			
+			repository.save(auction1);
+			repository.save(auction2);
 			
-			//repository.save(auction1);
-			userRepository.save(user0);
+			
+			repository.save(auction5);
+			repository.save(auction6);
+			repository.save(auction7);
 			
 			
 			// fetch all auctions

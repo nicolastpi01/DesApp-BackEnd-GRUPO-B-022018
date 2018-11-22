@@ -30,12 +30,7 @@ public class User {
     private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
 	
 	
-	
-	
-	//@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "user_id"), 
-					inverseJoinColumns = @JoinColumn(name = "auction_id"))
+	@ManyToMany(mappedBy = "bidders")
 	private Set<Auction> auctionsInWhichIBid = new HashSet<Auction>();
 	
 	public User() {}

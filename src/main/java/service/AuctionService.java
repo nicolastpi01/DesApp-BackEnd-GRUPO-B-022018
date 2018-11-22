@@ -7,6 +7,7 @@ import model.Auction;
 import model.AuctionSearcher;
 import model.AuctionValidation;
 import model.State;
+import model.User;
 import model.exceptions.AuctionNotFoundException;
 import model.exceptions.InvalidUpdateAuctionInProgressException;
 
@@ -14,11 +15,13 @@ import model.exceptions.InvalidUpdateAuctionInProgressException;
 @Service
 public class AuctionService {
 	private final AuctionRepository repository;
+	private final UserService userService;
 	private AuctionSearcher searcher;
 	private final AuctionValidation validation;
 	
-	public AuctionService(AuctionRepository repository) {
+	public AuctionService(AuctionRepository repository, UserService userService) {
 		this.repository = repository;
+		this.userService = userService;
 		this.searcher = new AuctionSearcher();
 		this.validation = new AuctionValidation(); 
 	}
@@ -60,7 +63,7 @@ public class AuctionService {
 	public void delete(Long id) {
 		repository.findById(id)
 		.orElseThrow(() -> new AuctionNotFoundException(id));
-		if (repository.findById(id).get().getState().equals(State.ENPROGRESO)) 
+		//if (repository.findById(id).get().getState().equals(State.ENPROGRESO)) esta bien, por simplicidad quitado
 			//throw new InvalidUpdateAuctionInProgressException(); (comentado por simplicidad)
 			repository.deleteById(id);	
 	}
@@ -103,6 +106,20 @@ public class AuctionService {
 	
 	public List<Auction> findByDescription(String description) {
 		return this.repository.findByDescription(description);
+	}
+
+	public Auction makeABid(Long auctionId, Long userId) {
+		//this.validation.validateOffert(user, auction);
+		//user.makeABid(auction);
+		
+		return repository.findById(auctionId)
+				.map(auction -> {
+					//if (auction.getState().equals(State.ENPROGRESO)) //si no esta en progreso tiro excep 
+					auction.addBidder(userService.getOne(userId));
+					return repository.save(auction);
+				})
+				.orElseThrow(() -> new AuctionNotFoundException(auctionId));
+				
 	}
 
 
