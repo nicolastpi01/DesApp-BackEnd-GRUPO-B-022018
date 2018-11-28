@@ -18,7 +18,8 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
 	  public void configure(HttpSecurity http) throws Exception {
 	    http.authorizeRequests()
 	      .mvcMatchers("/public").permitAll()
-	      .mvcMatchers("/auctions").authenticated()
+	      //.mvcMatchers("/auctions").authenticated()
+	      .mvcMatchers("/auctions").permitAll()
 	      .antMatchers("/private-scoped").access("#oauth2.hasScope('read:messages')")
 	      .mvcMatchers("/**").authenticated() // all 
 	      .anyRequest().permitAll();

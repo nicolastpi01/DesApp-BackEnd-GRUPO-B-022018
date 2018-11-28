@@ -90,9 +90,9 @@ public class LoadDatabase {
 			repository.save(auction2);
 			
 			
-			repository.save(auction5);
-			repository.save(auction6);
-			repository.save(auction7);
+			//repository.save(auction5);
+			//repository.save(auction6);
+			//repository.save(auction7);
 			
 			
 			// fetch all auctions
