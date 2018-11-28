@@ -22,9 +22,8 @@ public class LoadDatabase {
 			User user0 = new User("Tony", "Soprano", "tonyS", "tonySoprano@gmail.com", "pass", new java.util.Date());
 			User user1 = new User("Corrado", "Soprano", "UncleJun", "SopranoJr@gmail.com", "pass", new java.util.Date());
 			User user2 = new User("Paulie", "Gualtieri", "GuantieriP", "PaulieG@gmail.com", "pass", new java.util.Date());
-			User user3 = new User("Christopher", "Moltisanti", "ChrisMoltisanti", "Moltisanti@gmail.com", "pass", new java.util.Date());
-			User user4 = new User("Salvatore", "Bompensiero", "pussy", "pussy@gmail.com", "pass", new java.util.Date());
-			User user5 = new User("Silvio", "Dante", "DanteNJ", "DanteS@gmail.com", "pass", new java.util.Date());
+			
+			
 			Auction auction0 = new Auction("Mascara de Corrado.S", "la usa para no roncar y aliviar su viejo corazón", "address", 1000, 
 					new java.util.Date(), new java.util.Date(), 12);
 			Auction auction1 = new Auction("Chaqueta de Richie Aprile", "De gran valor sentimental para este. Tony la desecho", "address", 200, 
