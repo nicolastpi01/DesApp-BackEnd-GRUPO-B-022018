@@ -1,11 +1,18 @@
 package service;
 
 
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Service;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 import model.Auction;
 import model.User;
 import model.UserValidation;
+import model.exceptions.InvalidEmailException;
 import model.exceptions.UserNotFoundException;
 
 @Service
@@ -35,9 +42,9 @@ public class UserService {
 	}
 
 	// create a newUser
-	public User sigIn(User newUser) {
+	public void sigIn(User newUser) {
 		this.validation.validate(newUser);
-		return repository.save(newUser);
+		repository.save(newUser);
 	}
 
 	// update a existing user
@@ -69,6 +76,19 @@ public class UserService {
 		repository.findById(id)
 		.orElseThrow(() -> new UserNotFoundException(id));
 			repository.deleteById(id);		
+	}
+
+	public User logIn(String email) throws UnirestException {
+		User user = repository.findByEmail(email)
+		.orElseThrow(() -> new InvalidEmailException(email));
+		HttpResponse<String> response = Unirest.post("https://example-secure-api.auth0.com/oauth/token")
+				  .header("content-type", "application/json")
+				  .body("{\"client_id\":\"JLqj7ZP6wWR2KynpqWF979ojFoPQRRSV\",\"client_secret\":\"LieqwJsnORu3-5ZWn0Lg_LskCqECVcC__vxcrVRckzd_vlrdozSgSTHuNxge8wZ0\",\"audience\":\"http://localhost:8080\",\"grant_type\":\"client_credentials\"}")
+				  .asString();
+		System.out.println(response.getBody());
+		// extraer el accessToken del response
+		// setear el user con el acces_token --> user.setAccessToken(accessToken)
+		return user; 	
 	}
 	
 

@@ -22,6 +22,7 @@ public class LoadDatabase {
 			User user0 = new User("Tony", "Soprano", "tonyS", "tonySoprano@gmail.com", "pass", new java.util.Date());
 			User user1 = new User("Corrado", "Soprano", "UncleJun", "SopranoJr@gmail.com", "pass", new java.util.Date());
 			User user2 = new User("Paulie", "Gualtieri", "GuantieriP", "PaulieG@gmail.com", "pass", new java.util.Date());
+			User userWithEmail = new User("Yo", "Garcia", "Nicote", "nicolastpi10@gmail.com", "pass", new java.util.Date());
 			
 			
 			Auction auction0 = new Auction("Mascara de Corrado.S", "la usa para no roncar y aliviar su viejo corazón", "address", 1000, 
@@ -71,6 +72,7 @@ public class LoadDatabase {
 			////////////////////////// ADD AUCTIONS ///////////////////////////////////////
 			
 			userRepository.save(user0);
+			userRepository.save(userWithEmail);
 			
 			user0.addAuction(auction3);
 			user0.addAuction(auction0);

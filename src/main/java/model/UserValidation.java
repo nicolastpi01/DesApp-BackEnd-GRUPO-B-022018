@@ -1,7 +1,7 @@
 package model;
 
 
-import model.exceptions.InvalidEmailException;
+import model.exceptions.InvalidEmailFormatException;
 import model.exceptions.InvalidNameException;
 import model.exceptions.InvalidPasswordException;
 
@@ -27,7 +27,7 @@ public class UserValidation {
 
 	private void validateEmail(String email) {
 		String regex = "^.*\\@(gmail|hotmail)\\.\\bcom\\b";
-		if(! email.matches(regex)) throw new InvalidEmailException();
+		if(! email.matches(regex)) throw new InvalidEmailFormatException();
 	}
 	
 	private void validatePassword(String pass) {

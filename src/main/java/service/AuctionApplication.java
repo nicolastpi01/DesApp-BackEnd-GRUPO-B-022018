@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EntityScan( basePackages = {"model"} )
 public class AuctionApplication {
 	
+	
 	private final class WebMvcConfigurerAdapterExtension implements WebMvcConfigurer {
 		
 		@Override
@@ -38,6 +39,8 @@ public class AuctionApplication {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapterExtension();
     }
+	
+	
 	
 	public static void main(String... args) {
 		SpringApplication.run(AuctionApplication.class, args);
