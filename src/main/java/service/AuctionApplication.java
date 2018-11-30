@@ -28,6 +28,12 @@ public class AuctionApplication {
 		    registry.addMapping("/auctions/title/?title={title}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/myAuctions/{userId}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/bidAuctions/{userId}").allowedOrigins("http://localhost:4200");
+		    
+		    
+		    registry.addMapping("/users/authenticate?email={email}").allowedOrigins("http://localhost:4200");
+		    
+		    
+		    
 		    registry.addMapping("/users").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/{id}").allowedMethods("*").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/makeAOffert/").allowedOrigins("http://localhost:4200"); // test

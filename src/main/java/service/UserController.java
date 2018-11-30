@@ -23,7 +23,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/users/authenticate")
-	User logIn(@RequestParam String email) throws UnirestException {	
+	User logIn(@RequestParam("email") String email) throws UnirestException {	
 		return this.service.logIn(email);
 	}
 	

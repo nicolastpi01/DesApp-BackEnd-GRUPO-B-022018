@@ -23,6 +23,7 @@ public class User {
 	private String password;
 	@Temporal(TemporalType.DATE) // puede ser mas eficiente
 	private Date birthday;
+	private String accessToken;
 	
 	
 	@JsonManagedReference
@@ -127,6 +128,14 @@ public class User {
 	
 	public Date getBirthday() {
 		return this.birthday;
+	}
+	
+	public String getAccessToken() {
+		return this.accessToken;
+	}
+	
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 }
