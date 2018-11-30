@@ -90,6 +90,7 @@ public class UserService {
 	public User logIn(String email) throws UnirestException {
 		User user = repository.findByEmail(email)
 		.orElseThrow(() -> new InvalidEmailException(email));
+		
 		HttpResponse<String> response = Unirest.post("https://example-secure-api.auth0.com/oauth/token")
 				  .header("content-type", "application/json")
 				  .body("{\"client_id\":\"JLqj7ZP6wWR2KynpqWF979ojFoPQRRSV\",\"client_secret\":\"LieqwJsnORu3-5ZWn0Lg_LskCqECVcC__vxcrVRckzd_vlrdozSgSTHuNxge8wZ0\",\"audience\":\"http://localhost:8080\",\"grant_type\":\"client_credentials\"}")
@@ -99,9 +100,7 @@ public class UserService {
 		//String pageName = obj.getJSONObject("pageInfo").getString("pageName");
 		String accessToken = obj.getString("access_token");
 		System.out.println(accessToken);
-		/* old at
-		 * eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1qUkZNVVV4TVRreVF6Y3dOREU1UVVJNE5UZEZSRVZCT1VSR05UUkZPVVF3UkRSQ1JEUTNOdyJ9.eyJpc3MiOiJodHRwczovL2V4YW1wbGUtc2VjdXJlLWFwaS5hdXRoMC5jb20vIiwic3ViIjoiSkxxajdaUDZ3V1IyS3lucHFXRjk3OW9qRm9QUVJSU1ZAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTU0MzUyNTg4NiwiZXhwIjoxNTQzNjEyMjg2LCJhenAiOiJKTHFqN1pQNndXUjJLeW5wcVdGOTc5b2pGb1BRUlJTViIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.O8qBnpEbK8EIGPH7MFTFuP7kDasw7fIsb0q7-2vx17nozRyDlAqlN1nj__5fkBQtCjLFs9ja0J1ADXmwi8F5lxQiELED7UiXPxgtJbJ2EOQxHgvPo1cJASJjlkYokLX1muFswNJ980vLjZGCSvWsRj0fL6vvZQU8YJAWhzMdqA4s-4qPB2LdzAt3Im-aRsfE2xreluMPaKPrpKobR09o51CDecbnVXLikGSORORGid1rDy2evl3108QuNDACDLiJ0nGUb6M6YQSoLoia2qkcOaO0aXhEzVVhI1jGnAShELRBSTLwkc93H7lBSwehnSKNzCGrq1ZfOCyc8Ds5WFGuSA
-		 */
+		
 		user.setAccessToken(accessToken);
 		return user;
 	}

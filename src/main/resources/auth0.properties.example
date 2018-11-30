@@ -1,2 +1,0 @@
-auth0.issuer:https://{DOMAIN}/
-auth0.apiAudience:{API_IDENTIFIER}

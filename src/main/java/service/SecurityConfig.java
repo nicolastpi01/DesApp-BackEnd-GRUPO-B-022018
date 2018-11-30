@@ -17,14 +17,18 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
 	  @Override
 	  public void configure(HttpSecurity http) throws Exception {
 	    http.authorizeRequests()
-	      .mvcMatchers("/public").permitAll()
-	      .mvcMatchers("/users/authenticate").permitAll() // for postman test
+	      //.mvcMatchers("/public").permitAll()
+	      .mvcMatchers("/users/authenticate").permitAll() 
 	      .mvcMatchers("/users/register").permitAll()
-	      .mvcMatchers("/auctions").authenticated()
+	      //.mvcMatchers("/auctions").authenticated()
+	      //.mvcMatchers("/auctions/populars").authenticated()
+	      //.mvcMatchers("/auctions/recents").authenticated()
+	      //.mvcMatchers("/auctions/toFinalize").authenticated()
 	      //.mvcMatchers("/auctions").permitAll()
-	      .antMatchers("/private-scoped").access("#oauth2.hasScope('read:messages')")
-	      .mvcMatchers("/**").authenticated() // all 
-	      .anyRequest().permitAll();
+	      //.antMatchers("/private-scoped").access("#oauth2.hasScope('read:messages')")
+	      //.mvcMatchers("/**").authenticated() // all
+	      //.antMatchers("/*").authenticated()
+	      .anyRequest().authenticated();
 	  }
 
 	  @Override
