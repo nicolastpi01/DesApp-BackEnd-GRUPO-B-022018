@@ -1,11 +1,13 @@
 package service;
 
+/*
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+
 
 @Configuration
 @EnableResourceServer
@@ -18,22 +20,25 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
 	  public void configure(HttpSecurity http) throws Exception {
 	    http.authorizeRequests()
 	      //.mvcMatchers("/public").permitAll()
-	      .mvcMatchers("/users/authenticate").permitAll() 
+	      .mvcMatchers("/users/authenticate").permitAll()
+	      //.mvcMatchers("/h2-console").permitAll()
 	      .mvcMatchers("/users/register").permitAll()
-	      //.mvcMatchers("/auctions").authenticated()
+	      .mvcMatchers("/auctions").authenticated()
+	      .mvcMatchers("/auctions/populars").authenticated()
 	      //.mvcMatchers("/auctions/populars").authenticated()
 	      //.mvcMatchers("/auctions/recents").authenticated()
 	      //.mvcMatchers("/auctions/toFinalize").authenticated()
 	      //.mvcMatchers("/auctions").permitAll()
 	      //.antMatchers("/private-scoped").access("#oauth2.hasScope('read:messages')")
 	      //.mvcMatchers("/**").authenticated() // all
-	      //.antMatchers("/*").authenticated()
-	      .anyRequest().authenticated();
+	      //.antMatchers("/*").authenticated();
+	      .anyRequest().permitAll();
 	  }
 
 	  @Override
 	  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 	    resources.resourceId(resourceId);
 	  }
-
+	  
 }
+*/

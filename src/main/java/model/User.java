@@ -21,13 +21,18 @@ public class User {
 	private String userName;
 	private String email;
 	private String password;
-	@Temporal(TemporalType.DATE) // puede ser mas eficiente
+	@Temporal(TemporalType.DATE) 
 	private Date birthday;
 	private String accessToken;
 	
+	/*
+	@JsonManagedReference
+	@OneToMany(mappedBy = "lastBidder", cascade = CascadeType.ALL, orphanRemoval = true) 
+    private Set<Auction> auctionsLastBidder = new HashSet<Auction>();
+	*/
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) // Puede ser mas eficiente
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) 
     private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
 	
 	
@@ -54,6 +59,12 @@ public class User {
 	public void addBidAuction(Auction auction) {
 		this.auctionsInWhichIBid.add(auction);
 	}
+	
+	/*
+	public void addAuctionsLastBidder(Auction auction) {
+		this.auctionsLastBidder.add(auction);
+	}
+	*/
 	
 	public void removeBidAuction(Auction auction) {
 		this.auctionsInWhichIBid.remove(auction);
@@ -130,6 +141,7 @@ public class User {
 		return this.birthday;
 	}
 	
+	
 	public String getAccessToken() {
 		return this.accessToken;
 	}
@@ -137,5 +149,6 @@ public class User {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+	
 
 }

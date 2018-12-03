@@ -108,6 +108,8 @@ public class AuctionService {
 		return this.repository.findByDescription(description);
 	}
 
+	
+	/*
 	public Auction makeABid(Long auctionId, Long userId) {
 		//this.validation.validateOffert(user, auction);
 		//user.makeABid(auction);
@@ -121,6 +123,22 @@ public class AuctionService {
 				.orElseThrow(() -> new AuctionNotFoundException(auctionId));
 				
 	}
-
+	
+	*/
+	 
+	// Suponiendo que la subasta no termino y esta en progreso ******* En todo caso se eso se revisa en validateOffert()
+	public Auction makeOffert(Long auctionId, User user) {
+		return repository.findById(auctionId)
+				.map(auction -> {
+					this.validation.validateOffert(user, auction);
+					auction.addBidder(user);
+					auction.addOffert(user);
+					auction.modifyCurrentPrice();
+					// es oferta dentro de los 5 min finales? si es asi, extiendo el periodo de la subasta
+					return repository.save(auction);
+				})
+				.orElseThrow(() -> new AuctionNotFoundException(auctionId));				
+	}
+	
 
 }

@@ -1,6 +1,7 @@
 package service;
 
 
+import java.util.List;
 import java.util.Set;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +18,8 @@ public class UserController {
 		this.service = service;
 	}
 	
-	@PostMapping("/users/register")
-	void sigIn(@RequestBody User newUser) {	
-		this.service.sigIn(newUser);
-	}
 	
-	@PostMapping("/users/authenticate")
-	User logIn(@RequestParam("email") String email) throws UnirestException {	
-		return this.service.logIn(email);
-	}
-	
-	// logOut
-	
+	////// for revision
 	@GetMapping("/users/bidAuctions/{userId}")
 	public Set<Auction> getBidderAuctionsForAUserById(@PathVariable Long userId) {
 		return this.service.searchBidderAuctionsForAUserById(userId);
@@ -38,6 +29,32 @@ public class UserController {
 	Set<Auction> getUserAuctionsById(@PathVariable Long userId) {
 		return this.service.searchUserAuctionsById(userId);
 	}
+	//////for revision
+	
+	
+	
+	@GetMapping("/users")
+	List<User> all() {
+		return this.service.getAll();
+	}
+	
+	
+	@PostMapping("/users/register")
+	void sigIn(@RequestBody User newUser) {	
+		this.service.sigIn(newUser);
+	}
+	
+	/* 
+	@PostMapping("/users/authenticate")
+	User logIn(@RequestParam("email") String email) throws UnirestException {	
+		return this.service.logIn(email);
+	}
+	
+	@PostMapping("/users/logout/{id}")
+	void logOut(@PathVariable Long id) {	
+		this.service.logOut(id);
+	}
+	*/
 	
 	@PutMapping("/users/{id}")
 	User replaceUser(@PathVariable Long id, @RequestBody User newUser) {

@@ -14,6 +14,5 @@ public interface AuctionRepository extends JpaRepository<Auction, Long>, JpaSpec
 	List<Auction> findByTitle(String title);
 	List<Auction> findByState(State state);
 	List<Auction> findByDescription(String description);
-	
 
 }

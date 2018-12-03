@@ -1,6 +1,7 @@
 package service;
 
 
+import java.util.List;
 import java.util.Set;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import model.exceptions.UserNotFoundException;
 public class UserService {
 	private final UserRepository repository;
 	private final UserValidation validation;
-	
+	/*
 	 @Value("${security.oauth2.resource.id}")
 	  private String resourceId;
 
@@ -28,6 +29,7 @@ public class UserService {
 
 	  @Value("${auth0.clientId}")
 	  private String clientId;
+	*/
 	
 	public UserService(UserRepository repository) {
 		this.repository = repository;
@@ -86,7 +88,12 @@ public class UserService {
 		.orElseThrow(() -> new UserNotFoundException(id));
 			repository.deleteById(id);		
 	}
+	
+	public List<User> getAll() {
+		return this.repository.findAll();
+	}
 
+	/*
 	public User logIn(String email) throws UnirestException {
 		User user = repository.findByEmail(email)
 		.orElseThrow(() -> new InvalidEmailException(email));
@@ -97,13 +104,20 @@ public class UserService {
 				  .asString();
 		
 		JSONObject obj = new JSONObject(response.getBody());
-		//String pageName = obj.getJSONObject("pageInfo").getString("pageName");
 		String accessToken = obj.getString("access_token");
 		System.out.println(accessToken);
 		
 		user.setAccessToken(accessToken);
 		return user;
 	}
+
+	public void logOut(Long id) {
+		User user = repository.findById(id)
+		.orElseThrow(() -> new UserNotFoundException(id));
+			user.setAccessToken(null);
+	}
+
 	
+	*/
 
 }

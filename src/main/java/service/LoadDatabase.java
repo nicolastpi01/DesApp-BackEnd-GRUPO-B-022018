@@ -38,16 +38,17 @@ public class LoadDatabase {
 			
 			
 			Auction auction5 = new Auction("Iphone 6 fffffffff", "Robado por Chris Moltisanti", "address", 1000, 
-					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(1).toDate(), 12);
+					LocalDate.now().toDate(), LocalDate.now().plusDays(2).toDate(), 12);
 			Auction auction6 = new Auction("Camion de ropa fffffffff", "Robados por Tony. S", "address", 200, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(2).toDate(), 12);
 			Auction auction7 = new Auction("Libreta ffffffffff", "propiedad de la Dr. Melfi", "address", 5000, 
 					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(3).toDate(), 12);
-			Auction auction8 = new Auction("Nintendo64 ffffffff", "Consola videojuegos de Anthony Soprano. Jr", "address", 5000, 
-					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(2).toDate(), 12);
-			Auction auction9 = new Auction("Restaurant ffffffff", "Restaurante el Vesubio, propiedad de Artie Bucco", "address", 5000, 
-					LocalDate.now().plusDays(1).toDate(), LocalDate.now().plusDays(3).toDate(), 12);
+			Auction auctionFinishToday = new Auction("Nintendo64 consola", "Consola videojuegos de Anthony Soprano. Jr", "address", 5000, 
+					LocalDate.now().minusDays(10).toDate(), LocalDate.now().toDate(), 12);
+			Auction auctionPlus = new Auction("Restaurant El Vesubio", "Restaurante el Vesubio, propiedad de Artie Bucco", "address", 5000, 
+					LocalDate.now().minusDays(10).toDate(), LocalDate.now().toDate(), 12);
 			
+			//auctionPlus.minPlus();
 			
 			auction0.setState(State.ENPROGRESO);
 			auction1.setState(State.ENPROGRESO);
@@ -55,11 +56,11 @@ public class LoadDatabase {
 			auction3.setState(State.ENPROGRESO);
 			auction4.setState(State.ENPROGRESO);
 			
-			auction5.setState(State.ENPROGRESO);
+			auction5.setState(State.NUEVA);
 			auction6.setState(State.ENPROGRESO);
 			auction7.setState(State.ENPROGRESO);
-			auction8.setState(State.ENPROGRESO);
-			auction9.setState(State.ENPROGRESO);
+			auctionFinishToday.setState(State.ENPROGRESO);
+			auctionPlus.setState(State.ENPROGRESO);
 			
 			
 			auction3.addAPic("https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Tony_Soprano.jpg/270px-Tony_Soprano.jpg");
@@ -72,30 +73,37 @@ public class LoadDatabase {
 			////////////////////////// ADD AUCTIONS ///////////////////////////////////////
 			
 			userRepository.save(user0);
-			userRepository.save(userWithEmail);
+			//userRepository.save(userWithEmail);
 			
 			user0.addAuction(auction3);
 			user0.addAuction(auction0);
 			
+			user0.addAuction(auction1);
+			user0.addAuction(auction2);
+			
 			repository.save(auction3);
 			repository.save(auction0);
+			
+			//repository.save(auction5);
 			
 			////////////////////// ADD BIDDERS ////////////////////////////////////////////
 			
 			repository.save(auction1);
 			repository.save(auction2);
+			userRepository.save(user1);
 			
-			auction1.addBidder(user0);
-			auction2.addBidder(user0);
+			auction1.addBidder(user1);
+			auction2.addBidder(user1);
 			
 			repository.save(auction1);
 			repository.save(auction2);
 			
+			//userRepository.save(user1);
 			
-			//repository.save(auction5);
 			//repository.save(auction6);
 			//repository.save(auction7);
-			
+			//repository.save(auctionFinishToday);
+			//repository.save(auctionPlus);
 			
 			// fetch all auctions
 			log.info("Employers found with findAll():");

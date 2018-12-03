@@ -8,7 +8,9 @@ import org.joda.time.LocalDate;
 import model.exceptions.InvalidDescriptionException;
 import model.exceptions.InvalidEndingTimeException;
 import model.exceptions.InvalidOpeningDateException;
+import model.exceptions.InvalidPushOwnerException;
 import model.exceptions.InvalidTitleException;
+import model.exceptions.InvalidLastPushInAuctionException;
 
 public class AuctionValidation {
 
@@ -50,8 +52,12 @@ public class AuctionValidation {
 	}
 
 	public void validateOffert(User user, Auction auction) {
-		if (auction.belongsTo(user)) throw new RuntimeException();
-		if (auction.isLastBidder(user)) throw new RuntimeException();
+		/*
+		if (auction.belongsTo(user)) throw new InvalidPushOwnerException(auction.getId(), user.getId());
+		if (auction.isLastBidder(user)) throw new InvalidLastPushInAuctionException(auction.getId(), user.getId());
+		// Suponiendo que esta en progreso y no termino
+		 * *
+		 */
 	}
 
 }

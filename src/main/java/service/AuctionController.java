@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import model.Auction;
 import model.User;
 
-//RPC (Remote Procedure Call) for simplicity (not restfull)
 
 @RestController
 public class AuctionController {
@@ -16,17 +15,15 @@ public class AuctionController {
 		this.service = service;
 	}
 		
-	
-	@PutMapping("/auctions/{id}")
-	Auction replaceAuction(@PathVariable Long id, @RequestBody Auction newAuction) {
-		return this.service.update(newAuction, id);
-	}
-	
 	@GetMapping("/auctions")
 	List<Auction> all() {
 		return this.service.getAll();
 	}
 	
+	@PutMapping("/auctions/{id}")
+	Auction replaceAuction(@PathVariable Long id, @RequestBody Auction newAuction) {
+		return this.service.update(newAuction, id);
+	}
 	
 	@GetMapping("/auctions/{id}")
 	Auction one(@PathVariable Long id) {
@@ -71,11 +68,24 @@ public class AuctionController {
 	List<Auction> searchByTitle(@RequestParam("title") String title) {
 		return this.service.findByTitle(title);
 	}
+
 	
+	
+	////////////////////////////////// BID //////////////////////////////////////////
+	
+	
+	/*
 	@PutMapping("/auctions/bid/{id}")
 	// @RequestBody Auction auction
 	Auction makeABid(@PathVariable Long id, @RequestBody Long userId) {
 		return this.service.makeABid(id, userId);
+	}
+	
+	*/
+	
+	@PutMapping("/auctions/offert/{id}")
+	Auction makeAOffert(@PathVariable Long id, @RequestBody User user) {
+		return this.service.makeOffert(id, user);
 	}
 	
 	
