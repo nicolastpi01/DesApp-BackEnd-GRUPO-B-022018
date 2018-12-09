@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-
-import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -54,7 +52,7 @@ public class Auction {
 	
 	
 	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST })
 	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), 
 					inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> bidders = new HashSet<User>();
@@ -180,9 +178,10 @@ public class Auction {
 	
 	
 	public void addBidder(User bidder) {
-       this.bidders.add(bidder);
-       bidder.addBidAuction(this);
-       this.setLastBidderId(bidder.getId());;
+		if (! this.bidders.contains(bidder)) {
+			this.bidders.add(bidder);
+			bidder.addBidAuction(this);
+		}
     }
 	
 	

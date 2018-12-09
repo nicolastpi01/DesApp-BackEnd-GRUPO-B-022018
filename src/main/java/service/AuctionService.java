@@ -3,31 +3,31 @@ package service;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import model.Auction;
 import model.AuctionSearcher;
 import model.AuctionValidation;
 import model.State;
 import model.User;
 import model.exceptions.AuctionNotFoundException;
-import model.exceptions.InvalidUpdateAuctionInProgressException;
 
 @SuppressWarnings("deprecation")
 @Service
 public class AuctionService {
 	private final AuctionRepository repository;
-	private final UserService userService;
 	private AuctionSearcher searcher;
 	private final AuctionValidation validation;
 	
-	public AuctionService(AuctionRepository repository, UserService userService) {
+	public AuctionService(AuctionRepository repository) {
 		this.repository = repository;
-		this.userService = userService;
 		this.searcher = new AuctionSearcher();
 		this.validation = new AuctionValidation(); 
 	}
 	
 	// No puede estar en progreso...o no puede tener pujantes
 	// Usuario debe ser owner de esta subasta y ademas estar registrado
+	@Transactional
 	public Auction update(Auction newAuction, Long id) {
 		this.validation.validate(newAuction);
 		return repository.findById(id)
@@ -47,9 +47,11 @@ public class AuctionService {
 				.orElseThrow(() -> new AuctionNotFoundException(id));
 	}
 	
+	
 	public List<Auction> getAll() {
 		return repository.findAll();
 	}
+	
 	
 	public Auction getOne(Long id) {
 		Auction auction = repository.findById(id)
@@ -60,6 +62,7 @@ public class AuctionService {
 	
 	// No puede estar en progreso...o no puede tener pujantes
 	// Usuario debe ser owner de esta subasta y ademas estar registrado
+	@Transactional
 	public void delete(Long id) {
 		repository.findById(id)
 		.orElseThrow(() -> new AuctionNotFoundException(id));
@@ -69,6 +72,7 @@ public class AuctionService {
 	}
 	
 	// el usuario creador no puede tener mas de cinco subastas en progreso
+	@Transactional
 	public Auction create(Auction newAuction) { 
 		this.validation.validate(newAuction);
 		return repository.save(newAuction);
@@ -109,31 +113,19 @@ public class AuctionService {
 	}
 
 	
-	/*
-	public Auction makeABid(Long auctionId, Long userId) {
-		//this.validation.validateOffert(user, auction);
-		//user.makeABid(auction);
-		
-		return repository.findById(auctionId)
-				.map(auction -> {
-					//if (auction.getState().equals(State.ENPROGRESO)) //si no esta en progreso tiro excep 
-					auction.addBidder(userService.getOne(userId));
-					return repository.save(auction);
-				})
-				.orElseThrow(() -> new AuctionNotFoundException(auctionId));
-				
-	}
-	
-	*/
+	///////////////////////////////// BID ///////////////////////////////////////////////////////////
 	 
-	// Suponiendo que la subasta no termino y esta en progreso ******* En todo caso se eso se revisa en validateOffert()
+	// Suponiendo que la subasta no termino y esta en progreso ******* En todo caso eso se revisa en validateOffert()
+	@Transactional
 	public Auction makeOffert(Long auctionId, User user) {
 		return repository.findById(auctionId)
 				.map(auction -> {
 					this.validation.validateOffert(user, auction);
-					auction.addBidder(user);
 					auction.addOffert(user);
-					auction.modifyCurrentPrice();
+					auction.modifyCurrentPrice(); 
+					auction.setLastBidderId(user.getId());
+					auction.addBidder(user);
+					// es la primer oferta? entonces conf. subasta automatica...
 					// es oferta dentro de los 5 min finales? si es asi, extiendo el periodo de la subasta
 					return repository.save(auction);
 				})

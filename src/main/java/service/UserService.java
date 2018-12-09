@@ -20,6 +20,7 @@ import model.exceptions.UserNotFoundException;
 public class UserService {
 	private final UserRepository repository;
 	private final UserValidation validation;
+	
 	/*
 	 @Value("${security.oauth2.resource.id}")
 	  private String resourceId;
@@ -36,7 +37,6 @@ public class UserService {
 		this.validation = new UserValidation();
 	}
 	
-	// logIn logOut
 	
 	// todas las subastas de un usuario por id
 	public Set<Auction> searchUserAuctionsById(Long id) {
@@ -93,11 +93,11 @@ public class UserService {
 		return this.repository.findAll();
 	}
 
-	/*
+	
 	public User logIn(String email) throws UnirestException {
 		User user = repository.findByEmail(email)
 		.orElseThrow(() -> new InvalidEmailException(email));
-		
+		/*
 		HttpResponse<String> response = Unirest.post("https://example-secure-api.auth0.com/oauth/token")
 				  .header("content-type", "application/json")
 				  .body("{\"client_id\":\"JLqj7ZP6wWR2KynpqWF979ojFoPQRRSV\",\"client_secret\":\"LieqwJsnORu3-5ZWn0Lg_LskCqECVcC__vxcrVRckzd_vlrdozSgSTHuNxge8wZ0\",\"audience\":\"http://localhost:8080\",\"grant_type\":\"client_credentials\"}")
@@ -107,17 +107,18 @@ public class UserService {
 		String accessToken = obj.getString("access_token");
 		System.out.println(accessToken);
 		
-		user.setAccessToken(accessToken);
+		user.setAccessToken(accessToken); 
+		*/
 		return user;
 	}
 
 	public void logOut(Long id) {
 		User user = repository.findById(id)
 		.orElseThrow(() -> new UserNotFoundException(id));
-			user.setAccessToken(null);
+			//user.setAccessToken(null);
 	}
 
 	
-	*/
+	
 
 }

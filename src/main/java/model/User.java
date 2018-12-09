@@ -23,13 +23,8 @@ public class User {
 	private String password;
 	@Temporal(TemporalType.DATE) 
 	private Date birthday;
-	private String accessToken;
+	//private String accessToken;
 	
-	/*
-	@JsonManagedReference
-	@OneToMany(mappedBy = "lastBidder", cascade = CascadeType.ALL, orphanRemoval = true) 
-    private Set<Auction> auctionsLastBidder = new HashSet<Auction>();
-	*/
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) 
@@ -141,7 +136,7 @@ public class User {
 		return this.birthday;
 	}
 	
-	
+	/*
 	public String getAccessToken() {
 		return this.accessToken;
 	}
@@ -149,6 +144,6 @@ public class User {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
-	
+	*/
 
 }

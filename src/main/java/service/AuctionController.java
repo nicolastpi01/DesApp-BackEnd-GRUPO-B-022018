@@ -74,15 +74,6 @@ public class AuctionController {
 	////////////////////////////////// BID //////////////////////////////////////////
 	
 	
-	/*
-	@PutMapping("/auctions/bid/{id}")
-	// @RequestBody Auction auction
-	Auction makeABid(@PathVariable Long id, @RequestBody Long userId) {
-		return this.service.makeABid(id, userId);
-	}
-	
-	*/
-	
 	@PutMapping("/auctions/offert/{id}")
 	Auction makeAOffert(@PathVariable Long id, @RequestBody User user) {
 		return this.service.makeOffert(id, user);

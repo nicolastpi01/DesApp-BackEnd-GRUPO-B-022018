@@ -33,12 +33,12 @@ public class AuctionApplication {
 		    
 		    
 		    registry.addMapping("/users/authenticate?email={email}").allowedOrigins("http://localhost:4200");
-		    
+		    registry.addMapping("/auctions/offert/{id}").allowedMethods("*").allowedOrigins("http://localhost:4200");
 		    
 		    
 		    registry.addMapping("/users").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/{id}").allowedMethods("*").allowedOrigins("http://localhost:4200");
-		    registry.addMapping("/auctions/makeAOffert/").allowedOrigins("http://localhost:4200"); // test
+		    
 		}
 	
 	}

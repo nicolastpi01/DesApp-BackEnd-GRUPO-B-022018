@@ -19,10 +19,10 @@ public class LoadDatabase {
 	@Bean
 	public CommandLineRunner initDatabase(AuctionRepository repository, UserRepository userRepository) {	
 		return (args) -> {
-			User user0 = new User("Tony", "Soprano", "tonyS", "tonySoprano@gmail.com", "pass", new java.util.Date());
+			User user0 = new User("Tony", "Soprano", "tonyS", "nicolastpi10@gmail.com", "pass", new java.util.Date());
 			User user1 = new User("Corrado", "Soprano", "UncleJun", "SopranoJr@gmail.com", "pass", new java.util.Date());
 			User user2 = new User("Paulie", "Gualtieri", "GuantieriP", "PaulieG@gmail.com", "pass", new java.util.Date());
-			User userWithEmail = new User("Yo", "Garcia", "Nicote", "nicolastpi10@gmail.com", "pass", new java.util.Date());
+			//User userWithEmail = new User("Yo", "Garcia", "Nicote", "nicolastpi10@gmail.com", "pass", new java.util.Date());
 			
 			
 			Auction auction0 = new Auction("Mascara de Corrado.S", "la usa para no roncar y aliviar su viejo corazón", "address", 1000, 
@@ -98,7 +98,7 @@ public class LoadDatabase {
 			repository.save(auction1);
 			repository.save(auction2);
 			
-			//userRepository.save(user1);
+			userRepository.save(user1);
 			
 			//repository.save(auction6);
 			//repository.save(auction7);

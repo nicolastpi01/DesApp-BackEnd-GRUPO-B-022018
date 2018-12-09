@@ -44,7 +44,7 @@ public class UserController {
 		this.service.sigIn(newUser);
 	}
 	
-	/* 
+	 
 	@PostMapping("/users/authenticate")
 	User logIn(@RequestParam("email") String email) throws UnirestException {	
 		return this.service.logIn(email);
@@ -54,7 +54,7 @@ public class UserController {
 	void logOut(@PathVariable Long id) {	
 		this.service.logOut(id);
 	}
-	*/
+	
 	
 	@PutMapping("/users/{id}")
 	User replaceUser(@PathVariable Long id, @RequestBody User newUser) {
