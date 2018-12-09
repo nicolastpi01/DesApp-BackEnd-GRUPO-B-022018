@@ -52,12 +52,11 @@ public class AuctionValidation {
 	}
 
 	public void validateOffert(User user, Auction auction) {
-		/*
+		
 		if (auction.belongsTo(user)) throw new InvalidPushOwnerException(auction.getId(), user.getId());
 		if (auction.isLastBidder(user)) throw new InvalidLastPushInAuctionException(auction.getId(), user.getId());
 		// Suponiendo que esta en progreso y no termino
-		 * *
-		 */
+		
 	}
 
 }

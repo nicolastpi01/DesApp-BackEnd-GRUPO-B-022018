@@ -32,10 +32,10 @@ public class Offert {
 	public Offert() {}
 	
 
-	public Offert(User user) {
+	public Offert(Long userId) {
 		Calendar calendar = new GregorianCalendar();
 	    SimpleDateFormat ft = new SimpleDateFormat ("dd.MM.yyyy");
-		this.setUserId(user.getId());
+		this.setUserId(userId);
 		this.setHour(calendar.get(Calendar.HOUR_OF_DAY) +":" + calendar.get(Calendar.MINUTE));
 		this.setDate(ft.format(new Date()));
 		this.tramo = this.incrementTramo();

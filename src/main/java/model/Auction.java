@@ -32,7 +32,7 @@ public class Auction {
 	private Date endingDate;
     @Temporal(TemporalType.DATE)
 	private Date plusEndingDate;
-   
+    private int biddersSize;
     
 	private Long lastBidderId;
 	
@@ -42,7 +42,10 @@ public class Auction {
 	@JsonBackReference()
 	private User owner;
 	
-	
+	@JsonIgnore
+	@OneToOne(mappedBy = "auctionOwner", cascade = CascadeType.ALL, 
+            fetch = FetchType.LAZY, optional = false)
+    private AutoBid autoBid;
 	
 	//@JsonIgnore // va?????
 	@JsonManagedReference
@@ -51,11 +54,13 @@ public class Auction {
 	
 	
 	
+	//CascadeType.MERGE
 	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.PERSIST })
 	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), 
 					inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> bidders = new HashSet<User>();
+	
 	
 
 	public Auction() {
@@ -63,6 +68,7 @@ public class Auction {
 		this.setOpeningDate(od.toDate());
 		this.setEndingDate(od.plusDays(2).toDate());
 		this.setEndingTime(0);
+		this.biddersSize = 0;
 	} 
 	
 	 
@@ -77,6 +83,7 @@ public class Auction {
 		this.setOpeningDate(openingDate);
 		this.setEndingDate(endingDate);
 		this.setEndingTime(endingTime);
+		this.biddersSize = 0; 
 	}
 	
 	/* 
@@ -91,7 +98,16 @@ public class Auction {
 		String st = plusEndingDate + ""; //
 		System.out.println( st + "\n"); //
 	}
+	*/
 	
+	public void setAutoBid(AutoBid autoBid) {
+		this.autoBid = autoBid;
+		autoBid.setAuctionOwner(this);
+	}
+	
+	public AutoBid getAutoBid() {
+		return this.autoBid;
+	}
 	
 	public boolean endingNow() {
 		return todayIsEndingDate() || this.exceedsTheTimeLimit();  
@@ -110,7 +126,7 @@ public class Auction {
 			return today.after(this.getEndingDate());  
 		}
 	}
-	*/
+	
 	
 	// the time limit for an auction ending date's is past the 48 hrs
 	private boolean exceedsTheTimeLimit() {
@@ -181,6 +197,7 @@ public class Auction {
 		if (! this.bidders.contains(bidder)) {
 			this.bidders.add(bidder);
 			bidder.addBidAuction(this);
+			this.setBiddersSize(this.getBiddersSize() + 1);
 		}
     }
 	
@@ -191,7 +208,7 @@ public class Auction {
     }
     
     public boolean belongsTo(User user) {
-		return owner.equals(user);
+		return (this.owner != null) && this.owner.getId() == user.getId();
 	}
     
     
@@ -205,8 +222,8 @@ public class Auction {
 	}
 	
 	
-	public void addOffert(User user) {
-		Offert newOffert = new Offert(user); 
+	public void addOffert(Long userId) {
+		Offert newOffert = new Offert(userId); 
 		this.offerts.add(newOffert);
 		newOffert.setAuction(this);
 	}
@@ -330,6 +347,16 @@ public class Auction {
 
 	public void setLastBidderId(Long lastBidderId) {
 		this.lastBidderId = lastBidderId;
+	}
+
+
+	public int getBiddersSize() {
+		return biddersSize;
+	}
+
+
+	public void setBiddersSize(int biddersSize) {
+		this.biddersSize = biddersSize;
 	}
 
 

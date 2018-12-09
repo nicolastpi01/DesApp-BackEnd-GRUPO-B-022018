@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import model.Auction;
 import model.AuctionSearcher;
 import model.AuctionValidation;
+import model.AutoBid;
 import model.State;
 import model.User;
 import model.exceptions.AuctionNotFoundException;
@@ -115,21 +116,40 @@ public class AuctionService {
 	
 	///////////////////////////////// BID ///////////////////////////////////////////////////////////
 	 
-	// Suponiendo que la subasta no termino y esta en progreso ******* En todo caso eso se revisa en validateOffert()
+	//Suponiendo que la subasta no termino y esta en progreso ******* En todo caso eso se revisa en validateOffert()
 	@Transactional
 	public Auction makeOffert(Long auctionId, User user) {
 		return repository.findById(auctionId)
 				.map(auction -> {
 					this.validation.validateOffert(user, auction);
-					auction.addOffert(user);
-					auction.modifyCurrentPrice(); 
-					auction.setLastBidderId(user.getId());
+					// Se verifica si un parametro opc existe en el request, y si ademas es el primero
+					// se hace el contenido del if 
+					// Suponemos que el usuario siempre tiene un monto de puja automatica para cualquier subasta
+					// aunque esto es ridiculo
+					/*
+					if (auction.getLastBidderId() == null) { 
+						auction.setAutoBid(new AutoBid(user.getId(), user.getAutoBidAmount()));
+					}
+					*/
+					this.executeOffert(auction, user.getId());
 					auction.addBidder(user);
-					// es la primer oferta? entonces conf. subasta automatica...
+					/*
+					// siempre se revisa si hay otra puja automatica, y se la ejecuta...
+					if (auction.getAutoBid() != null && auction.getAutoBid().getUserId() != user.getId()) {
+						this.executeOffert(auction, auction.getAutoBid().getUserId());
+					}
+					*/
 					// es oferta dentro de los 5 min finales? si es asi, extiendo el periodo de la subasta
 					return repository.save(auction);
 				})
 				.orElseThrow(() -> new AuctionNotFoundException(auctionId));				
+	}
+	
+	private void executeOffert(Auction auction, Long userId) {
+		auction.addOffert(userId);
+		auction.modifyCurrentPrice(); 
+		auction.setLastBidderId(userId);
+		
 	}
 	
 

@@ -23,6 +23,7 @@ public class User {
 	private String password;
 	@Temporal(TemporalType.DATE) 
 	private Date birthday;
+	private int autoBidAmount;
 	//private String accessToken;
 	
 	
@@ -31,18 +32,21 @@ public class User {
     private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
 	
 	
+	
 	@ManyToMany(mappedBy = "bidders")
 	private Set<Auction> auctionsInWhichIBid = new HashSet<Auction>();
 	
 	public User() {}
 	
-	public User(String name, String lastName, String userName, String email, String password, Date birthday) {
+	public User(String name, String lastName, String userName, String email, String password, Date birthday,
+			int autoBidAmount) {
 		this.setName(name);
 		this.setLastName(lastName);
 		this.setUserName(userName);
 		this.setEmail(email);
 		this.setPassword(password);
 		this.setBirthday(birthday);
+		this.setAutoBidAmount(autoBidAmount);
 	}
 	 
 
@@ -134,6 +138,14 @@ public class User {
 	
 	public Date getBirthday() {
 		return this.birthday;
+	}
+
+	public int getAutoBidAmount() {
+		return this.autoBidAmount;
+	}
+	
+	public void setAutoBidAmount(int autoBidAmount) {
+		this.autoBidAmount = autoBidAmount;
 	}
 	
 	/*
