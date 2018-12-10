@@ -13,10 +13,8 @@ import model.State;
 public class ScheduledTasks {
 	
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
-
-    //private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    
-    private final AuctionRepository repo;
+	private final AuctionRepository repo;
+    //private static int i = 0;
     
     public ScheduledTasks(AuctionRepository repo) {
     	this.repo = repo;
@@ -38,23 +36,32 @@ public class ScheduledTasks {
     		}
     	}
     }
+    */
     
-    
-    // 300000 ml --> 5 minutos
-    @Scheduled(fixedRate = 300000) // cada 5 seg 50000 (time in milis)
-    public void updateInProgressAuctions() {
+    @Scheduled(initialDelay=180000, fixedDelay=180000)
+    public void updateProgressAuctions() throws InterruptedException {
     	List<Auction> auctions = this.repo.findByState(State.ENPROGRESO);
     	for (int i=0; i < auctions.size(); i++) {
     		if (auctions.get(i).endingNow()) {
     			auctions.get(i).setState(State.TERMINADA);
-    			this.repo.save(auctions.get(i));
+    			log.info("IN PROGRESS AUCTION CHANGE STATE TO TERMINATED: " + auctions.get(i).getId());
     			// notificar al ganador!!!
-    			log.info("ganadorrrr");
-    			log.info("auction finished: " + auctions.get(i).getId());
-    			log.info("state: " + auctions.get(i).getState());
+    			if(auctions.get(i).getLastBidderId() != null) {
+    				System.out.println("YOU WIN THE AUCTION !!!!!!! WITH ID : "+ auctions.get(i).getId());
+    			}
+    			this.repo.save(auctions.get(i));
     		}
     	}
     }
-    */
+    
+    // cada tres minutos con un delay de tres minutos
+    // espera hasta que termina cada una de las operaciones
+    /*
+    @Scheduled(initialDelay=180000, fixedDelay=180000)
+    public void testScheduling() throws InterruptedException {
+        System.out.println("Started : "+ ++i);
+        Thread.sleep(4000);
+        System.out.println("Finished : "+ i);
+    } */
 
 }

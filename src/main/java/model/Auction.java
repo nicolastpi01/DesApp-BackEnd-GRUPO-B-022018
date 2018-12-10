@@ -109,6 +109,8 @@ public class Auction {
 		return this.autoBid;
 	}
 	
+	////////////////////////// METHODS FOR CHECK THE END OF AN AUCTION /////////////////////////////
+	
 	public boolean endingNow() {
 		return todayIsEndingDate() || this.exceedsTheTimeLimit();  
 	}
@@ -161,6 +163,9 @@ public class Auction {
 	    cal.setTime(aDate);
 	    return cal.get(Calendar.YEAR);
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	public boolean isPopular(int average) {
 		return this.getBidders().size() >= average;
