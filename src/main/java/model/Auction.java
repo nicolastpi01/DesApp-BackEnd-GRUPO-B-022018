@@ -24,7 +24,7 @@ public class Auction {
 	private int initialPrice;
 	private int currentPrice;
 	@Enumerated(EnumType.STRING)
-	private State state = State.NUEVA; 
+	private State state; //= State.NUEVA; 
 	private int endingTime; // Por ahora no lo estoy usando (guarda con esto)
 	@Temporal(TemporalType.DATE)
 	private Date openingDate;
@@ -33,7 +33,6 @@ public class Auction {
     @Temporal(TemporalType.DATE)
 	private Date plusEndingDate;
     private int biddersSize;
-    
 	private Long lastBidderId;
 	
     
@@ -47,43 +46,41 @@ public class Auction {
             fetch = FetchType.LAZY, optional = false)
     private AutoBid autoBid;
 	
-	//@JsonIgnore // va?????
 	@JsonManagedReference
 	@OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, orphanRemoval = true) 
     private Set<Offert> offerts = new HashSet<Offert>();
 	
-	
-	
 	//CascadeType.MERGE
 	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.PERSIST })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), 
 					inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> bidders = new HashSet<User>();
 	
 	
-
 	public Auction() {
 		LocalDate od = LocalDate.now().plusDays(1);
 		this.setOpeningDate(od.toDate());
 		this.setEndingDate(od.plusDays(2).toDate());
 		this.setEndingTime(0);
 		this.biddersSize = 0;
+		this.state = State.NUEVA;
 	} 
 	
 	 
 	public Auction(String title, String description, String address, int initialPrice, Date openingDate, 
 			Date endingDate, int endingTime) {
 		
-		this.setTitle(title);
-		this.setDescription(description);
-		this.setAddress(address);
-		this.setInitialPrice(initialPrice);
-		this.setCurrentPrice(initialPrice);
-		this.setOpeningDate(openingDate);
-		this.setEndingDate(endingDate);
-		this.setEndingTime(endingTime);
-		this.biddersSize = 0; 
+		this.title = title;
+		this.description = description;
+		this.address = address;
+		this.initialPrice = initialPrice;
+		this.currentPrice = initialPrice;
+		this.openingDate = openingDate;
+		this.endingDate = endingDate;
+		this.endingTime = endingTime;
+		this.biddersSize = 0;
+		this.state = State.NUEVA;
 	}
 	
 	/* 

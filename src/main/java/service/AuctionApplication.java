@@ -26,7 +26,6 @@ public class AuctionApplication {
 		    registry.addMapping("/auctions/recents").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/toFinalize").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/auctions/description").allowedOrigins("http://localhost:4200");
-		    //registry.addMapping("/auctions/search").allowedOrigins("http://localhost:4200"); // test
 		    registry.addMapping("/auctions/title/?title={title}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/myAuctions/{userId}").allowedOrigins("http://localhost:4200");
 		    registry.addMapping("/users/bidAuctions/{userId}").allowedOrigins("http://localhost:4200");

@@ -4,11 +4,9 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import model.Auction;
 import model.AuctionSearcher;
 import model.AuctionValidation;
-import model.AutoBid;
 import model.State;
 import model.User;
 import model.exceptions.AuctionNotFoundException;

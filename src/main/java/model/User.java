@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -26,12 +25,9 @@ public class User {
 	private int autoBidAmount;
 	//private String accessToken;
 	
-	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true) 
     private Set<Auction> auctionsThatIOwn = new HashSet<Auction>();
-	
-	
 	
 	@ManyToMany(mappedBy = "bidders")
 	private Set<Auction> auctionsInWhichIBid = new HashSet<Auction>();

@@ -6,10 +6,7 @@ import java.util.List;
 public class PopularCriteria {
 	private final int minAuctionsToShow = 5;
 	
-	
-	// Using comparator for return result in orden (orden de populares)
 	// Una subasta es pop. si su cant. de postores es mayor o igual a la media
-	// Agregar metadata de modo que haya varias subastas pop.
 	public List<Auction> apply(List<Auction> auctions) {
 		List<Auction> result = new ArrayList<Auction>();
 		if (auctions.size() < minAuctionsToShow) {

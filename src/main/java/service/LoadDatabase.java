@@ -15,7 +15,7 @@ import model.User;
 @Configuration
 @Slf4j
 public class LoadDatabase {
-	private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+	//private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
 	@Bean
 	public CommandLineRunner initDatabase(AuctionRepository repository, UserRepository userRepository) {	
@@ -51,9 +51,6 @@ public class LoadDatabase {
 			auction3.addAPic("https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Tony_Soprano.jpg/270px-Tony_Soprano.jpg");
 			
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			
-			
 			
 			/*
 			Auction auction4 = new Auction("Nintendo64 consola", "Consola videojuegos de Anthony Soprano. Jr", "address", 5000, 
@@ -123,7 +120,7 @@ public class LoadDatabase {
 				log.info(guantelete.toString());
 			});
 			*/
-			log.info("");
+			//log.info("");
 		}; 
 		
 	}

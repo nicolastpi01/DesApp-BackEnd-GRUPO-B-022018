@@ -68,10 +68,6 @@ public class AuctionController {
 	List<Auction> searchByTitle(@RequestParam("title") String title) {
 		return this.service.findByTitle(title);
 	}
-
-	
-	
-	////////////////////////////////// BID //////////////////////////////////////////
 	
 	
 	@PutMapping("/auctions/offert/{id}")
