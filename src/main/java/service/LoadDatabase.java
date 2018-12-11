@@ -12,7 +12,6 @@ import model.User;
 @Configuration
 @Slf4j
 public class LoadDatabase {
-	//private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
 	@Bean
 	public CommandLineRunner initDatabase(AuctionRepository repository, UserRepository userRepository) {	

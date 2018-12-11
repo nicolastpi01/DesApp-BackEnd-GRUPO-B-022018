@@ -1,8 +1,6 @@
 package service;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

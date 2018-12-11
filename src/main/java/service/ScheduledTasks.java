@@ -21,21 +21,23 @@ public class ScheduledTasks {
     }
     
     
-    /*
-    //86400000 ml --> 24 horas
-    //@Scheduled(fixedRate = 5000) // cada 5 seg (time in milis)
+    /* 
+    @Transactional
     @Scheduled(initialDelay=120000, fixedDelay=120000)
     public void updateNewAuctions() throws InterruptedException {
     	List<Auction> auctions = this.repo.findByState(State.NUEVA);
     	for (int i=0; i < auctions.size(); i++) {
     		if (auctions.get(i).beginToday()) {
-    			auctions.get(i).setState(State.ENPROGRESO);
-    			this.repo.save(auctions.get(i));
-    			log.info("NEW AUCTION CHANGE STATE TO IN PROGRESS: " + auctions.get(i).getId());
+    			repo.findById(auctions.get(i).getId())
+    					.map(auction -> {
+    						auction.setState(State.ENPROGRESO);
+    						log.info("NEW AUCTION CHANGE STATE TO IN PROGRESS: " + auction.getId());
+    		    			return repo.save(auction);
+    					});
     		}
     	}
     }
-   */
+   	*/
     
     @Transactional
     @Scheduled(initialDelay=180000, fixedDelay=180000)
