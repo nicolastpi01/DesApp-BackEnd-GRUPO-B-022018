@@ -195,6 +195,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+    		<groupId>org.aspectj</groupId>
+    		<artifactId>aspectjrt</artifactId>
+    		<version>1.7.3</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.github.springtestdbunit</groupId>
 			<artifactId>spring-test-dbunit</artifactId>

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import annotations.LogExecutionAction;
 import model.Auction;
 import model.AuctionSearcher;
 import model.AuctionValidation;
@@ -47,7 +48,7 @@ public class AuctionService {
 				.orElseThrow(() -> new AuctionNotFoundException(id));
 	}
 	
-	
+	@LogExecutionAction
 	public List<Auction> getAll() {
 		return repository.findAll();
 	}
