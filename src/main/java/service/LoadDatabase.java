@@ -1,14 +1,11 @@
 package service;
 
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import lombok.extern.slf4j.Slf4j;
 import model.Auction;
-import model.AutoBid;
 import model.State;
 import model.User;
 
@@ -22,8 +19,8 @@ public class LoadDatabase {
 		return (args) -> {
 			
 			// AGREGO DOS USUARIOS --> TONY & PAULI
-			User user0 = new User("Tony", "Soprano", "tonyS", "nicolastpi10@gmail.com", "pass", new java.util.Date(), 1000);
-			User user1 = new User("Paulie", "Gualtieri", "GuantieriP", "PaulieG@gmail.com", "pass", new java.util.Date(), 2000);
+			User user0 = new User("Tony", "Soprano", "tonyS", "nicolastpi10@gmail.com", "pass", new java.util.Date(), 10000);
+			User user1 = new User("Paulie", "Gualtieri", "GuantieriP", "fabig431@gmail.com", "pass", new java.util.Date(), 8000);
 			
 			
 			////////////////////////////// TONY'S AUCTIONS  ///////////////////////////////////////////////////////////
@@ -37,7 +34,7 @@ public class LoadDatabase {
 			////////////////////////////////// SUBASTAS PARA QUE TONY PUJE POR ELLAS ////////////////////////////
 			// Terminan hoy, la idea es que se levante un thread que corra dentro de 5' y determine que estas subastas esten
 			// terminadasm, en ese tiempo Tony puja y gana las subastas
-			Auction auction2 = new Auction("Chaqueta de Richie Aprile", "De gran valor sentimental para este. Tony la desecho", "address", 200, 
+			Auction auction2 = new Auction("Chaqueta de Richie Aprile", "De gran valor sentimental para este. Tony la desecho", "address", 4000, 
 					new java.util.Date(), new java.util.Date(), 12);
 			Auction auction3 = new Auction("Gorro Corrado Jr", "Lo usa para cubrir su prominente calvicie", "address", 5000, 
 					new java.util.Date(), new java.util.Date(), 12);
@@ -52,15 +49,6 @@ public class LoadDatabase {
 			
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
-			/*
-			Auction auction4 = new Auction("Nintendo64 consola", "Consola videojuegos de Anthony Soprano. Jr", "address", 5000, 
-					LocalDate.now().minusDays(10).toDate(), LocalDate.now().toDate(), 12);
-			Auction auction5 = new Auction("Restaurant El Vesubio", "Restaurante el Vesubio, propiedad de Artie Bucco", "address", 5000, 
-					LocalDate.now().minusDays(10).toDate(), LocalDate.now().toDate(), 12);
-			*/
-			
-			
-			
 			// Las paso a En_Progreso (Para no tener conflicto con las fechas, y poder mostrar algo rapido)
 			auction0.setState(State.ENPROGRESO);
 			auction1.setState(State.ENPROGRESO);
@@ -71,6 +59,7 @@ public class LoadDatabase {
 			////////////////////////// AGREGO SUBASTAS DE TONY ///////////////////////////////////////
 			
 			userRepository.save(user0);
+			userRepository.save(user1);
 			
 			user0.addAuction(auction0);
 			user0.addAuction(auction1);
@@ -80,47 +69,12 @@ public class LoadDatabase {
 			
 			
 			//////////////////// SUBASTAS PARA PUJAR CON USUARIO 0 --> TONY ///////////////////////////
-			
+			//////////////////// TAMBIEN SE PUEDE PUJAR CON USUARIO1 --> PAULI, PARA VER LAS SUBASTAS AUTOMATICAS
+			/////////////////// EN ESE CASO TONY TIENE UN MONTO AUTOMATICO FIJO (POR SER EL PRIMER PUJANTE)
 			repository.save(auction2);
 			repository.save(auction3);
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			// fetch all auctions
-			/* 
-			log.info("Employers found with findAll():");
-			log.info("-------------------------------");
-			for (Auction auction : repository.findAll()) {
-				log.info(auction.toString());
-			}
-			log.info("");
-			
-			// fetch an individual auction by ID
-			repository.findById(1L)
-				.ifPresent(auction -> {
-					log.info("Auction found with findById(1L):");
-					log.info("--------------------------------");
-					log.info(auction.toString());
-					log.info("");
-				});
-			
-			// fetch customers by name
-			log.info("Customer found with findByName('Jack'):");
-			log.info("--------------------------------------------");
-			repository.findByTitle("Guantelete del Infinito").forEach(guantelete -> {
-				log.info(guantelete.toString());
-			});
-			*/
-			//log.info("");
 		}; 
 		
 	}

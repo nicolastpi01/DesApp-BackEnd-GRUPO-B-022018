@@ -50,7 +50,7 @@ public class Auction {
 	@OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, orphanRemoval = true) 
     private Set<Offert> offerts = new HashSet<Offert>();
 	
-	//CascadeType.MERGE
+	
 	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "auction_user", joinColumns = @JoinColumn(name = "auction_id"), 
@@ -196,11 +196,12 @@ public class Auction {
 	
 	
 	public void addBidder(User bidder) {
+		this.setBiddersSize(this.getBiddersSize() + 1);
+		/*
 		if (! this.bidders.contains(bidder)) {
 			this.bidders.add(bidder);
-			bidder.addBidAuction(this);
-			this.setBiddersSize(this.getBiddersSize() + 1);
-		}
+			bidder.addBidAuction(this);	
+		} */
     }
 	
 	

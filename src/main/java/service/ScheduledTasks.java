@@ -7,17 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import model.Auction;
 import model.State;
-import model.exceptions.AuctionNotFoundException;
 
 @Component
 public class ScheduledTasks {
 	
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 	private final AuctionRepository repo;
-    //private static int i = 0;
     
     public ScheduledTasks(AuctionRepository repo) {
     	this.repo = repo;
@@ -52,23 +49,12 @@ public class ScheduledTasks {
     						log.info("IN PROGRESS AUCTION CHANGE STATE TO TERMINATED: " + auction.getId());
     		    			// notificar al ganador!!!
     		    			if(auction.getLastBidderId() != null) {
-    		    				log.info("YOU WIN THE AUCTION !!!!!!! WITH ID : " + auction.getId());
+    		    				log.info("YOU WIN THE AUCTION !!!!!!! WITH ID :" + auction.getId() + "  YOUR USER ID:" + auction.getLastBidderId());
     		    			}
     		    			return repo.save(auction);
     					});
-    			//.orElseThrow(() -> new AuctionNotFoundException(auctions.get(i).getId()));
     		}
     	}
     }
-    
-    // cada tres minutos con un delay de tres minutos
-    // espera hasta que termina cada una de las operaciones
-    /*
-    @Scheduled(initialDelay=180000, fixedDelay=180000)
-    public void testScheduling() throws InterruptedException {
-        System.out.println("Started : "+ ++i);
-        Thread.sleep(4000);
-        System.out.println("Finished : "+ i);
-    } */
 
 }
